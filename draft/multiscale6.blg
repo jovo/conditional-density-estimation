@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2010)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: multiscale6.aux
+The style file: icml2013.bst
+Database file #1: multiscale6.bib
+Warning--I didn't find a database entry for "langley00"
+You've used 20 entries,
+            2773 wiz_defined-function locations,
+            725 strings with 7654 characters,
+and the built_in function-call counts, 9178 in all, are:
+= -- 809
+> -- 518
+< -- 14
++ -- 176
+- -- 156
+* -- 728
+:= -- 1428
+add.period$ -- 60
+call.type$ -- 20
+change.case$ -- 111
+chr.to.int$ -- 20
+cite$ -- 40
+duplicate$ -- 419
+empty$ -- 760
+format.name$ -- 190
+if$ -- 1931
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 21
+newline$ -- 108
+num.names$ -- 80
+pop$ -- 197
+preamble$ -- 1
+purify$ -- 92
+quote$ -- 0
+skip$ -- 324
+stack$ -- 0
+substring$ -- 379
+swap$ -- 34
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 215
+warning$ -- 0
+while$ -- 80
+width$ -- 0
+write$ -- 263
+(There was 1 warning)
