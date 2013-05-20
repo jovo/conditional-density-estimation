@@ -100,66 +100,103 @@ In fact, a significant downside of divide-and-conquer algorithms is their poor s
  In order to efficiently deal with massive datasets, we propose a novel multiresolution approach which starts by learning a multiscale dictionary of densities, constructed as Gaussian within each set of a multiscale partition tree for the features. This tree is efficiently learned in a first stage using a fast and scalable graph partitioning algorithm applied to the high-dimensional features \cite{metis}.  Expressing the conditional densities $f(y|x)$ for each $x \in \mathcal{X}$ as a convex combination of coarse to fine scale dictionary densities, the learning problem in the second stage is how to estimate the corresponding multiresolution probability tree.  This is accomplished in a Bayesian manner using a novel multiresolution stick-breaking process, which allows the data to inform about the optimal bias-variance tradeoff; weighting coarse scale dictionary densities more highly decreases variance while adding to bias if the finer scale structure is needed.  This results in a model that allows borrowing information across different resolution levels and reaches a good compromise in terms of the bias-variance tradeoff. We show that the algorithm scales efficiently to massive numbers of features. 
 
 
-\section{Setting} \label{section:setting}
+\section{Proposed approach} 
+
+\subsection{Setting} \label{section:setting}
 Let $x \in \mathcal{X} \subseteq \Re^p$ be a $p$-dimensional Euclidean vector-valued predictor random variable.  Let $f(x)$ denote the marginal probability density of $x$.  We assume that $f(x)$ concentrates around a lower-dimensional, possibly nonlinear, subspace $\mc{M}$.  For example, $\mc{M}$ could be a union of affine subspaces, or a smooth compact Riemannian manifold.  
 
-Let $y \in  \mathcal{Y} \subseteq \Re$ be a real-valued target variable. We further assume that the conditional distribution is a function of only the position $\mu$ of $x$ within the subspace $\mathcal{M}$, $f(y|x)=f(y|\mu)$. Let $x$ and $y$ be sampled from some true but unknown joint distribution. We would like to learn $f(y| x)$.  We assume that we obtain $n$ independently and identically sampled observations, $(x_i,y_i) $, for $i \in \{1,2,\ldots,n\}$.  Our proposed model introduced in \S \ref{section:model} is very general in accommodating an unknown density $f(y|x)$ which changes according to the location of $x$ in the lower-dimensional subspace.  However, for exposition and testing of the model, it is useful to consider a simple example in which $x$ lives on a smooth one-dimensional Riemannian submanifold embedded in $\Re^p$, and  $y$ is a univariate Gaussian random variable whose mean and variance vary with the location of $x$ along its geodesic.  
+Let $y \in  \mathcal{Y} \subseteq \Re$ be a real-valued target variable. We further assume that the conditional distribution is a function of only the position $\mu$ of $x$ within the subspace $\mathcal{M}$, $f(y|x)=f(y|\mu)$. Let $x$ and $y$ be sampled from some true but unknown joint distribution. We would like to learn $f(y| x)$.  We assume that we obtain $n$ independently and identically sampled observations, $(x_i,y_i) $, for $i \in \{1,2,\ldots,n\}$.  Our proposed model is very general in accommodating an unknown density $f(y|x)$ which changes according to the location of $x$ in the lower-dimensional subspace.  However, for exposition and testing of the model, it is useful to consider a simple example in which $x$ lives on a smooth one-dimensional Riemannian submanifold embedded in $\Re^p$, and  $y$ is a univariate Gaussian random variable whose mean and variance vary with the location of $x$ along its geodesic.  
 
 We can formalize this simple example model as follows. Consider  $$x_i \sim \mc{N}(\psi(\mu_i),\sigma^2 I),$$ where $\Psi =\{ \psi \from \mc{M} \to \Re^p\}$, $\mu_i \in \mc{M}$, $\sigma \in (0,\infty)$, $I$ is the $p\times p$ dimensional identity matrix.  Let $\mc{M}$ be a smooth compact Riemannian manifold, such as the swissroll or the S-manifold. For simplicity, let us assume that $\mc{M}$ is a curve. Let $\psi(\mu)= 1\mu$ with $1$ being a $p$-dimensional vector with all elements equal to $1$. Define the conditional $f(y|x)$ as a function of $\mu$, i.e. a mixture density with mixture weights depending on $\mu$.  We will show in \S \ref{section:simulation} that  our construction facilitates an estimate of the density of $y$.
 
 
-\section{Model specification} \label{section:model}
 
-Our approach proceeds in a two stage fashion as follows. We first learn a multiscale nonlinear partition tree of the feature data $\{ x_i \}_{i=1}^n$, recursively partitioning $\{x_i \}$ to obtain subsets that are increasingly homogeneous according to some metric.  The coarsest scale contains all of the data, the next finer scale contains two or more clusters of observations having relatively similar $x_i$ values, and so on  until our convergence criteria are met (for example, the available sample size is exhausted so that few observations fall within each fine scale leaf partition set).  Based on the multiscale partition, each value of $x$ has an associated path through the tree encoding the set membership at each scale.  Using the response data $y_i$ for all subjects $i$ in a given partition set, we estimate a dictionary density specific to that set and resolution level using Bayesian methods.  The conditional density is then expressed as a convex combination of these multiresolution dictionary densities, with a posterior distribution on the weights learned under a multiresolution stick-breaking process.
+\subsection{Overview}
+We aim to build a flexible and scalable model for the density of $y_i \in \Re$ given a set of predictors $x_i \in \mc{X}\subseteq \Re^p$. Our approach proceeds in a two stage fashion as follows. We first learn a multiscale nonlinear partition tree of the feature data. Starting from the coarsest scale, corresponding to the entire set $\mc{X}$, denoted as $\mc{X}_{11}$, each set $\mathcal{X}_{mj}$ is split into two or more mutually exclusive subsets. This process continues until some convergence criteria is satisfied, e.g. the number of observations allocated to the finest scales is below some chosen threshold.  Figure \ref{graph}(i) shows a dyadic partition of the predictor space where a generic set $\mc{X}_A$ is partitioned into two subsets $\mc{X}_B$ and $\mc{X}_C$ with $\mc{X}_A=\mc{X}_B \cup \mc{X}_C$ and $\mc{X}_B \cap \mc{X}_C =\emptyset$.  Considering this tree partition of $\mc{X}$, each $x_i \in \mc{X}$ has an associated path characterized by the sets including $x_i$ (see figure \ref{graph}(iii)). We assume that the density of $y_i$ depends on $x_i$ through this tree partition. Specifically, the conditional density $f(y_i|x_i)$ will be a mixture of densities with component-specific parameters depending on the sets contained in the path of $x_i$ (see figure \ref{graph}(iv)). In the extreme case in which two predictor values $x$ and $x'$ belong to the same leaf partition sets, the conditional distributions $f(y'|x')$ and $f(y|x)$ will be identical. If the two paths differ only in the final generation or two, the conditional densities will typically be similar but not identical. 
 
-\begin{definition}\label{Def:tree} A tree decomposition of a $p$ dimensional space $\mathcal{X}$ is a collections of sets $\{\mathcal{X}^m_j\}_{j \in \mathcal{K}_m,m \in \mathcal{S}}$ satisfying:
 
-(i) for every $m\in \mathcal{S}$, $\cup_{j=1}^{\mathcal{K}_j} \mathcal{X}^{m}_j=\mathcal{X}$ 
+Before illustrating the model let us introduce some notation. Let $L$ be the number of levels of the partition tree.  Let us assume each set in the partition tree is split into two subsets (as shown in figure \ref{graph}(i)). Let $A_{m}(x) \in \{1, \ldots, 2^{m-1}\}$ be the location of predictor $x$ at level $m$, with $A_1(x)$ equal to 1 by definition and the vector $A(x)=[A_1(x), \ldots, A_L(x)]^T$ encoding the path through the partition tree up to generation $L$ specific to predictor value $x$. Let $de(h,s)$ and $an(h,s)$ be respectively the set of descendants and ancestors of node $(h, s)$. Define $B_j(x)$ as the node at generation $j$ containing the vector of features $x$, i.e. $B_j(x)=\{j,A_j(x)\}$. Each $B(x)$ is a set encoding the path through the partition tree up to generation $L$ specific to predictor value $x$. 
 
-(ii) for every $j\not= j'$ and $m \in \mathcal{S}$, $\mathcal{X}_j^m \cap \mathcal{X}_{j'}^m=\emptyset$ 
 
-(iii) for every $j$ and $m>1$ there is a $j'$ such that $\mathcal{X}^j_m \subset \mathcal{X}^{j'}_{m-1}$
-\end{definition}
+\begin{figure}[h] 
 
-\noindent For simplicity we will focus on dyadic trees where each set is split into two subsets. Starting from generation one corresponding to the entire $\mathcal{X}$, denoted as $\mathcal{X}^1$, each set $\mathcal{X}^m_j$ is split into two mutually exclusive partition sets so that for a general partition level $m$ the partition will be given by $\mathcal{X}^{m}=\left(\mathcal{X}^{m}_1, \ldots, \mathcal{X}^{m}_{2^{m-1}}\right)$. Let us assume this process proceeds for $L$ levels and that all final leaves contain one element. Let $(m,s)$ be the node associated to the $s$th subset at resolution level $m$. Let $A_{m}(x) \in \{1, \ldots, 2^{m-1}\}$ be the location of predictor $x$ at level $m$, with $A_1(x)$ equal to 1 by definition.  The vector $A(x)=[A_1(x), \ldots, A_L(x)]$ encodes the path through the partition tree up to generation $L$ specific to predictor value $x$. Let $de(\ell,s)$ and $an(\ell,s)$ be respectively the set of descendants and ancestors of node $(\ell, s)$. \\
+\setlength{\unitlength}{2mm}
+\begin{picture}(30, 26)
 
-We characterize the conditional density $f(y|x)$ as a convex combination of multiscale dictionary densities.  At level one, the global parent density is denoted by $f_1$. For predictor value $x$, the dictionary density at generation $j$ is $f_{B_j(x)}$ with $B_j(x)=\{j,A_j(x)\}$, for $j=2,\ldots, k$. Then, $f(y|x)$ is defined as the convex combination of densities $\{f_{B_j(x)}\}_{j=1}^k$ with weights $\{\pi_{B_j(x)} \}_{j=1}^k$, i.e.
+ \put(9, 22){\bfoo(i)\efoo}
+ 
+ \put(20, 22){$\mathcal{\mathcal{X}}_{11} = \mathcal{\mathcal{X}}$}
+\put(20, 20){\vector(-1, -1){3}}
+\put(20, 20){\vector(1, -1){3}}
+
+ \put(14, 14){$\mathcal{\mathcal{X}}_{21}$}
+ \put(23, 14){$\mathcal{\mathcal{X}}_{22}$}
+ 
+\put(14, 12){\vector(-1, -1){3}}
+\put(14, 12){\vector(1, -1){3}}
+
+\put(25, 12){\vector(-1, -1){3}}
+\put(25, 12){\vector(1, -1){3}}
+
+ \put(9, 6){$\mathcal{\mathcal{X}}_{31}$}
+ \put(16, 6){$\mathcal{\mathcal{X}}_{32}$}
+ 
+ \put(20,6){$\mathcal{\mathcal{X}}_{33}$}
+ \put(28, 6){$\mathcal{\mathcal{X}}_{34}$}
+  
+  \put(13, 3){$\ldots$}
+  \put(25, 3){$\ldots$}
+
+% -- square
+\put(6, 25){\line(1, 0){56}}
+\put(6, 25){\line(0, -1){27}}
+\put(6, -2){\line(1, 0){56}}
+\put(62, 25){\line(0, -1){27}}
+
+%% right graph
+
+\put(36, 14){$x_i \in \mathcal{X}$}
+\put(39, 13){\line(0, -1){1}}
+\put(39, 12){\vector(1, 0){5}}
+
+\put(37, 22){\bfoo(ii)\efoo}
+  \put(48, 22){$\mc{X}_{11}$}
+\put(48, 20){\vector(-1, -1){3}}
+\put(48, 20){\vector(1, -1){3}}
+
+ \put(51, 14){$\mc{X}_{22}$}
+ \put(53, 12){\vector(-1, -1){3}}
+\put(53, 12){\vector(1, -1){3}}
+
+ \put(48,6){$\mc{X}_{33}$}
+  \put(53, 3){$\ldots$}
+  \put(18, -0.5){\bfoo(iii)\efoo}
+ \put(22, -0.5){$f(y_i|x_i)=p_{11}f_{11}+p_{22}f_{22}+p_{33}f_{33}+ \ldots$}
+
+\end{picture} \caption{(i) Multiscale partition of the data. (ii) Path through the tree for $x_i \in \Re^q$. (iii) Conditional density of $y_i$ given $x_i$ defined as a convex combination of densities along the path.}\label{graph}
+\end{figure} 
+
+
+
+\subsection{Model Specification and estimation} 
+The conditional density $f(y|x)$ is defined as the convex combination of densities $\{f_{B_j(x)}\}_{j=1}^L$ with weights $\{\pi_{B_j(x)} \}_{j=1}^L$, i.e.
 \begin{eqnarray}
-f(y|x) = \sum_{j=1}^k \pi_{B_j(x)} f_{B_j(x)}(y),  \label{eq:base}
+f(y|x) = \sum_{j=1}^L \pi_{B_j(x)} f_{B_j(x)},  \label{eq:base}
 \end{eqnarray}
-where $0 \le \pi_{B_j(x)}$ and $\sum_{j=1}^k \pi_{B_j(x)}=1$. 
+with $(\pi_{B_j(x)},f_{B_j(x)})$ being the weight and dictionary density associated to node $B_j(x)$, $0 \le \pi_{B_j(x)}$ and $\sum_{j=1}^L \pi_{B_j(x)}=1$. The pair $(\pi_A, f_{A})$  in \ref{eq:base} is specific to node $A$ in the partition tree. According to model \ref{eq:base}, only observations with predictors contained in $A$, i.e. $\{ y_i: x_i \in A \}$, will have a mixture components with weight $\pi_A$ and density $f_A$. Each density $f_{B_j(x)}$ will be defined as a univariate normal densities, i.e. $\mc{N}\left(\mu_{B_j(x)}, \sigma_{B_j(x)} \right)$.  Notice that, as the weight associated to the first level of resolution approaches one, a non predictor-dependent density for $y$ is obtained. 
 
-Each $B(x)$ is a set encoding the path through the partition tree up to generation $k$ specific to predictor value $x$. According to model \eqref{eq:base}, one observation can lie in subsets located at different resolution levels. This is critical in achieving a good compromise between bias and variance through borrowing information across different resolution levels. Though the proposed approach is reminiscent of a mixture of experts model \cite{mixtureexperts}, the two approaches are quite different, since under \eqref{eq:base}, neither mixture weights nor dictionary densities directly depend on predictors. This allows our model to scale efficiently to high dimensional predictors.
+According to model \eqref{eq:base}, one observation can lie in subsets located at different resolution levels. This is critical in achieving a good compromise between bias and variance through borrowing information across different resolution levels. Though the proposed approach is reminiscent of a mixture of experts model \cite{mixtureexperts}, the two approaches are quite different, since under \eqref{eq:base}, neither mixture weights nor dictionary densities directly depend on predictors. This allows our model to scale efficiently to high dimensional predictors.
 
-Now let us examine the implications of model (\ref{eq:base}). For two predictor values $x$ and $x'$ located close together, it is expected that the paths will be similar, which leads to similar weights on the dictionary densities.  In the extreme case in which $x$ and $x'$ belong to the same leaf partition set, we have $B(x) = B(x')$ and the path through the tree will be the same.  Moreover, in this case, we will have $f(y|x)=f(y|x')$ so that up to $k$ levels of resolution the densities $f(y|x)$ and $f(y|x')$ are identical.  If the paths through the tree differ only in the final generation or two, the weights will typically be similar but the resulting conditional densities will not be identical. 
-
-To derive mixture weights, a natural choice corresponds to a stick-breaking process \cite{stickbreaking}.  For each node $B_j(x_i)$ in the partition tree, define a stick length $V\{B_j(x_i)\} \sim \mbox{Beta}(1,\alpha)$.  The parameter $\alpha$ encodes the complexity of the model, with $\alpha=0$ corresponding to the case in which $f(y|x) = f(y)$.  We relate the weights in (\ref{eq:base}) to the stick-breaking random variables as follows: 
+To derive mixture weights, a natural choice corresponds to a stick-breaking process \cite{stickbreaking}.  For each node $\upsilon$ in the partition tree, define a stick length $V_{\upsilon} \sim Beta(1,\alpha)$ for nodes $\upsilon$ located from generation $1$ to $k-1$.  The parameter $\alpha$ encodes the complexity of the model, with $\alpha=0$ corresponding to the case in which $f(y|x) = f(y)$.  We relate the weights in (\ref{eq:base}) to the stick-breaking random variables as follows: 
 \begin{eqnarray*}
-\pi_{B_j(x)} = V\left\{B_j(x)\right\} \prod_{B_h \in an\left\{B_j\right\}} \left[1 - V\left\{B_h(x)\right\}\right],
+\pi_{\upsilon} = V_{\upsilon} \prod_{\zeta \in an\left\{\upsilon \right\}} \left(1 - V_{\zeta}\right),
 \end{eqnarray*}
-with $V\{B_k(x)\}=1$ to ensure that $\sum_{j=1}^k \pi_{B_j}(x) = 1$.   We refer to this prior as a {\em multiresolution stick-breaking process}.   
-\vskip 12pt
+with $V_{\upsilon}=1$ for $\upsilon$ belonging to the last generation level. This condition will ensure that for each path with nodes $(\upsilon_1, \ldots, \upsilon_k)$, $\sum_{j=1}^k \pi_{\upsilon_j} = 1$.   We refer to this prior as a multiresolution stick-breaking process.   
 
+The proposed approach is based on a two-stage algorithm where first the observations are allocated to different subsets in a tree fashion using an efficient partitioning algorithm and then, considering the partition as fixed, a multiresolution stick-breaking process is estimated. In practice, observations are partitioned applying metis \citep{metis}, a fast multiscale technique used for graph partitioning. An overview of this algorithm can be found in the supplementary material.
 
-\section{Estimation}
+Though more complicated densities can be considered, dictionary densities $f_{\upsilon}$ will be estimated by assuming a normal form, i.e. $f_{\upsilon}=\mc{N}(\mu_{\upsilon},\sigma_{\upsilon})$. Parameters involved in the dictionary densities will be estimated through Bayesian methods and inference on stick breaking weights and dictionary density parameters will be carried out using the Gibbs sampler. We will place a normal prior with parameter $(0,1)$ on $\mu_{\upsilon}$ and an inverse gamma prior with parameters $a_{\sigma}$ and $b_{\sigma}$ on $\sigma_{\upsilon}$ for each $\upsilon \in \mc{T}$. Details on full conditionals and Gibbs sampler steps can be found in the supplementary material.
 
-The proposed approach is based on a two-stage algorithm where first the observations are allocated to different subsets in a tree fashion using an efficient partitioning algorithm and then, considering the partition as fixed, a multiresolution stick-breaking process is estimated. In practice, observations are partitioned applying metis \cite{metis}, a fast multiscale technique used for graph partitioning. 
-% THE FOLLOWING MAKES NO SENSE
-%Basically, the graph is obtained adding an edge between each pair of data points, i.e. $(y_i,y_j)$ with $i\not=j$, and assigning to any such edge the weight $w_{ij}=\exp\{-d(x_i,x_j)\}$ with $d(\cdot,\cdot)$ being some metric. 
-Though more complicated densities can be considered, dictionary densities $f_{B_j}$ will be estimated by assuming a normal form, i.e. $f_{B_j}=\mc{N}(\mu_{B_j},\sigma_{B_j})$. In particular, densities corresponding to a particular partition set will be estimated considering only observations belonging to that partition set. To be specific, for estimating density $f_{B_j}(y)$, we use the data $\{ y_i: x_i \in \mathcal{X}^j_{A_j} \}$. We then conduct the analysis treating partition sets as fixed; this is critical for scalability to big $p$.  On the surface, conditioning on a single tree seems overly restrictive, but using a second stage multiresolution probability model for the weights over the tree leads to inferences that are robust to the tree estimate; almost as if the tree itself were randomized.
-
-Parameters involved in the dictionary densities can be estimated using either frequentist or Bayesian methods. Bayesian methods are appealing since they can avoid singularities associated with traditional maximum likelihood inference, the prior has an appealing role as a regularizer, and we can characterize uncertainty in dictionary learning through the resulting posterior.
-Hence, parameters involved in dictionary densities will be estimated through Bayesian methods and inference on stick breaking weights and dictionary density parameters will be carried out using the Gibbs sampler. For this purpose, introduce the latent variable $S_i \in \{1,\ldots,k\}$, for $i=1,\ldots,n$, denoting the multiscale level used by the $i$th subject.  Assuming data are normalized prior to analysis, we let $\mu \sim \mc{N}(0,I)$ and $\sigma=\mc{IG}(a,b)$ for the means and variances of the dictionary densities. Let $n_{B_j}$ be  the number of observations allocated to node $B_j$ . Each Gibbs sampler iteration can be summarized in the following steps.
-\begin{enumerate}
-\item Update $S_i$ by sampling from the multinomial full conditional with 
-\[\mbox{Pr}( S_i = j\, |\, -) = \frac{ \pi_{B_j(x_i)}f_{B_j(x_i)}(y_i) }{ \sum_{h=1}^k \pi_{B_h(x_i)}f_{B_h(x_i)}(y_i) } \label{eq:prS}\]
-\item Update stick-breaking random variable $V_{B_j(x_i)}$, for $j=1, \ldots, k$ and $i=1, \ldots, n$, from $\mbox{Beta}(\beta_p,\alpha_p)$ with $\beta_p=1+n_{B_j}$ and $\alpha_p=\alpha+\sum_{B_h(x_i) \in de\{B_j(x_i)\}} n_{B_h(x_i)}$.
-\item Update $(\mu_{B_j(x_i)},\sigma_{B_j(x_i)})$ by sampling from
-\[  \mu_{B_j} \sim \mc{N}\left(\bar{y}_{B_j} n_{B_j}/\sigma_{B_j},(1+n_{B_j}/\sigma_{B_j})^{-1}\right)\]
-\[ \sigma_{B_j} \sim \mc{IG}\left(a_{\sigma},b+0.5\sum_{\{i: S_i=j,x_i \in B_j\}} \left(y_{i}-\mu_{B_j}\right)^2\right)\]
-with $a_{\sigma}=a+n_{B_j}/2$, $\bar{y}_{B_j}$ being the average of the observation $\{y_i\}$ allocated to node $B_j$.
-
-\end{enumerate}
 
 
 \section{Simulation studies}\label{section:simulation}
@@ -180,10 +217,11 @@ with $w_i=|\eta_i|$. Our model was run considering different sample sizes. Figur
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\linewidth]{densityestimate.eps}
+\includegraphics[width=120mm,height=100mm]{ch3_density.eps}
 % \includegraphics[width=90mm,height=80mm]{densityestimate.eps}
-\caption{Illustrative example: Plot of true (red dashed-dotted line) and estimated ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) density for two data points $(I, II)$ considering different training set size (a:50, b:100, c:150). } \label{plotDensity}
+\caption{Illustrative example: Plot of true (red dashed-dotted line) and estimated ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) density for five data points $(I, II,III, IV, V)$ considering different training set size (a:100, b:200, c:300). } \label{plotDensity}
 \end{figure}
+
 
 %% INSERT  For each resolution level, the new observation was allocated to the set with closer center. 
 
@@ -195,264 +233,44 @@ In this section, the vector of predictors was assumed to lie close to a lower di
 
 with $\epsilon_i \sim \mc{N}(0,\Sigma_0)$, $\Sigma_0=diag(\sigma_1, \ldots, \sigma_p)$, $\Lambda$ being a $p \times r$ matrix, $\eta_i \sim \mc{N}(0,I)$ and $r<<p$. In the first simulation scenario the response $y$ was assumed to be a function of the latent variable $\eta$ so that  the dependence between response and predictors was induced by the shared dependence on the latent factors. In practice, the pair $(y_i, x_i)$ was jointly sampled from a factor model. The loading matrix was derived as the product of a matrix with orthogonal columns and a diagonal matrix with positive elements on the diagonal, i.e. $\Lambda=\Gamma \Theta$. In particular, the columns of $\Gamma$ were uniformly sampled from the Stiefel manifold while the diagonal matrix of $\Theta$ were sampled from an inverse Gamma with shape and rate parameters $(1,4)$. In the second simulation scenario, $x$ was sampled from a factor model with sparse loading while $y$ was sampled from a normal with location and scale parameter $(1,1)$ if the first variable was positive, i.e. $x_1>0$, and from a normal with location and scale $(-1,1)$ otherwise.  In this example, the non zero elements of the loading matrix were sampled from a normal with zero mean and standard deviation $3$. In all the examples, an inverse gamma prior with parameters $(1,4)$ were utilized for $\sigma_j$ with $j=1, \ldots, p$.
 
-Table \ref{table:linear1} and \ref{table:linear2} show mean squared errors under the proposed approach, CART and lasso based on leave-one-out prediction. As shown in table \ref{table:linear1} and table \ref{table:linear2}, in almost all data scenario, our model is able to perform as well as or better than the model associated to the lowest mean squared error. In the first data scenario, given the linear relationship between response and predictors, Lasso performs better CART in almost all experiments. On the other hand, the non linear relationship between response and predictors assumed in the second data scenario results in better performance for CART. Table \ref{table:linear1} and figure \ref{Cpu} show the mean of CPU usage to predict a single point as a function of the number of features. In particular, CPU time is expressed in seconds and codes have been running on our workstation (Intel Core i7-2600K Quad-Core Processor memory 8192 MB).  Clearly, the proposed model scale substantially better than others to high dimensional predictors. 
+We sampled $M$ datasets from the above simulation scenarios. Define $t^m(\ell)$ as the the ratio between mean squared errors under MSB and method $\ell$ for dataset $m$.  Figure \ref{boxplot:linear} shows boxplots of $\{t^m(Cart)\}_{m=1}^M$ and $\{t^m(Lasso)\}_{m=1}^M$ as $p$ increases. Intuitively, when the ratio is lower than one, our model beats the competitors. Clearly, our method outperforms the competitors in terms of mean squared errors under both simulation scenarios.
 
-
-
-
-\begin{table}[t]
-\caption{Linear manifold example 1: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulation scenarios.}\label{table:linear1}
-\vskip 0.15in
-\begin{center}
-\begin{small}
-\begin{sc}
-\begin{tabular}{lllcccccc}
-\hline
-&&&\multicolumn{3}{c}{$r=5$}&\multicolumn{3}{c}{$r=10$}\\
-$p$&$n$& & msb&cart&lasso & msb&cart&lasso \\
-\\
-\multirow{3}{*}{$10e+03$}&\multirow{3}{*}{50}&\bfoo mse\efoo&0.18&0.31&0.25&0.22&0.58&0.22\\
-&&\bfoo std\efoo &0.32&0.30&0.42&0.24&0.54&0.30\\
-&&\bfoo time\efoo &3&2&1&3&3&1\\
-
-\\
-\multirow{3}{*}{$10e+03$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.18&0.27&0.26&0.20&0.41&0.52\\
-&&\bfoo std\efoo & 0.26&0.42&0.46&0.23&0.46&0.78\\
-&&\bfoo time\efoo &5&5& 2&5&5&1\\
-
-\\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{50}&\bfoo mse\efoo&$0.35$&$0.45$&$0.89$&$0.16$&$0.33$&$0.20$\\
-&&\bfoo std\efoo &$0.53$ &$0.77$&$1.04$&$0.21$&$0.46$&$0.31$\\
-&&\bfoo time\efoo &$3$&$25$&$2$&$3$&$27$&$2$\\
-\\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{100}&\bfoo mse\efoo&$0.43$&$0.88$&$0.52$&$0.17$&$0.50$&$0.31$\\
-&&\bfoo std\efoo &$0.59$ &$1.29$&$0.70$&$0.24$ &$0.75$&$0.49$\\
-&&\bfoo time\efoo &$7$&$50$&$5$&$7$&$51$&$5$\\
-\\
-\multirow{3}{*}{$50e+04$}&\multirow{3}{*}{50}&\bfoo mse\efoo&0.11&0.16&0.15&0.83&2.26&0.92\\
-&&\bfoo std\efoo&$0.15$ &0.24&0.19&1.01&2.60&3.69\\
-&&\bfoo time\efoo &5&90&11&5&121&10\\
-
-
-\\
-\multirow{3}{*}{$50e+04$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.003&0.17&0.08&0.13&1.37&1.06\\
-&&\bfoo std\efoo &0.16&0.23&0.13&1.12&1.81&1.50\\
-&&\bfoo time\efoo &10&214&43&8&227&42\\
-
-\\
-\multirow{3}{*}{$70e+04$}&\multirow{3}{*}{50}&\bfoo mse\efoo&1.70&1.48&1.47&0.66&1.65&1.07\\
-&&\bfoo std\efoo &2.18&2.47&1.63&0.87&1.49&0.95\\
-&&\bfoo time\efoo &6&121&12&7&151&13\\
-
-\\
-\multirow{3}{*}{$50e+04$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.69&1.36&0.82&0.78&1.52&1.43\\
-&&\bfoo std\efoo &0.94&1.47&1.28&1.03&1.34&2.11\\
-&&\bfoo time\efoo &13&321&41&12&325&44\\
-
- \hline
-\end{tabular}
-\end{sc}
-\end{small}
-\end{center}
-\vskip -0.1in
-\end{table}
-
-
-\begin{table}[t]
-\caption{Linear manifold example 2: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes}\label{table:linear2}
-\vskip 0.15in
-\begin{center}
-\begin{small}
-\begin{sc}
-\begin{tabular}{lllcccccc}
-\hline
-&&&\multicolumn{3}{c}{$r=2$}&\multicolumn{3}{c}{$r=5$}\\
-$p$&$n$& & msb&cart&lasso & msb&cart&lasso \\
-
-%\multirow{3}{*}{$10^5$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.63 &0.83&0.93&0.71&0.98&0.86\\
-%&&\bfoo std\efoo &0.81&0.94&1.02&0.69 &1.04&1.55\\
-%&&\bfoo time\efoo &9.45 &46.15& 4.55&8.05&47.65&5.15\\
-%
-%\\
-%\multirow{3}{*}{$20^5$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.89&0.74&1.08&0.95 &&1.15\\
-%&&\bfoo std\efoo &1.50 &1.02&1.97&1.20&&1.13\\
-%&&\bfoo time\efoo &7.96&102.12&8.95& 10.70&&8.75\\
-%
-%\\
-%\multirow{3}{*}{$50^5$}&\multirow{3}{*}{100}&\bfoo mse\efoo &0.83 &&0.94\\
-%&&\bfoo std\efoo &1.08&koala&1.10\\
-%&&\bfoo time\efoo &9.27&&23.54\\
-\\
-
-\multirow{2}{*}{$10e+03$}&\multirow{2}{*}{100}&\bfoo mse\efoo&1.54 &1.78&2.37&0.84&1.25&1.62\\
-&&\bfoo std\efoo &1.70&1.72&0.89&1.38&1.35&1.47\\
-
-
-\\
-\multirow{2}{*}{$50e+03$}&\multirow{2}{*}{100}&\bfoo mse\efoo&0.76&0.97&1.77&0.88&1.53&1.43\\
-&&\bfoo std\efoo &1.04&1.21&3.13&1.00&1.59&2.73\\
-
-\\
-
-\multirow{2}{*}{$10e+04$}&\multirow{2}{*}{100}&\bfoo mse\efoo&0.77 &1.01&1.61&0.67&0.46&0.97\\
-&&\bfoo std\efoo &0.94&1.13&1.85&0.82&0.61&1.16\\
-%&&\bfoo time\efoo &7.69 &46.14&4.51&9.89&41.68&4.38\\
-\\
-
-\multirow{2}{*}{$20e+04$}&\multirow{2}{*}{100}&\bfoo mse\efoo&0.86&0.90&1.41&0.74&1.09&0.78\\
-&&\bfoo std\efoo &1.30&1.35&1.41&0.95&1.98&0.95\\
-%&&\bfoo time\efoo &8.94&& 8.86 & 9.09&&17.17\\
-%
-%\\
-%\multirow{2}{*}{$30^5$}&\multirow{2}{*}{100}&\bfoo mse\efoo&0.78&&1.32&&&\\
-%&&\bfoo std\efoo &0.60&&1.27&&&\\
-\hline
-\end{tabular}
-\end{sc}
-\end{small}
-\end{center}
-\vskip -0.1in
-\end{table}
-
-\subsection{Non-Linear lower dimensional space}
-
-In this section predictors were assumed to lie close to a lower dimensional non-linear manifold. In the first simulation study, predictors and response were jointly sampled from an $N$ components mixture of factor analyzers  so that the vector of predictors and response were assumed to lie close to $N$ lower dimensional planes. For each mixture components, the loading matrix and variances were sampled as in the first simulation scenario in \S \ref{section:linear}, while mixture weights were sampled from a Dirichlet distribution with parameter $\alpha_j=1$ for $j=1, \ldots, N$. The number of latent factors was considered to be increasing in the number of components, in practice we let the $h$th mixture component be modeled through $h$ factors. In the other simulation scenarios predictors were assumed to lie close to the Swissroll and the S-manifold (see figure \ref{manifold:nonlinear}), all two dimensional manifold embedded in $\Re^p$ while the response was sampled from a normal with mean equal to one of the coordinates of the manifold and standard deviation one.
-
-As in \S \ref{section:linear}, the proposed model was compared in terms of computational time and predictive performance with lasso and Cart. Table \ref{table:mfa} and \ref{table:swiss}  show computational time and mean squared errors based on leave-one-out predictions considering each of the three simulation scenario.  In particular, table \ref{table:mfa} shows the results associated to the data drawn from the mixture of factor analyzers for different number of components. In this example, given the linear relationship between predictors and response, Lasso performs better than CART. Lasso is also much more efficient than CART and performs similarly to our model for moderately high dimensional features. However, as shown in table \ref{table:mfa}, as the sample size increases the computational time associated to Lasso dramatically increases compared to our model (see $p=300,000$ for $n=100, 200, 300$). Table \ref{table:swiss} also shows that our model is associated to better predictive performance and CPU time.
-
-
-\begin{table}[t]
-\caption{Non-linear manifold - MFA: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulations sampled from a mixture of factor analyzers}\label{table:mfa}
-\vskip 0.15in
-\begin{center}
-\begin{small}
-\begin{sc}
-\begin{tabular}{lllcccccc}
-\hline
-&&&\multicolumn{3}{c}{$N=10$}&\multicolumn{3}{c}{$N=5$}\\
-$p$&$n$& sim& msb&cart&lasso & msb&cart&lasso\\
-\\
-\multirow{3}{*}{$50e+03$}&\multirow{3}{*}{100}&mse&0.23&0.42&0.36&0.17&0.43&0.22\\
-&&std & 0.34 &0.59&0.43&0.18&0.69&0.23\\
-&&time &5&24 & 3&7&27&3\\
-
-\\
-\multirow{3}{*}{$50e+03$}&\multirow{3}{*}{200}&mse&0.23 &0.42 &0.27&0.17&0.22&0.20\\
-&&std & 0.33& 0.56&0.23&0.19&0.38&0.25\\
-&&time & 10 &51&8&12&56&7\\
-
-\\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{100}&mse&0.67&1.35&1.32&0.15&0.17&0.22\\
-&&std & 1.04&2.26&1.36&0.23&0.19&0.23\\
-&&time &9&47&6&6&44&5\\
-
-\\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{200}&mse&0.64&1.37&0.85&0.15&0.26&0.15\\
-&&std &0.95 &1.77&1.29&0.24&0.42&0.24\\
-&&time &15&99&15&11&89&15\\
-\\
-\multirow{3}{*}{$30e+04$}&\multirow{3}{*}{100}&mse& 0.26&0.39&0.31&0.63&1.40&1.01\\
-&&std &0.39&0.51&0.52&0.80 &1.24& 1.46 \\
-&&time &9.28&125&18&9 &145& 17\\
-\\
-\multirow{3}{*}{$30e+04$}&\multirow{3}{*}{200}&mse&0.25&0.47&0.26&0.63&1.17&0.92\\
-&&std &0.36&0.88&0.43 & 0.80&2.11&1.04 \\
-&&time &15&262&40&13&283&43\\
-
-
-\\
-\multirow{3}{*}{$30e+04$}&\multirow{3}{*}{300}&mse&0.25&0.30&0.30&0.62&1.42&0.70\\
-&&std &0.36&0.41&0.48&0.89&1.85&0.94\\
-&&time &15&463&73&16&465&89\\
-
-\hline
-\end{tabular}
-\end{sc}
-\end{small}
-\end{center}
-\vskip -0.1in
-\end{table}
-
-
-\begin{figure}
+\begin{figure}[h!]
 \centering
-\begin{tabular}{cc}
-\includegraphics[width=60mm,height=50mm]{Swissroll.eps} & \includegraphics[width=60mm,height=50mm]{SManifold.eps}
-\end{tabular}
-\caption{Non-linear manifolds: Swissroll (I) and S-Manifold (II) embedded in $\mathcal{R}^3$} \label{manifold:nonlinear}
+\includegraphics[width=120mm,height=80mm]{box_exp1.eps}
+% \includegraphics[width=90mm,height=80mm]{densityestimate.eps}
+\caption{ } \label{boxplot:linear}
 \end{figure}
 
 
-\begin{table}[t]
-\caption{Non-linear manifold - Swissroll and S-Manifold: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulation scenarios.}\label{table:swiss}
-\vskip 0.15in
-\begin{center}
-\begin{small}
-\begin{sc}
-\begin{tabular}{lllcccccc}
-\hline
-&&&\multicolumn{3}{c}{Swissroll}&\multicolumn{3}{c}{S-Manifold}\\
+\subsection{Non-Linear lower dimensional space}
 
-$p$&$n$& & msb&cart& lasso & msb&cart& lasso\\
-\\
-\multirow{3}{*}{$10e+03$}&\multirow{3}{*}{100}&mse &$0.25$&$0.46$&$0.38$&0.67&0.70&0.77\\
-&&std & $0.24$ & $0.53$&$0.40$&0.76&0.80&0.85\\
-&&time & 5& $5$&$1$&4 & 5 & 1 \\
+In this section predictors were assumed to lie close to a lower dimensional non-linear manifold. In the first simulation study, predictors and response were jointly sampled from an $N$ components mixture of factor analyzers  so that the vector of predictors and response were assumed to lie close to $N$ lower dimensional planes. For each mixture components, the loading matrix and variances were sampled as in the first simulation scenario in \S \ref{section:linear}, while mixture weights were sampled from a Dirichlet distribution with parameter $\alpha_j=1$ for $j=1, \ldots, N$. The number of latent factors was considered to be increasing in the number of components, in practice we let the $h$th mixture component be modeled through $h$ factors. In the other simulation scenarios predictors were assumed to lie close to the Swissroll manifold (see figure 1 in the supplementary material), a two dimensional manifold embedded in $\Re^p$ while the response was sampled from a normal with mean equal to one of the coordinates of the manifold and standard deviation one.
 
-\\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{50}&mse &$0.24$&$0.44$&$0.25$&0.38&0.38&0.84\\
-&&std & $0.24$ & $0.42$&$0.29$&0.40&0.35&0.80\\
-&&time & 3 & $22$&$2$ &5&7&1\\
+%As in \S \ref{section:linear}, the proposed model was compared in terms of computational time and predictive performance with lasso and Cart. Table \ref{table:mfa} and \ref{table:swiss}  show computational time and mean squared errors based on leave-one-out predictions considering each of the three simulation scenario.  In particular, table \ref{table:mfa} shows the results associated to the data drawn from the mixture of factor analyzers for different number of components. In this example, given the linear relationship between predictors and response, Lasso performs better than CART. Lasso is also much more efficient than CART and performs similarly to our model for moderately high dimensional features. However, as shown in table \ref{table:mfa}, as the sample size increases the computational time associated to Lasso dramatically increases compared to our model (see $p=300,000$ for $n=100, 200, 300$). Table \ref{table:swiss} also shows that our model is associated to better predictive performance and CPU time.
+%
 
-\\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{100}&mse &$0.24$ & $0.43$&$0.17$&0.25&0.30&0.70\\
-&&std & $0.26$&$0.55$&$0.22$&0.22 & 0.25 &0.50\\
-&&time&$6$&$48$&$7$&7 & 50 & 7\\
+%
+%\begin{figure}
+%\centering
+%\begin{tabular}{cc}
+%\includegraphics[width=60mm,height=50mm]{Swissroll.eps} & \includegraphics[width=60mm,height=50mm]{SManifold.eps}
+%\end{tabular}
+%\caption{Non-linear manifolds: Swissroll (I) and S-Manifold (II) embedded in $\mathcal{R}^3$} \label{manifold:nonlinear}
+%\end{figure}
 
-\\
-
-\multirow{3}{*}{$20e+04$}&\multirow{3}{*}{50}&mse &$0.24$&$0.67$&$0.29$&0.35&0.40&0.73\\
-&&std & $0.23$ & $0.50$& $0.29$&0.22&0.30 &0.40\\
-&&time & 4& $38$& $5$ & 3 & 40 & 5 \\
-\\
-\multirow{3}{*}{$20e+04$}&\multirow{3}{*}{100}&mse &$0.25$&$0.78$&$0.33$&0.37&0.37&0.70\\
-&&std & $0.26$ & $0.74$&$0.36$&0.25&0.27&0.55\\
-&&time &6 &$96$&$13$ &6&98&14\\
-\\
-
-\multirow{3}{*}{$50e+04$}&\multirow{3}{*}{50}&mse &$0.17$&$0.47$&$0.23$&0.16 &0.20&0.35\\
-&&std & $0.23$ & $0.43$&$0.22$&0.20&0.19&0.40\\
-&&time &$5$ &$126$&$10$ & 5 & 130 &15 \\
-
-\\
-\multirow{3}{*}{$50e+04$}&\multirow{3}{*}{100}&mse &$0.17$&$0.33$&$0.19$&0.11&0.25&0.56\\
-&&std & $0.21$ &$0.46$ &$0.23$&0.14&0.20 &0.61\\
-&&time &$11$ &$230$&$25$&10&254 &27\\
-
-
-
-\hline
-\end{tabular}
-\end{sc}
-\end{small}
-\end{center}
-\vskip -0.1in
-\end{table}
 
 
 \section{Real application}
 
-We assessed the predictive performance of the proposed method on two very different neuroimaging datasets. First, we consider a structural connectome dataset collected at the Mind Research Network.  Data were collected as described in Jung et al. \cite{Jung2010}.
+We assessed the predictive performance of the proposed method on two very different neuroimaging datasets. First, we consider a structural connectome dataset collected at the Mind Research Network.  Data were collected as described in Jung et al. \cite{Jung2010}. For the analysis, all variables were normalized by subtracting the mean and dividing by the standard deviation. The same prior specification and Gibbs sampler as in \S 5 was  utilized. 
 % ,and structural connectomes were estimated using the Magnetic Resonance Connectome Automated Pipeline \cite{MRCAP}.  
 % Each of the $108$ children underwent both multimodal imaging and a battery of cognitive assessments.  
-We investigated the extent to which we could predict creative (as measured via the Composite Creativity Index \cite{Arden2010}).   For each subject, we estimate a $70$ vertex undirected weighted brain-graph using the Magnetic Resonance Connectome Automated Pipeline \cite{MRCAP11} from diffusion tensor imaging data \cite{Mori2006}. We therefore let each $x_i \in \Re^p$ correspond to logarithm of each weighted edge; because our graphs are undirected and lack self-loops, we have a total of $\binom{70}{2}=2,415$ potential weighted edges.
-The vector of covariates consists in the natural logarithm of the total number of connections between all pairs of cortical regions, i.e. $p=2,415$. 
+We investigated the extent to which we could predict creative (as measured via the Composite Creativity Index \cite{Arden2010}).   For each subject, we estimate a $70$ vertex undirected weighted brain-graph using the Magnetic Resonance Connectome Automated Pipeline \cite{MRCAP11} from diffusion tensor imaging data \cite{Mori2006}. We therefore let each $x_i \in \Re^p$ correspond to logarithm of each weighted edge; because our graphs are undirected and lack self-loops, we have a total of $\binom{70}{2}=2,415$ potential weighted edges. The vector of covariates consists in the natural logarithm of the total number of connections between all pairs of cortical regions, i.e. $p=2,415$. 
 
-The second dataset comes from a resting-state functional magnetic resonance experiment as part of the Autism Brain Imaging Data Exchange \cite{Autism}.  We selected the Yale Child Study Center for analysis.  Each brain-image was processed using the Configurable Pipepline for Analysis of Connectomes \cite{cpac}. For each subject we computed a measure of normalized power at each voxel called fALFF \cite{Zou2008}.  fALFF is a highly nonlinear transformation of the time-series data, previously demonstrated to be a reliable property of such data.  To ensure the existence of nonlinear signal relating these predictors, we let $y_i$ correspond to an estimate of overall head motion in the scanner, called mean framewise displacement (FD) computed as described in Power et al. \cite{power}.
+The second dataset comes from a resting-state functional magnetic resonance experiment as part of the Autism Brain Imaging Data Exchange \cite{Autism}.  We selected the Yale Child Study Center for analysis.  Each brain-image was processed using the Configurable Pipepline for Analysis of Connectomes \cite{cpac}. For each subject we computed a measure of normalized power at each voxel called fALFF \cite{Zou2008}.  fALFF is a highly nonlinear transformation of the time-series data, previously demonstrated to be a reliable property of such data.  To ensure the existence of nonlinear signal relating these predictors, we let $y_i$ correspond to an estimate of overall head motion in the scanner, called mean framewise displacement (FD) computed as described in Power et al. \cite{power}. 
 
-% Our interest was predicting the head motion measurement based on $3$D brain images involving about one million of pixels. These $3$D matrices were vectorized and considered as predictors in our model. In order to reduce the dimensionality of the predictor space the data was re-processed using a brain mask and a vector of about $300,000$ predictors  was obtained.
-
-For the analysis, all variables were normalized by subtracting the mean and dividing by the standard deviation. The same prior specification and Gibbs sampler as in \S 5 was  utilized. Table \ref{real} shows mean and variance squared error based on leave-one-out predictions. Variable $t_{T}$ is the amount of time necessary to obtain predictions for all subjects, while variables $t_M$ and $t_V$ are respectively the mean and the standard deviation of amount of time necessary to obtain one point predictions.
+%Table \ref{real} shows mean and variance squared error based on leave-one-out predictions. Variable $t_{T}$ is the amount of time necessary to obtain predictions for all subjects, while variables $t_M$ and $t_V$ are respectively the mean and the standard deviation of amount of time necessary to obtain one point predictions.
 
 For the first data example, we compared our approach (multiresolution stick-breaking; MSB) to CART, lasso and random forests. 
 Table \ref{real} shows that MSB outperforms all the competitors in terms of mean square error; this is in addition to yielding an estimate of the entire conditional density for each $y_i$.  It is also significantly faster that random forests, the next closest competitor, and faster than lasso.  For this relatively low-dimensional example, CART is reasonably fast.  
@@ -461,7 +279,7 @@ Table \ref{real} shows that MSB outperforms all the competitors in terms of mean
  
  For the second data application, given the huge dimensionality of the predictor space, we were unable to get either CART or random forest to run to completion, yielding memory faults on our workstation (Intel Core i7-2600K Quad-Core Processor memory 8192 MB).  We thus only compare performance to lasso.  As in the previous example, MSB outperforms lasso in terms of predictive accuracy measured via mean-squared error, and significantly outperforms lasso in terms of computational time.  
  % and the poor scalability of CART and random forest, the comparison was made only with lasso. As shown in table \ref{real}, our approach is more efficient and accurate than lasso in predicting the response variable. 
-Figure \ref{fig:real} shows the plot of CPU time used to predict each one of the $56$ subjects involved in the experiment. The time needed to compute quantities utilized in all subject predictions was divided equally across subjects. Clearly, our approach is able to improve the computational time by up to five orders of magnitude. 
+%Figure \ref{fig:real} shows the plot of CPU time used to predict each one of the $56$ subjects involved in the experiment. The time needed to compute quantities utilized in all subject predictions was divided equally across subjects. Clearly, our approach is able to improve the computational time by up to five orders of magnitude. 
 
 
 \begin{table}[t]
@@ -492,24 +310,24 @@ data &$n$&$p$ &model&mse&$t_{T}$ & $t_{M}$ & $t_{V}$\\
 
 \nocite{langley00}
 
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.8\linewidth]{plotCPU.eps}
-% \includegraphics[width=80mm,height=45mm]{Cpu.eps}
-\caption{Elapsed CPU time (in seconds) for a single point prediction based on $200$ observations for MSB (dot-dash), lasso (solid) and CART (dash) for different number of predictors in log-scale.} \label{Cpu}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.0\linewidth]{Time_real2.eps}
-% \includegraphics[width=80mm,height=40mm]{Time_real2.eps}
-\caption{Plot of CPU time used to predict each one of the $56$ measurement involved in experiment (2) under MSB (solid) and lasso (dash).} \label{fig:real}
-\end{figure}
-
-\section{Conclusion}
-We have proposed a new model which should lead to substantially improved predictive and computational performance to learn the density of a target variable given a high dimensional vector of predictors. As shown the proposed two stage approach can scale substantially better than other existing algorithms to massive number of features. We have focused on Bayesian MCMC-based methods, but there are numerous interesting directions for ongoing research. Moreover, in addition to better predictive and computational performance, our methods easily extend to parallelized and distributed systems, which we will also explore in future work.
+%
+%
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=0.8\linewidth]{plotCPU.eps}
+%% \includegraphics[width=80mm,height=45mm]{Cpu.eps}
+%\caption{Elapsed CPU time (in seconds) for a single point prediction based on $200$ observations for MSB (dot-dash), lasso (solid) and CART (dash) for different number of predictors in log-scale.} \label{Cpu}
+%\end{figure}
+%
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=1.0\linewidth]{Time_real2.eps}
+%% \includegraphics[width=80mm,height=40mm]{Time_real2.eps}
+%\caption{Plot of CPU time used to predict each one of the $56$ measurement involved in experiment (2) under MSB (solid) and lasso (dash).} \label{fig:real}
+%\end{figure}
+%
+%\section{Conclusion}
+%We have proposed a new model which should lead to substantially improved predictive and computational performance to learn the density of a target variable given a high dimensional vector of predictors. As shown the proposed two stage approach can scale substantially better than other existing algorithms to massive number of features. We have focused on Bayesian MCMC-based methods, but there are numerous interesting directions for ongoing research. Moreover, in addition to better predictive and computational performance, our methods easily extend to parallelized and distributed systems, which we will also explore in future work.
 
 
 \bibliographystyle{unsrt} 
