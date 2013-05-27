@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  20 MAY 2013 14:39
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  22 MAY 2013 11:30
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -445,89 +445,150 @@ LaTeX Font Info:    Try loading font information for OT1+pcr on input line 79.
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 80.
- [1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-]
-Underfull \vbox (badness 3758) has occurred while \output is active []
-
- [2]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 110.
-
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 82.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 89.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 110.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 89.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3]
-[4]
+LaTeX Warning: Reference `section:setting' on page 1 undefined on input line 89
+.
+
 Package epstopdf Info: Source file: <ch3_density.eps>
-(epstopdf)                    date: 2013-05-19 10:41:19
-(epstopdf)                    size: 115161 bytes
+(epstopdf)                    date: 2013-05-21 07:09:35
+(epstopdf)                    size: 83199 bytes
 (epstopdf)             Output file: <ch3_density-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-05-19 10:41:25
-(epstopdf)                    size: 79893 bytes
+(epstopdf)                    date: 2013-05-21 09:19:31
+(epstopdf)                    size: 62776 bytes
 (epstopdf)             Command: <epstopdf --outfile=ch3_density-eps-converted-t
 o.pdf ch3_density.eps>
-(epstopdf)             \includegraphics on input line 220.
+(epstopdf)             \includegraphics on input line 98.
 Package epstopdf Info: Output file is already uptodate.
- <ch3_density-eps-converted-to.pdf, id=142, 562.1pt x 421.575pt>
+<ch3_density-eps-converted-to.pdf, id=26, 562.1pt x 421.575pt>
 File: ch3_density-eps-converted-to.pdf Graphic file (type pdf)
 
-<use ch3_density-eps-converted-to.pdf> [5 <./ch3_density-eps-converted-to.pdf>]
-Package epstopdf Info: Source file: <box_exp1.eps>
-(epstopdf)                    date: 2013-05-20 14:03:29
-(epstopdf)                    size: 12548 bytes
-(epstopdf)             Output file: <box_exp1-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-05-20 14:03:36
-(epstopdf)                    size: 9574 bytes
-(epstopdf)             Command: <epstopdf --outfile=box_exp1-eps-converted-to.p
-df box_exp1.eps>
-(epstopdf)             \includegraphics on input line 240.
-Package epstopdf Info: Output file is already uptodate.
-<box_exp1-eps-converted-to.pdf, id=157, 562.1pt x 421.575pt>
-File: box_exp1-eps-converted-to.pdf Graphic file (type pdf)
+<use ch3_density-eps-converted-to.pdf>
 
-<use box_exp1-eps-converted-to.pdf>
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+
+LaTeX Warning: Reference `boxplot:linear' on page 2 undefined on input line 115
+.
+
+
+LaTeX Warning: Reference `boxplot:linear' on page 2 undefined on input line 115
+.
+
+Package epstopdf Info: Source file: <boxplot_exp1.eps>
+(epstopdf)                    date: 2013-05-22 11:11:18
+(epstopdf)                    size: 9873 bytes
+(epstopdf)             Output file: <boxplot_exp1-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-22 11:11:30
+(epstopdf)                    size: 7584 bytes
+(epstopdf)             Command: <epstopdf --outfile=boxplot_exp1-eps-converted-
+to.pdf boxplot_exp1.eps>
+(epstopdf)             \includegraphics on input line 127.
+Package epstopdf Info: Output file is already uptodate.
+<boxplot_exp1-eps-converted-to.pdf, id=46, 562.1pt x 421.575pt>
+File: boxplot_exp1-eps-converted-to.pdf Graphic file (type pdf)
+
+<use boxplot_exp1-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <cpuTime_exp1.eps>
+(epstopdf)                    date: 2013-05-22 11:06:17
+(epstopdf)                    size: 10149 bytes
+(epstopdf)             Output file: <cpuTime_exp1-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-22 11:06:20
+(epstopdf)                    size: 7784 bytes
+(epstopdf)             Command: <epstopdf --outfile=cpuTime_exp1-eps-converted-
+to.pdf cpuTime_exp1.eps>
+(epstopdf)             \includegraphics on input line 127.
+Package epstopdf Info: Output file is already uptodate.
+
+<cpuTime_exp1-eps-converted-to.pdf, id=47, 562.1pt x 421.575pt>
+File: cpuTime_exp1-eps-converted-to.pdf Graphic file (type pdf)
+
+<use cpuTime_exp1-eps-converted-to.pdf>
+Overfull \hbox (24.84549pt too wide) in paragraph at lines 126--131
+ [][] 
+ []
+
+[2 <./ch3_density-eps-converted-to.pdf> <./boxplot_exp1-eps-converted-to.pdf> <
+./cpuTime_exp1-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <boxplot_MFA.eps>
+(epstopdf)                    date: 2013-05-22 11:01:07
+(epstopdf)                    size: 12107 bytes
+(epstopdf)             Output file: <boxplot_MFA-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-22 11:01:11
+(epstopdf)                    size: 8592 bytes
+(epstopdf)             Command: <epstopdf --outfile=boxplot_MFA-eps-converted-t
+o.pdf boxplot_MFA.eps>
+(epstopdf)             \includegraphics on input line 157.
+Package epstopdf Info: Output file is already uptodate.
+
+<boxplot_MFA-eps-converted-to.pdf, id=73, 562.1pt x 421.575pt>
+File: boxplot_MFA-eps-converted-to.pdf Graphic file (type pdf)
+
+<use boxplot_MFA-eps-converted-to.pdf>
+Overfull \hbox (0.85403pt too wide) in paragraph at lines 157--158
+ [][] 
+ []
+
+Package epstopdf Info: Source file: <box_exp3.eps>
+(epstopdf)                    date: 2013-05-21 07:36:30
+(epstopdf)                    size: 8859 bytes
+(epstopdf)             Output file: <box_exp3-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-21 09:19:32
+(epstopdf)                    size: 6926 bytes
+(epstopdf)             Command: <epstopdf --outfile=box_exp3-eps-converted-to.p
+df box_exp3.eps>
+(epstopdf)             \includegraphics on input line 165.
+Package epstopdf Info: Output file is already uptodate.
+<box_exp3-eps-converted-to.pdf, id=74, 562.1pt x 421.575pt>
+File: box_exp3-eps-converted-to.pdf Graphic file (type pdf)
+
+<use box_exp3-eps-converted-to.pdf>
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6 <./box_exp1-eps-converted-to.pdf>]
+ [3 <./boxplot_MFA-eps-converted-to.pdf> <./box_exp3-eps-converted-to.pdf>]
 
-Package natbib Warning: Citation `langley00' undefined on input line 311.
+Package natbib Warning: Citation `langley00' undefined on input line 213.
 
-(./nipsMSB2.bbl
-Underfull \vbox (badness 1742) has occurred while \output is active []
-
- [7]
+(./nipsMSB2.bbl [4]
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Þ in font ptmr7t!
-
-[8])
+ [5])
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 336.
-[9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 336.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 238.
+[6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 238.
  (./nipsMSB2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 336.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 238.
 Package rerunfilecheck Info: File `nipsMSB2.out' has not changed.
-(rerunfilecheck)             Checksum: E0782EAAF20B5711E3AF548AEDEA75C7;631.
+(rerunfilecheck)             Checksum: 2D52EE9B96EB4FB80FF8A559FEEF9EBD;335.
+
+
+LaTeX Warning: There were undefined references.
+
  ) 
 Here is how much of TeX's memory you used:
- 7145 strings out of 493747
- 101393 string characters out of 3143546
- 194225 words of memory out of 3000000
- 10215 multiletter control sequences out of 15000+200000
+ 7147 strings out of 493747
+ 101746 string characters out of 3143546
+ 194593 words of memory out of 3000000
+ 10222 multiletter control sequences out of 15000+200000
  23074 words of font info for 54 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 37i,12n,39p,1644b,517s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 37i,12n,39p,1015b,511s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2010/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
@@ -539,17 +600,15 @@ ve/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive
 texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2010/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2010/texmf-dis
-t/fonts/type1/public/amsfonts/latxfont/line10.pfb></usr/local/texlive/2010/texm
-f-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2010/texmf-dist/f
-onts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/ty
-pe1/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/ti
-mes/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/times/utmri8
-a.pfb>
-Output written on nipsMSB2.pdf (9 pages, 292743 bytes).
+ist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2010/texmf-dist/font
+s/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
+/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on nipsMSB2.pdf (6 pages, 252347 bytes).
 PDF statistics:
- 277 PDF objects out of 1000 (max. 8388607)
- 242 compressed objects within 3 object streams
- 61 named destinations out of 1000 (max. 500000)
- 91 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 215 PDF objects out of 1000 (max. 8388607)
+ 180 compressed objects within 2 object streams
+ 53 named destinations out of 1000 (max. 500000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
 

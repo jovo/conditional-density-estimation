@@ -1,11 +1,13 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Setting}{}% 2
-\BOOKMARK [1][-]{section.3}{Methodology}{}% 3
-\BOOKMARK [1][-]{section.4}{Estimation}{}% 4
-\BOOKMARK [1][-]{section.5}{Simulation studies}{}% 5
-\BOOKMARK [2][-]{subsection.5.1}{Illustrative Example}{section.5}% 6
-\BOOKMARK [2][-]{subsection.5.2}{Linear lower dimensional space}{section.5}% 7
-\BOOKMARK [2][-]{subsection.5.3}{Non-Linear lower dimensional space}{section.5}% 8
-\BOOKMARK [1][-]{section.6}{Real application}{}% 9
-\BOOKMARK [1][-]{section.7}{Conclusion}{}% 10
-\BOOKMARK [1][-]{appendix.A}{Tables}{}% 11
+\BOOKMARK [1][-]{section.3}{Goal}{}% 3
+\BOOKMARK [1][-]{section.4}{Methodology}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Ms. Deeds Framework}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Specific Choices}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Estimation}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.4}{Predictions}{section.4}% 8
+\BOOKMARK [1][-]{section.5}{Simulation studies}{}% 9
+\BOOKMARK [1][-]{section.6}{Results}{}% 10
+\BOOKMARK [2][-]{subsection.6.1}{Illustrative Example}{section.6}% 11
+\BOOKMARK [2][-]{subsection.6.2}{Quantitative Comparisons}{section.6}% 12
+\BOOKMARK [2][-]{subsection.6.3}{Neuroscience Applications}{section.6}% 13

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=.nipsMSB 2013.5.20)  20 MAY 2013 14:55
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=.nipsMSB 2013.5.26)  26 MAY 2013 23:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -16,41 +16,48 @@ iya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, kurmanji,
 ish, portuguese, romanian, russian, sanskrit, serbian, serbianc, slovak, sloven
 ian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, welsh, loaded
 .
-(./.nipsMSB.aux)
+(./.nipsMSB.aux
+
+LaTeX Warning: Label `eq:linear' multiply defined.
+
+
+LaTeX Warning: Label `eq:linear' multiply defined.
+
+)
 \openout1 = `.nipsMSB.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 81.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 83.
 (/usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
-\AtBeginShipoutBox=\box32
+\AtBeginShipoutBox=\box35
 (/usr/local/texlive/2011/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count127
-\scratchdimen=\dimen123
-\scratchbox=\box33
+\scratchdimen=\dimen126
+\scratchbox=\box36
 \nofMPsegments=\count128
 \nofMParguments=\count129
-\everyMPshowfont=\toks23
+\everyMPshowfont=\toks24
 \MPscratchCnt=\count130
-\MPscratchDim=\dimen124
+\MPscratchDim=\dimen127
 \MPnumerator=\count131
 \makeMPintoPDFobject=\count132
-\everyMPtoPDFconversion=\toks24
+\everyMPtoPDFconversion=\toks25
 ) (/usr/local/texlive/2011/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 (/usr/local/texlive/2011/texmf-dist/tex/latex/oberdiek/grfext.sty
@@ -64,7 +71,7 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 81.
+Package hyperref Info: Link coloring OFF on input line 83.
 (/usr/local/texlive/2011/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
@@ -72,217 +79,253 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count133
 )
-LaTeX Info: Redefining \ref on input line 81.
-LaTeX Info: Redefining \pageref on input line 81.
-LaTeX Info: Redefining \nameref on input line 81.
+LaTeX Info: Redefining \ref on input line 83.
+LaTeX Info: Redefining \pageref on input line 83.
+LaTeX Info: Redefining \nameref on input line 83.
 (./.nipsMSB.out) (./.nipsMSB.out)
 \@outlinefile=\write3
 \openout3 = `.nipsMSB.out'.
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 85.
-LaTeX Font Info:    Try loading font information for U+msa on input line 85.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 87.
+LaTeX Font Info:    Try loading font information for U+msa on input line 87.
 (/usr/local/texlive/2011/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 85.
+LaTeX Font Info:    Try loading font information for U+msb on input line 87.
 (/usr/local/texlive/2011/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 85.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 85.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 87.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 87.
 (/usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 86.
-[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-
-LaTeX Warning: Reference `fig:swiss' on page 2 undefined on input line 128.
-
-
-Underfull \vbox (badness 4303) has occurred while \output is active []
-
-[2]
-
-Package natbib Warning: Citation `Allard2012' on page 3 undefined on input line
- 136.
-
-
-Package natbib Warning: Citation `Allard2012' on page 3 undefined on input line
- 214.
-
-[3]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 223.
-
-Package natbib Warning: Citation `METIS' on page 4 undefined on input line 239.
-
-
-[4]
-Package epstopdf Info: Source file: <ch3_density.eps>
-(epstopdf)                    date: 2013-05-19 10:41:19
-(epstopdf)                    size: 115161 bytes
-(epstopdf)             Output file: <ch3_density-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-05-19 10:41:25
-(epstopdf)                    size: 79893 bytes
-(epstopdf)             Command: <repstopdf --outfile=ch3_density-eps-converted-
-to.pdf ch3_density.eps>
-(epstopdf)             \includegraphics on input line 292.
-Package epstopdf Info: Output file is already uptodate.
-<ch3_density-eps-converted-to.pdf, id=155, 562.1pt x 421.575pt>
-File: ch3_density-eps-converted-to.pdf Graphic file (type pdf)
-<use ch3_density-eps-converted-to.pdf>
-Package pdftex.def Info: ch3_density-eps-converted-to.pdf used on input line 29
-2.
-(pdftex.def)             Requested size: 341.431pt x 284.53154pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[5]
-Package epstopdf Info: Source file: <box_exp1.eps>
-(epstopdf)                    date: 2013-05-20 14:03:29
-(epstopdf)                    size: 12548 bytes
-(epstopdf)             Output file: <box_exp1-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-05-20 14:03:36
-(epstopdf)                    size: 9574 bytes
-(epstopdf)             Command: <repstopdf --outfile=box_exp1-eps-converted-to.
-pdf box_exp1.eps>
-(epstopdf)             \includegraphics on input line 313.
-Package epstopdf Info: Output file is already uptodate.
-<box_exp1-eps-converted-to.pdf, id=173, 562.1pt x 421.575pt>
-File: box_exp1-eps-converted-to.pdf Graphic file (type pdf)
-<use box_exp1-eps-converted-to.pdf>
-Package pdftex.def Info: box_exp1-eps-converted-to.pdf used on input line 313.
-(pdftex.def)             Requested size: 341.431pt x 227.6278pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 324.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 88.
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] <
+../figs/density3D(FF4).png, id=127, 1029.09468pt x 490.08093pt>
+File: ../figs/density3D(FF4).png Graphic file (type png)
+<use ../figs/density3D(FF4).png>
+Package pdftex.def Info: ../figs/density3D(FF4).png used on input line 148.
+(pdftex.def)             Requested size: 397.48499pt x 189.2912pt.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 156.
 
 (/usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 324.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 156.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+LaTeX Warning: Reference `sec:disc' on page 3 undefined on input line 156.
 
-[6 <./ch3_density-eps-converted-to.pdf>]
-Package epstopdf Info: Source file: <Swissroll.eps>
-(epstopdf)                    date: 2013-04-13 06:05:18
-(epstopdf)                    size: 383509 bytes
-(epstopdf)             Output file: <Swissroll-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-04-16 17:59:41
-(epstopdf)                    size: 411430 bytes
-(epstopdf)             Command: <repstopdf --outfile=Swissroll-eps-converted-to
-.pdf Swissroll.eps>
-(epstopdf)             \includegraphics on input line 334.
+
+LaTeX Warning: Citation `Allard2012' on page 3 undefined on input line 179.
+
+
+LaTeX Warning: Citation `ChenMaggioni12' on page 3 undefined on input line 179.
+
+
+[3pdfTeX warning (ext4): destination with the same identifier (name{equation.2.
+1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.180 
+       <../figs/density3D(FF4).png (PNG copy)>]
+
+LaTeX Warning: Citation `Daubechies1992' on page 4 undefined on input line 284.
+
+
+
+LaTeX Warning: Citation `ChenMaggioni12' on page 4 undefined on input line 284.
+
+
+
+LaTeX Warning: Citation `METIS' on page 4 undefined on input line 288.
+
+[4]
+
+LaTeX Warning: Citation `ChenMaggioni12' on page 5 undefined on input line 294.
+
+
+
+LaTeX Warning: Citation `Allard2012' on page 5 undefined on input line 299.
+
+
+LaTeX Warning: Citation `Allard2012' on page 5 undefined on input line 299.
+
+
+LaTeX Warning: Citation `Lawlor2012' on page 5 undefined on input line 299.
+
+
+LaTeX Warning: Citation `ChenMaggioni12' on page 5 undefined on input line 299.
+
+
+[5]
+
+LaTeX Warning: Reference `eq:base' on page 6 undefined on input line 342.
+
+
+LaTeX Warning: Reference `eq:base' on page 6 undefined on input line 348.
+
+[6]
+Package epstopdf Info: Source file: <../figs/ch3_density.eps>
+(epstopdf)                    date: 2013-05-24 07:22:30
+(epstopdf)                    size: 82959 bytes
+(epstopdf)             Output file: <../figs/ch3_density-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-24 07:22:37
+(epstopdf)                    size: 63085 bytes
+(epstopdf)             Command: <repstopdf --outfile=../figs/ch3_density-eps-co
+nverted-to.pdf ../figs/ch3_density.eps>
+(epstopdf)             \includegraphics on input line 463.
 Package epstopdf Info: Output file is already uptodate.
-<Swissroll-eps-converted-to.pdf, id=196, 396.48125pt x 334.24875pt>
-File: Swissroll-eps-converted-to.pdf Graphic file (type pdf)
-<use Swissroll-eps-converted-to.pdf>
-Package pdftex.def Info: Swissroll-eps-converted-to.pdf used on input line 334.
+<../figs/ch3_density-eps-converted-to.pdf, id=178, 614.295pt x 342.27875pt>
+File: ../figs/ch3_density-eps-converted-to.pdf Graphic file (type pdf)
+<use ../figs/ch3_density-eps-converted-to.pdf>
+Package pdftex.def Info: ../figs/ch3_density-eps-converted-to.pdf used on input
+ line 463.
+(pdftex.def)             Requested size: 341.43306pt x 190.24374pt.
 
-(pdftex.def)             Requested size: 170.71954pt x 142.26549pt.
-Package epstopdf Info: Source file: <SManifold.eps>
-(epstopdf)                    date: 2013-04-13 06:06:04
-(epstopdf)                    size: 374583 bytes
-(epstopdf)             Output file: <SManifold-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-04-16 17:59:42
-(epstopdf)                    size: 403636 bytes
-(epstopdf)             Command: <repstopdf --outfile=SManifold-eps-converted-to
-.pdf SManifold.eps>
-(epstopdf)             \includegraphics on input line 334.
+LaTeX Warning: Reference `fig:linear' on page 7 undefined on input line 475.
+
+Package epstopdf Info: Source file: <../figs/experiment1.eps>
+(epstopdf)                    date: 2013-05-22 21:22:21
+(epstopdf)                    size: 14665 bytes
+(epstopdf)             Output file: <../figs/experiment1-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-22 21:22:23
+(epstopdf)                    size: 10883 bytes
+(epstopdf)             Command: <repstopdf --outfile=../figs/experiment1-eps-co
+nverted-to.pdf ../figs/experiment1.eps>
+(epstopdf)             \includegraphics on input line 483.
 Package epstopdf Info: Output file is already uptodate.
-<SManifold-eps-converted-to.pdf, id=197, 396.48125pt x 332.24126pt>
-File: SManifold-eps-converted-to.pdf Graphic file (type pdf)
-<use SManifold-eps-converted-to.pdf>
-Package pdftex.def Info: SManifold-eps-converted-to.pdf used on input line 334.
-
-(pdftex.def)             Requested size: 170.71954pt x 142.26274pt.
-[7 <./box_exp1-eps-converted-to.pdf>]
-
-Package natbib Warning: Citation `langley00' undefined on input line 391.
-
-Package epstopdf Info: Source file: <plotCPU.eps>
-(epstopdf)                    date: 2013-04-16 10:35:46
-(epstopdf)                    size: 8528 bytes
-(epstopdf)             Output file: <plotCPU-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-04-16 17:59:42
-(epstopdf)                    size: 7262 bytes
-(epstopdf)             Command: <repstopdf --outfile=plotCPU-eps-converted-to.p
-df plotCPU.eps>
-(epstopdf)             \includegraphics on input line 397.
+<../figs/experiment1-eps-converted-to.pdf, id=180, 654.445pt x 294.09875pt>
+File: ../figs/experiment1-eps-converted-to.pdf Graphic file (type pdf)
+<use ../figs/experiment1-eps-converted-to.pdf>
+Package pdftex.def Info: ../figs/experiment1-eps-converted-to.pdf used on input
+ line 483.
+(pdftex.def)             Requested size: 238.49341pt x 107.17236pt.
+Package epstopdf Info: Source file: <../figs/nonlinear.eps>
+(epstopdf)                    date: 2013-05-24 07:18:25
+(epstopdf)                    size: 16455 bytes
+(epstopdf)             Output file: <../figs/nonlinear-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-24 07:18:28
+(epstopdf)                    size: 11007 bytes
+(epstopdf)             Command: <repstopdf --outfile=../figs/nonlinear-eps-conv
+erted-to.pdf ../figs/nonlinear.eps>
+(epstopdf)             \includegraphics on input line 484.
 Package epstopdf Info: Output file is already uptodate.
-<plotCPU-eps-converted-to.pdf, id=227, 495.8525pt x 312.16624pt>
-File: plotCPU-eps-converted-to.pdf Graphic file (type pdf)
-<use plotCPU-eps-converted-to.pdf>
-Package pdftex.def Info: plotCPU-eps-converted-to.pdf used on input line 397.
-(pdftex.def)             Requested size: 317.9892pt x 200.19058pt.
+<../figs/nonlinear-eps-converted-to.pdf, id=181, 925.4575pt x 304.13625pt>
+File: ../figs/nonlinear-eps-converted-to.pdf Graphic file (type pdf)
+<use ../figs/nonlinear-eps-converted-to.pdf>
+Package pdftex.def Info: ../figs/nonlinear-eps-converted-to.pdf used on input l
+ine 484.
+(pdftex.def)             Requested size: 317.9892pt x 104.50017pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+LaTeX Warning: Reference `eq:MFA' on page 7 undefined on input line 489.
 
-Package epstopdf Info: Source file: <Time_real2.eps>
-(epstopdf)                    date: 2013-02-15 21:29:54
-(epstopdf)                    size: 9014 bytes
-(epstopdf)             Output file: <Time_real2-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-04-16 17:59:42
-(epstopdf)                    size: 7951 bytes
-(epstopdf)             Command: <repstopdf --outfile=Time_real2-eps-converted-t
-o.pdf Time_real2.eps>
-(epstopdf)             \includegraphics on input line 404.
-Package epstopdf Info: Output file is already uptodate.
-<Time_real2-eps-converted-to.pdf, id=228, 561.09625pt x 421.575pt>
-File: Time_real2-eps-converted-to.pdf Graphic file (type pdf)
-<use Time_real2-eps-converted-to.pdf>
-Package pdftex.def Info: Time_real2-eps-converted-to.pdf used on input line 404
-.
-(pdftex.def)             Requested size: 397.48499pt x 298.6449pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+LaTeX Warning: Reference `eq:swiss' on page 7 undefined on input line 489.
 
-(./.nipsMSB.bbl [8 <./Swissroll-eps-converted-to.pdf> <./SManifold-eps-converte
-d-to.pdf>] [9 <./plotCPU-eps-converted-to.pdf>]
+
+LaTeX Warning: Reference `eq:MFA' on page 7 undefined on input line 489.
+
+
+LaTeX Warning: Reference `eq:swiss' on page 7 undefined on input line 489.
+
+[7pdfTeX warning (ext4): destination with the same identifier (name{equation.5.
+2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.493 \end{figure}
+                  pdfTeX warning (ext4): destination with the same identifier (
+name{equation.5.3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.493 \end{figure}
+                  pdfTeX warning (ext4): destination with the same identifier (
+name{equation.5.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.493 \end{figure}
+                  pdfTeX warning (ext4): destination with the same identifier (
+name{equation.5.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.493 \end{figure}
+                  pdfTeX warning (ext4): destination with the same identifier (
+name{equation.5.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.493 \end{figure}
+                  pdfTeX warning (ext4): destination with the same identifier (
+name{equation.5.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.493 \end{figure}
+                   <../figs/ch3_density-eps-converted-to.pdf>]
+
+LaTeX Warning: Reference `MFA:plot' on page 8 undefined on input line 496.
+
+
+LaTeX Warning: Reference `MFA:plot' on page 8 undefined on input line 496.
+
+
+LaTeX Warning: Reference `MFA:plot' on page 8 undefined on input line 496.
+
+
+LaTeX Warning: Reference `MFA:plot' on page 8 undefined on input line 496.
+
+[8 <../figs/experiment1-eps-converted-to.pdf> <../figs/nonlinear-eps-converted-
+to.pdf>] (./.nipsMSB.bbl [9]
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Ð in font ptmr7t!
-[10 <./Time_real2-eps-converted-to.pdf>]
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Þ in font ptmr7t!
-)
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 646.
-[11] [12] [13] [14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 646.
+[10])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 557.
+[11]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 557.
 (./.nipsMSB.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 646.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 646.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 557.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 557.
 Package rerunfilecheck Info: File `.nipsMSB.out' has not changed.
-(rerunfilecheck)             Checksum: A20A7E90F2F416F8A1A60A3263C92F06;604.
+(rerunfilecheck)             Checksum: 8CD962B1B795B0E33F8154189F020BF6;741.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 646.
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 557.
  ) 
 Here is how much of TeX's memory you used:
- 1049 strings out of 487166
- 15806 string characters out of 3053431
- 242036 words of memory out of 3000000
- 10590 multiletter control sequences out of 15000+200000
- 23074 words of font info for 54 fonts, out of 3000000 for 9000
+ 955 strings out of 487397
+ 14263 string characters out of 3056348
+ 203386 words of memory out of 3000000
+ 10266 multiletter control sequences out of 15000+200000
+ 26951 words of font info for 66 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 36i,12n,33p,1410b,493s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,12n,29p,1155b,417s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
-xlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
-live/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texli
-ve/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive
-/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2
-011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/201
-1/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2011/
+exlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
+xlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/tex
+live/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texl
+ive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texliv
+e/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/
+2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/20
+11/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2011
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2011
+/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/texlive/
+2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
+11/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2011/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2011/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2011/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2011/texmf-d
@@ -296,10 +339,10 @@ ist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2011/texmf-dist/fon
 ts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/u
 rw/times/utmr8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on .nipsMSB.pdf (14 pages, 1148901 bytes).
+Output written on .nipsMSB.pdf (11 pages, 407160 bytes).
 PDF statistics:
- 378 PDF objects out of 1000 (max. 8388607)
- 326 compressed objects within 4 object streams
- 95 named destinations out of 1000 (max. 500000)
- 119 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 352 PDF objects out of 1000 (max. 8388607)
+ 303 compressed objects within 4 object streams
+ 84 named destinations out of 1000 (max. 500000)
+ 125 words of extra memory for PDF output out of 10000 (max. 10000000)
 

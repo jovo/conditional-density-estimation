@@ -1,14 +1,20 @@
 This is BibTeX, Version 0.99d (TeX Live 2010)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: nipsMSB.aux
+Case mismatch error between cite keys METIS and metis
+---line 53 of file nipsMSB.aux
+ : \citation{METIS
+ :                }
+I'm skipping whatever remains of this command
 The style file: unsrt.bst
 Database file #1: nipsMSB.bib
 Warning--entry type for "Autism" isn't style-file defined
 --line 410 of file nipsMSB.bib
-Warning--I didn't find a database entry for "langley00"
+Warning--I didn't find a database entry for "Allard2012"
+Warning--I didn't find a database entry for "Daubechies1992"
 You've used 33 entries,
             1791 wiz_defined-function locations,
-            653 strings with 8686 characters,
+            656 strings with 8725 characters,
 and the built_in function-call counts, 7613 in all, are:
 = -- 662
 > -- 352
@@ -47,4 +53,4 @@ warning$ -- 0
 while$ -- 67
 width$ -- 35
 write$ -- 357
-(There were 2 warnings)
+(There was 1 error message)

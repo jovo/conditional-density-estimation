@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  16 APR 2013 18:21
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  24 MAY 2013 09:05
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -130,20 +130,13 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfig@top=\skip47
 \subfig@bottom=\skip48
 )
-(/usr/local/texlive/2010/texmf-dist/tex/latex/natbib/natbib.sty
-Package: natbib 2009/11/07 8.31a (PWD, AO)
-\bibhang=\skip49
-\bibsep=\skip50
-LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count97
-)
 (/usr/local/texlive/2010/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
 nment
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count98
+\c@float@type=\count97
 \float@exts=\toks15
 \float@box=\box28
 \@float@everytoks=\toks16
@@ -153,16 +146,16 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \@float@every@algorithm=\toks17
-\c@algorithm=\count99
+\c@algorithm=\count98
 )
 (/usr/local/texlive/2010/texmf-dist/tex/latex/algorithms/algorithmic.sty
 Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
-\c@ALC@unique=\count100
-\c@ALC@line=\count101
-\c@ALC@rem=\count102
-\c@ALC@depth=\count103
-\ALC@tlm=\skip51
-\algorithmicindent=\skip52
+\c@ALC@unique=\count99
+\c@ALC@line=\count100
+\c@ALC@rem=\count101
+\c@ALC@depth=\count102
+\ALC@tlm=\skip49
+\algorithmicindent=\skip50
 )
 (/usr/local/texlive/2010/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2010/06/18 v6.81g Hypertext links for LaTeX
@@ -210,8 +203,8 @@ Package: xcolor-patch 2009/12/12 xcolor patch
 Package: letltxmacro 2008/06/24 v1.3 Let assignment for LaTeX macros (HO)
 )
 \@linkdim=\dimen111
-\Hy@linkcounter=\count104
-\Hy@pagecounter=\count105
+\Hy@linkcounter=\count103
+\Hy@pagecounter=\count104
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2010/06/18 v6.81g Hyperref: PDFDocEncoding definition (HO)
@@ -245,7 +238,7 @@ Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
 (/usr/local/texlive/2010/texmf-dist/tex/generic/oberdiek/bigintcalc.sty
 Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
 ))
-\Fld@menulength=\count106
+\Fld@menulength=\count105
 \Field@Width=\dimen112
 \Fld@charsize=\dimen113
 \Field@toks=\toks18
@@ -258,9 +251,9 @@ Package hyperref Info: Link coloring with OCG OFF on input line 5162.
 Package hyperref Info: PDF/A mode OFF on input line 5167.
 LaTeX Info: Redefining \ref on input line 5207.
 LaTeX Info: Redefining \pageref on input line 5211.
-\Hy@abspage=\count107
-\c@Item=\count108
-\c@Hfootnote=\count109
+\Hy@abspage=\count106
+\c@Item=\count107
+\c@Hfootnote=\count108
 )
 * hyperref using default driver hpdftex *
 (/usr/local/texlive/2010/texmf-dist/tex/latex/hyperref/hpdftex.def
@@ -270,8 +263,8 @@ File: hpdftex.def 2010/06/18 v6.81g Hyperref driver for pdfTeX
 Package: atveryend 2010/03/24 v1.5 Hooks at very end of document (HO)
 Package atveryend Info: \enddocument detected (standard).
 )
-\Fld@listcount=\count110
-\c@bookmark@seq@number=\count111
+\Fld@listcount=\count109
+\c@bookmark@seq@number=\count110
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2010/03/16 v1.6 Rerun checks for auxiliary files (HO)
@@ -282,12 +275,22 @@ Package: uniquecounter 2009/12/18 v1.1 Provides unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 71.
 )
-\Hy@SectionHShift=\skip53
+\Hy@SectionHShift=\skip51
 )
-\citation{*}
+(/usr/local/texlive/2010/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box30
+\UL@hyphenbox=\box31
+\UL@skip=\skip52
+\UL@hook=\toks19
+\UL@pe=\count111
+\UL@pixel=\dimen114
+\ULC@box=\box32
+Package: ulem 2010/01/21
+\ULdepth=\dimen115
+)
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
-\@mathmargin=\skip54
+\@mathmargin=\skip53
 
 For additional information on amsmath, use the `?' option.
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -295,12 +298,12 @@ Package: amstext 2000/06/29 v2.01
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks19
-\ex@=\dimen114
+\@emptytoks=\toks20
+\ex@=\dimen116
 ))
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen115
+\pmbraise@=\dimen117
 )
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
@@ -315,9 +318,9 @@ LaTeX Info: Redefining \overline on input line 307.
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
-\Mathstrutbox@=\box30
-\strutbox@=\box31
-\big@size=\dimen116
+\Mathstrutbox@=\box33
+\strutbox@=\box34
+\big@size=\dimen118
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 \macc@depth=\count117
@@ -325,21 +328,21 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 \dotsspace@=\muskip11
 \c@parentequation=\count119
 \dspbrk@lvl=\count120
-\tag@help=\toks20
+\tag@help=\toks21
 \row@=\count121
 \column@=\count122
 \maxfields@=\count123
-\andhelp@=\toks21
-\eqnshift@=\dimen117
-\alignsep@=\dimen118
-\tagshift@=\dimen119
-\tagwidth@=\dimen120
-\totwidth@=\dimen121
-\lineht@=\dimen122
-\@envbody=\toks22
-\multlinegap=\skip55
-\multlinetaggap=\skip56
-\mathdisplay@stack=\toks23
+\andhelp@=\toks22
+\eqnshift@=\dimen119
+\alignsep@=\dimen120
+\tagshift@=\dimen121
+\tagwidth@=\dimen122
+\totwidth@=\dimen123
+\lineht@=\dimen124
+\@envbody=\toks23
+\multlinegap=\skip54
+\multlinetaggap=\skip55
+\mathdisplay@stack=\toks24
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
@@ -358,37 +361,37 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (./nipsMSB.aux)
 \openout1 = `nipsMSB.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 75.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 83.
  (/usr/local/texlive/2010/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
-\AtBeginShipoutBox=\box32
+\AtBeginShipoutBox=\box35
 (/usr/local/texlive/2010/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count125
-\scratchdimen=\dimen123
-\scratchbox=\box33
+\scratchdimen=\dimen125
+\scratchbox=\box36
 \nofMPsegments=\count126
 \nofMParguments=\count127
-\everyMPshowfont=\toks24
+\everyMPshowfont=\toks25
 \MPscratchCnt=\count128
-\MPscratchDim=\dimen124
+\MPscratchDim=\dimen126
 \MPnumerator=\count129
-\everyMPtoPDFconversion=\toks25
+\everyMPtoPDFconversion=\toks26
 ) (/usr/local/texlive/2010/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -404,7 +407,7 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 75.
+Package hyperref Info: Link coloring OFF on input line 83.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
@@ -417,186 +420,169 @@ Package: gettitlestring 2009/12/18 v1.3 Cleanup title references (HO)
 )
 \c@section@level=\count130
 )
-LaTeX Info: Redefining \ref on input line 75.
-LaTeX Info: Redefining \pageref on input line 75.
-LaTeX Info: Redefining \nameref on input line 75.
+LaTeX Info: Redefining \ref on input line 83.
+LaTeX Info: Redefining \pageref on input line 83.
+LaTeX Info: Redefining \nameref on input line 83.
 
 (./nipsMSB.out) (./nipsMSB.out)
 \@outlinefile=\write3
 \openout3 = `nipsMSB.out'.
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 79.
-LaTeX Font Info:    Try loading font information for U+msa on input line 79.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 88.
+LaTeX Font Info:    Try loading font information for U+msa on input line 88.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 79.
+LaTeX Font Info:    Try loading font information for U+msb on input line 88.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 79.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 79.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 88.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 88.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 80.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 89.
  [1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 106.
+] [2]
+<../figs/Partitions_corrected.png, id=119, 554.07pt x 478.03593pt>
+File: ../figs/Partitions_corrected.png Graphic file (type png)
+
+<use ../figs/Partitions_corrected.png>
+
+LaTeX Warning: Citation `Allard2012' on page 3 undefined on input line 165.
+
+[3 <../figs/Partitions_corrected.png (PNG copy)>]
+
+LaTeX Warning: Citation `Daubechies1992' on page 4 undefined on input line 265.
 
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/psnfss/omsptm.fd
+
+LaTeX Warning: Citation `METIS' on page 4 undefined on input line 265.
+
+[4]
+
+LaTeX Warning: Citation `Allard2012' on page 5 undefined on input line 284.
+
+[5]
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 324.
+
+ (/usr/local/texlive/2010/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 106.
- [2]
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
-
- []
-
-[3] [4]
-Package epstopdf Info: Source file: <densityestimate.eps>
-(epstopdf)                    date: 2013-02-15 21:30:42
-(epstopdf)                    size: 81367 bytes
-(epstopdf)             Output file: <densityestimate-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-02-15 21:30:44
-(epstopdf)                    size: 60966 bytes
-(epstopdf)             Command: <epstopdf --outfile=densityestimate-eps-convert
-ed-to.pdf densityestimate.eps>
-(epstopdf)             \includegraphics on input line 183.
-Package epstopdf Info: Output file is already uptodate.
- <densityestimate-eps-converted-to.pdf, id=141, 562.1pt x 421.575pt>
-File: densityestimate-eps-converted-to.pdf Graphic file (type pdf)
-
-<use densityestimate-eps-converted-to.pdf> [5 <./densityestimate-eps-converted-
-to.pdf>]
-Package epstopdf Info: Source file: <Swissroll.eps>
-(epstopdf)                    date: 2013-04-13 06:05:18
-(epstopdf)                    size: 383509 bytes
-(epstopdf)             Output file: <Swissroll-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-04-16 08:25:41
-(epstopdf)                    size: 411430 bytes
-(epstopdf)             Command: <epstopdf --outfile=Swissroll-eps-converted-to.
-pdf Swissroll.eps>
-(epstopdf)             \includegraphics on input line 380.
-Package epstopdf Info: Output file is already uptodate.
- <Swissroll-eps-converted-to.pdf, id=169, 396.48125pt x 334.24875pt>
-File: Swissroll-eps-converted-to.pdf Graphic file (type pdf)
-
-<use Swissroll-eps-converted-to.pdf>
-Package epstopdf Info: Source file: <SManifold.eps>
-(epstopdf)                    date: 2013-04-13 06:06:04
-(epstopdf)                    size: 374583 bytes
-(epstopdf)             Output file: <SManifold-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-04-16 08:25:41
-(epstopdf)                    size: 403636 bytes
-(epstopdf)             Command: <epstopdf --outfile=SManifold-eps-converted-to.
-pdf SManifold.eps>
-(epstopdf)             \includegraphics on input line 380.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 324.
+Package epstopdf Info: Source file: <../figs/ch3_density.eps>
+(epstopdf)                    date: 2013-05-24 07:22:30
+(epstopdf)                    size: 82959 bytes
+(epstopdf)             Output file: <../figs/ch3_density-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-24 07:22:37
+(epstopdf)                    size: 63085 bytes
+(epstopdf)             Command: <epstopdf --outfile=../figs/ch3_density-eps-con
+verted-to.pdf ../figs/ch3_density.eps>
+(epstopdf)             \includegraphics on input line 333.
 Package epstopdf Info: Output file is already uptodate.
 
-<SManifold-eps-converted-to.pdf, id=170, 396.48125pt x 332.24126pt>
-File: SManifold-eps-converted-to.pdf Graphic file (type pdf)
+<../figs/ch3_density-eps-converted-to.pdf, id=158, 614.295pt x 342.27875pt>
+File: ../figs/ch3_density-eps-converted-to.pdf Graphic file (type pdf)
 
-<use SManifold-eps-converted-to.pdf>
-Underfull \vbox (badness 6348) has occurred while \output is active []
-
- [6]
-[7]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [8 <./Swissroll-eps-converted-to.pdf> <./SManifold-eps-converted-to.pdf>] [9]
-
-Package natbib Warning: Citation `langley00' undefined on input line 493.
-
-Package epstopdf Info: Source file: <plotCPU.eps>
-(epstopdf)                    date: 2013-04-16 10:35:46
-(epstopdf)                    size: 8528 bytes
-(epstopdf)             Output file: <plotCPU-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-04-16 10:35:56
-(epstopdf)                    size: 7262 bytes
-(epstopdf)             Command: <epstopdf --outfile=plotCPU-eps-converted-to.pd
-f plotCPU.eps>
-(epstopdf)             \includegraphics on input line 499.
-Package epstopdf Info: Output file is already uptodate.
-<plotCPU-eps-converted-to.pdf, id=231, 495.8525pt x 312.16624pt>
-File: plotCPU-eps-converted-to.pdf Graphic file (type pdf)
-
-<use plotCPU-eps-converted-to.pdf>
-Package epstopdf Info: Source file: <Time_real2.eps>
-(epstopdf)                    date: 2013-02-15 21:29:54
-(epstopdf)                    size: 9014 bytes
-(epstopdf)             Output file: <Time_real2-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-02-15 21:30:05
-(epstopdf)                    size: 7951 bytes
-(epstopdf)             Command: <epstopdf --outfile=Time_real2-eps-converted-to
-.pdf Time_real2.eps>
-(epstopdf)             \includegraphics on input line 506.
+<use ../figs/ch3_density-eps-converted-to.pdf> [6 <../figs/ch3_density-eps-conv
+erted-to.pdf>]
+Package epstopdf Info: Source file: <../figs/experiment1.eps>
+(epstopdf)                    date: 2013-05-22 21:22:21
+(epstopdf)                    size: 14665 bytes
+(epstopdf)             Output file: <../figs/experiment1-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-22 21:22:23
+(epstopdf)                    size: 10883 bytes
+(epstopdf)             Command: <epstopdf --outfile=../figs/experiment1-eps-con
+verted-to.pdf ../figs/experiment1.eps>
+(epstopdf)             \includegraphics on input line 358.
 Package epstopdf Info: Output file is already uptodate.
 
-<Time_real2-eps-converted-to.pdf, id=232, 561.09625pt x 421.575pt>
-File: Time_real2-eps-converted-to.pdf Graphic file (type pdf)
+<../figs/experiment1-eps-converted-to.pdf, id=176, 654.445pt x 294.09875pt>
+File: ../figs/experiment1-eps-converted-to.pdf Graphic file (type pdf)
 
-<use Time_real2-eps-converted-to.pdf>
+<use ../figs/experiment1-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <../figs/nonlinear.eps>
+(epstopdf)                    date: 2013-05-24 07:18:25
+(epstopdf)                    size: 16455 bytes
+(epstopdf)             Output file: <../figs/nonlinear-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-05-24 07:18:28
+(epstopdf)                    size: 11007 bytes
+(epstopdf)             Command: <epstopdf --outfile=../figs/nonlinear-eps-conve
+rted-to.pdf ../figs/nonlinear.eps>
+(epstopdf)             \includegraphics on input line 377.
+Package epstopdf Info: Output file is already uptodate.
+
+<../figs/nonlinear-eps-converted-to.pdf, id=184, 925.4575pt x 304.13625pt>
+File: ../figs/nonlinear-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ../figs/nonlinear-eps-converted-to.pdf>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-(./nipsMSB.bbl [10 <./plotCPU-eps-converted-to.pdf>] [11 <./Time_real2-eps-conv
-erted-to.pdf>]
+[7 <../figs/experiment1-eps-converted-to.pdf>] (./nipsMSB.bbl [8 <../figs/nonli
+near-eps-converted-to.pdf>]
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Þ in font ptmr7t!
-)
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 518.
-[12]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 518.
+ [9])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 429.
+ [10]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 429.
  (./nipsMSB.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 518.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 429.
 Package rerunfilecheck Info: File `nipsMSB.out' has not changed.
-(rerunfilecheck)             Checksum: 9CCDC892559A83DB8EDFC094D14270C7;569.
+(rerunfilecheck)             Checksum: FA3040B76FFA922187FE69A0A8FC7700;621.
+
+
+LaTeX Warning: There were undefined references.
+
  ) 
 Here is how much of TeX's memory you used:
- 7180 strings out of 493747
- 102007 string characters out of 3143546
- 235395 words of memory out of 3000000
- 10235 multiletter control sequences out of 15000+200000
- 23074 words of font info for 54 fonts, out of 3000000 for 9000
+ 6902 strings out of 493747
+ 97990 string characters out of 3143546
+ 194712 words of memory out of 3000000
+ 9944 multiletter control sequences out of 15000+200000
+ 25937 words of font info for 64 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 37i,12n,39p,1393b,461s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 37i,12n,39p,1140b,411s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2010/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
-xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
-live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texli
-ve/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive
-/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2
-010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/201
-0/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2010/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2010/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2010/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2010/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2010/texmf-dist/fon
-ts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
-/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/ti
-mes/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/times/utmr8a
-.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on nipsMSB.pdf (12 pages, 1113227 bytes).
+exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
+xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/tex
+live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texl
+ive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texliv
+e/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/
+2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/20
+10/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2010
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2010
+/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/texlive/
+2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
+10/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2010/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2010/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2010/texmf-di
+st/fonts/type1/public/amsfonts/latxfont/line10.pfb></usr/local/texlive/2010/tex
+mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2010
+/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2
+010/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2010/texm
+f-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2010/texmf-dist/
+fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type
+1/urw/times/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/time
+s/utmri8a.pfb>
+Output written on nipsMSB.pdf (10 pages, 382009 bytes).
 PDF statistics:
- 335 PDF objects out of 1000 (max. 8388607)
- 290 compressed objects within 3 object streams
- 73 named destinations out of 1000 (max. 500000)
- 106 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 330 PDF objects out of 1000 (max. 8388607)
+ 284 compressed objects within 3 object streams
+ 75 named destinations out of 1000 (max. 500000)
+ 109 words of extra memory for PDF output out of 10000 (max. 10000000)
 
