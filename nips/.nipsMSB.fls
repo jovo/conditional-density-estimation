@@ -82,14 +82,11 @@ INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT ../figs/PartitionsDensity_27MAY.png
 INPUT ../figs/PartitionsDensity_27MAY.png
 INPUT ../figs/PartitionsDensity_27MAY.png
-INPUT /usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/omsptm.fd
-INPUT /usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/omsptm.fd
-INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
-INPUT /usr/local/texlive/2011/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
-INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/cm/cmss10.tfm
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
+INPUT /usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/omsptm.fd
+INPUT /usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/omsptm.fd
 INPUT ../figs/ch3_density.eps
 INPUT ../figs/ch3_density.eps
 INPUT ../figs/ch3_density.eps
@@ -117,6 +114,7 @@ INPUT ../figs/nonlinear.eps
 INPUT ../figs/nonlinear-eps-converted-to.pdf
 INPUT ../figs/nonlinear-eps-converted-to.pdf
 INPUT ../figs/nonlinear-eps-converted-to.pdf
+INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/adobe/times/ptmrc7t.tfm
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
@@ -132,10 +130,11 @@ INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam1
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
-INPUT .nipsMSB.bbl
-INPUT .nipsMSB.bbl
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/vf/adobe/times/ptmrc7t.vf
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT /usr/local/texlive/2011/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT .nipsMSB.bbl
+INPUT .nipsMSB.bbl
 INPUT .nipsMSB.aux
 INPUT ./.nipsMSB.out
 INPUT ./.nipsMSB.out
@@ -156,7 +155,6 @@ INPUT /usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pf
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
-INPUT /usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb
 INPUT /usr/local/texlive/2011/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb

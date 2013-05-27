@@ -116,7 +116,7 @@ In fact, a significant downside of many divide-and-conquer algorithms is their p
  In order to efficiently deal with massive datasets, we propose a novel multiscale approach which starts by learning a multiscale dictionary of densities,. This tree is efficiently learned in a first stage using a fast and scalable graph partitioning algorithm applied to the high-dimensional observations \cite{metis}.  Expressing the conditional densities $f(y|x)$ for each $x \in \mathcal{X}$ as a convex combination of coarse-to-fine scale dictionary densities, the learning problem in the second stage estimates the corresponding multiscale probability tree.  This is accomplished in a Bayesian manner using a novel multiscale stick-breaking process, which allows the data to inform about the optimal bias-variance tradeoff; weighting coarse scale dictionary densities more highly decreases variance while adding to bias if the finer scale structure is needed.  This results in a model that allows borrowing information across different resolution levels and reaches a good compromise in terms of the bias-variance tradeoff. We show that the algorithm scales efficiently to massive numbers of features. 
 
 
-\section{Setting} \label{section:setting}
+\section{Setting} \label{sec:setting}
 Let $X \from \Omega \to \mc{X} \subseteq \Real^p$ be a 
 $p$-dimensional Euclidean vector-valued predictor random variable, taking values $x \in \mc{X}$, with a marginal probability distribution $F_X$.  
 Similarly, let $Y \from \Omega \to \mc{Y}$ 
@@ -134,25 +134,26 @@ X_r &\sim \mc{N}(0,1) \text{ for } r \in \{3, \ldots, p\}, \qquad 	X_1 = \eta \s
 \end{align}
 \end{subequations}
 where $\mc{N}(\mu,\sigma)$ denotes a Gaussian distribution with mean $\mu$ and standard deviation $\sigma$, and $U(0,1)$ denotes the uniform distribution on $(0,1)$.
-Clearly, $Y$ is conditionally dependent on $\mb{\eta}$, which is the low-dimensional signal manifold, of which $X$ is also a function.  In particular, $X$ lives on a swissroll embedded in a $p$-dimensional ambient space, but $Y$ is only a function of where $\mb{\eta}$ is along the swissroll. The left panels of Figure \ref{fig:swiss} depict this concrete example when $\mu(\eta)=\eta$ and $\sigma(\eta)=\eta + 1$.
+Clearly, $Y$ is conditionally dependent on ${\eta}$, which is the low-dimensional signal manifold, of which $X$ is also a function.  In particular, $X$ lives on a swissroll embedded in a $p$-dimensional ambient space, but $Y$ is only a function of the coordinate ${\eta}$ along the swissroll $\mc{M}$. The left panels of Figure \ref{fig:swiss} depict this concrete example when $\mu(\eta)=\eta$ and $\sigma(\eta)=\eta + 1$.
 
 
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=1\linewidth]{../figs/PartitionsDensity_27MAY}
-	\caption{Illustration of our generative model and algorithm on a swissroll. The top left panel shows the manifold $\mc{M}$ (a swissroll) embedded in a $p$-dimensional ambient space, where the color indicates the coordinate along the manifold, $\eta$ (only the first 3 dimensions are shown for visualization purposes). The bottom left panel shows the distribution of $Y$ as a function of $\eta$, in particular, $F_{Y|\eta}=\mc{N}(\mb{\eta},\mb{\eta}+1)$. The middel and right panels show our estimates of $F_{Y|\mb{\eta}}$ at scales 3 and 4, respectively, which follow from partitioning our data.}
+	\caption{Illustration of our generative model and algorithm on a swissroll. The top left panel shows the manifold $\mc{M}$ (a swissroll) embedded in a $p$-dimensional ambient space, where the color indicates the coordinate along the manifold, $\eta$ (only the first 3 dimensions are shown for visualization purposes). The bottom left panel shows the distribution of $Y$ as a function of $\eta$, in particular, $F_{Y|\eta}=\mc{N}({\eta},{\eta}+1)$. The middle and right panels show our estimates of $F_{Y|{\eta}}$ at scales 3 and 4, respectively, which follow from partitioning our data.  Sample size was $n=10\,000$.}
 	\label{fig:swiss}
 \end{figure}
 
 
 \section{Goal} \label{sec:goal}
 
-Our goal is to develop an approach to learn about $F_{Y|X}$ from $n$ pairs of observations that we assume are sampled exchangeable from the joint distribution, $(x_i,y_i) \sim F_{X,Y} \in \mc{F}$. Let $\mc{D}^n=\{(x_i,y_i)\}_{i \in [n]}$, where $[n]=\{1,\ldots, n\}$.  More specifically, we seek to obtain a posterior over $F_{Y|X}$.  We insist that our approach satisfies several desiderata, including most importantly: (i) scales up to $p \approx 10^6$ in reasonable time,  (ii) yields good empirical results, and (iii) automatically adapts to the complexity of the data corpus.  To our knowledge, no extant approach for estimating conditional densities or posteriors thereof satisfies even our first criterion. Below, we provide a general multiscale approach to this problem (\S \ref{sec:method}), followed by our specific choices (\S \ref{sub:spec}), results on simulated (\S \ref{sec:sim}) and real neuroscience (connectomics) data (\S \ref{sub:real}), and a discussion (\S \ref{sec:disc}).
+Our goal is to develop an approach to learn about $F_{Y|X}$ from $n$ pairs of observations that we assume are sampled exchangeable from the joint distribution, $(x_i,y_i) \sim F_{X,Y} \in \mc{F}$. Let $\mc{D}^n=\{(x_i,y_i)\}_{i \in [n]}$, where $[n]=\{1,\ldots, n\}$.  More specifically, we seek to obtain a posterior over $F_{Y|X}$.  We insist that our approach satisfies several desiderata, including most importantly: (i) scales up to $p \approx 10^6$ in reasonable time,  (ii) yields good empirical results, and (iii) automatically adapts to the complexity of the data corpus.  To our knowledge, no extant approach for estimating conditional densities or posteriors thereof satisfies even our first criterion. 
+%Below, we provide a general multiscale approach to this problem (\S \ref{sub:method}), followed by our specific choices (\S \ref{sub:spec}), results on simulated (\S \ref{sub:sim}) and real neuroscience (connectomics) data (\S \ref{sub:real}), and a discussion (\S \ref{sec:disc}).
 
 
 \section{Methodology} \label{sec:method}
 
-\subsection{\msd~Framework}
+\subsection{\msd~Framework} \label{sub:method}
 
 We propose here a general modular approach which we refer to as \uline{m}ulti\uline{s}cale \uline{d}ictionary learning for \uline{e}stimating conditional \uline{d}istribution\uline{s} (``\msd''). \msd~consists of three components: (i) a tree decomposition of the space, (ii) an embedding of the data into a lower-dimensional space,  and (iii) an assumed form of the conditional probability model. 
 
@@ -161,67 +162,10 @@ A tree decomposition $\tau$ yields a multiscale partition of the data or the amb
 Let $(\mc{W},\rho_W, F_W)$ be a measurable metric space, where $F_W$ is a Borel probability measure, $\mc{W}$, and $\rho_W \from \mc{W} \times \mc{W} \to \Real$ is a metric on $\mc{W}$.  Let $B_r^{\mc{W}}(w)$ be the $\rho_W$-ball inside $\mc{W}$ of radius $r > 0$ centered at $w \in \mc{W}$. For example, $\mc{W}$ could be the data corpus $\mc{D}_n$, or it could be $\mc{X} \times \mc{Y}$. We define a tree decomposition as in \cite{Allard2012,ChenMaggioni12}.  A partition tree $\tau$ of $\mc{W}$ consists of a collection of cells, $\tau=\{C_{j,k}\}_{j \in \ZZ, k \in \mc{K}_j}$.  At each scale $j$, the set of cells $C_j=\{C_{j,k}\}_{k \in \mc{K}_j}$ provides a disjoint partition of $\mc{W}$ almost everywhere, and $\mc{K}_j$ is the set of partitions at scale $j$.  We define $j=0$ as the root node/cell.  For each $j > 0$,  each $C_{j,k}$ has a unique parent node $C_{j-1,k'}$ containing $C_{j,k}$, and conversely, any $C_{j,k} \subseteq C_{j-1,k'}$ is called a child of $C_{j-1,k'}$.
 
 
-
 Let $A_{j,k}=\{k' \in \mc{K}_{j'} : j' < j$ s.t. $C_{j,k} \subseteq C_{j',k'}\}$ denote the ancestors of $C_{j,k}$, and let $D_{j,k}=\{k' \in \mc{K}_{j'} : j' > j$ s.t. $C_{j',k'} \subseteq C_{j,k}\}$ denote the descendants of $C_{j,k}$.
-Figure \ref{graph}(i) depicts a binary tree decomposition for some data (note that the tree need not be binary). The result of this partitioning is that we can approximate $F_{Y|X}$ at each scale $j$ via a mixture over densities, $F_{Y|X} \approx \mh{F}_{Y|X}= \sum_{j \in \ZZ, k \in \mc{K}_j} \mh{F}^{j,k}_{Y|X}$. 
+% Figure \ref{graph}(i) depicts a binary tree decomposition for some data (note that the tree need not be binary). 
+The result of this partitioning is that we can approximate $F_{Y|X}$ at each scale $j$ via a mixture over densities, $F_{Y|X} \approx \mh{F}_{Y|X}= \sum_{j \in \ZZ, k \in \mc{K}_j} \mh{F}^{j,k}_{Y|X}$. 
 
-\begin{figure}[h] 
-
-\setlength{\unitlength}{2mm}
-\begin{picture}(30, 26)
-
- \put(9, 22){\bfoo(i)\efoo}
- 
- \put(20, 22){$\mathcal{\mc{W}}_{11} = \mathcal{\mc{W}}$}
-\put(20, 20){\vector(-1, -1){3}}
-\put(20, 20){\vector(1, -1){3}}
-
- \put(14, 14){$\mathcal{\mc{W}}_{21}$}
- \put(23, 14){$\mathcal{\mc{W}}_{22}$}
- 
-\put(14, 12){\vector(-1, -1){3}}
-\put(14, 12){\vector(1, -1){3}}
-
-\put(25, 12){\vector(-1, -1){3}}
-\put(25, 12){\vector(1, -1){3}}
-
- \put(9, 6){$\mathcal{\mc{W}}_{31}$}
- \put(16, 6){$\mathcal{\mc{W}}_{32}$}
- 
- \put(20,6){$\mathcal{\mc{W}}_{33}$}
- \put(28, 6){$\mathcal{\mc{W}}_{34}$}
-  
-  \put(13, 3){$\ldots$}
-  \put(25, 3){$\ldots$}
-
-% -- square
-\put(6, 25){\line(1, 0){56}}
-\put(6, 25){\line(0, -1){27}}
-\put(6, -2){\line(1, 0){56}}
-\put(62, 25){\line(0, -1){27}}
-
-%% right graph
-
-\put(36, 14){$w_i \in \mc{W}$}
-\put(39, 13){\line(0, -1){1}}
-\put(39, 12){\vector(1, 0){5}}
-
-\put(37, 22){\bfoo(ii)\efoo}
-  \put(48, 22){$\mc{W}_{11}$}
-\put(48, 20){\vector(-1, -1){3}}
-\put(48, 20){\vector(1, -1){3}}
-
- \put(51, 14){$\mc{W}_{22}$}
- \put(53, 12){\vector(-1, -1){3}}
-\put(53, 12){\vector(1, -1){3}}
-
- \put(48,6){$\mc{W}_{33}$}
-  \put(53, 3){$\ldots$}
-  \put(18, -0.5){\bfoo(iii)\efoo}
- \put(22, -0.5){$f(y_i|x_i)=p_{11}f_{11}+p_{22}f_{22}+p_{33}f_{33}+ \ldots$}
-
-\end{picture} \caption{(i) Multiscale partition of the data. (ii) Path through the tree for $x_i \in \Real^p$. (iii) Conditional density of $y_i$ given $x_i$ defined as a convex combination of densities along the path.}\label{graph}
-\end{figure}
 
 \paragraph{Embeddings}
 At each scale, for each cell, we consider some embedding $\psi_{j,k} \from C_{j,k} \to \Xi$, where $(\xi_x,\xi_y) \in \Xi$.  Thus, rather than approximating $F_{Y|X}$ by a mixture of densities conditional on high-dimensional predictors, we can approximate $F_{Y|X}$ by a mixture of densities conditional on low-dimensional embeddings,  $F_{Y|X} \approx \mh{F}_{Y|X} = \sum_{j \in \ZZ, k \in \mc{K}_j} \mh{F}^{j,k}_{\mb{\xi}_y| \mb{\xi}_x}$.   
@@ -363,11 +307,11 @@ All experiments were performed on a typical workstation, Intel Core i7-2600K Qua
 
 \section{Results}
 
-\subsection{Illustrative Example}
+\subsection{Illustrative Example} \label{sub:ill}
 
+The middle and right panels of Figure \ref{fig:swiss} depict the quality of partitioning and density estimation for the swissroll example described in \S \ref{sec:setting}, with the ambient dimension $p=1000$ and the manifold dimension $d=1$.  We sampled $n=10\,000$ samples for this illustration. At scale 3, we have $4=2^{3-1}$ partitions and at scale 4, we have $8=2^{4-1}$ (note that the partition tree, in general, need not be binary).  The top panels are color coded to indicate which  $x_i$'s fall into which partition.  Although imperfect, it should be clear that the data are partitioned very well.  The bottom panels show the resulting estimate of the posteriors at the two scales.  These posteriors are ``piecewise linear'' in a certain sense, as they are invariant to the manifold coordinate within a given partition.  
 
-
-Figure \ref{plotDensity} shows the estimated density of two observations of Model (1)  Posteriors of the conditional density  $F_{Y|X}$  were various sample sizes. Figure \ref{plotDensity} suggests that our estimate of $F_{Y|X}$ approaches the true density as the number of observations in the training set increases. We are unable to compare our strategy for posterior estimation to previous literature because we are unaware of previous approaches for this problem that scale up to problems of this size, and larger. Therefore, we numerically compare the performance of our point-estimates (which we define as the posterior mode of $\mh{F}_{Y|X}$) with the predictions of the competitor algorithms.
+To obviate the need to choose a scale to use to make a prediction, we choose to adopt a Bayesian approach and integrate across scales.  Figure \ref{plotDensity} shows the estimated density of two observations of Model (1).  Posteriors of the conditional density  $F_{Y|X}$  were computed various sample sizes. Figure \ref{plotDensity} suggests that our estimate of $F_{Y|X}$ approaches the true density as the number of observations in the training set increases. We are unable to compare our strategy for posterior estimation to previous literature because we are unaware of previous Bayesian approaches for this problem that scale up to problems of this size. Therefore, we numerically compare the performance of our point-estimates (which we define as the posterior mode of $\mh{F}_{Y|X}$) with the predictions of the competitor algorithms.
 
 \begin{figure}[h!]
 \centering
@@ -381,7 +325,7 @@ Figure \ref{plotDensity} shows the estimated density of two observations of Mode
 
 
 
-\subsection{Quantitative Comparisons for Simulated Data} 
+\subsection{Quantitative Comparisons for Simulated Data} \label{sub:sim}
 
 Figure \ref{fig:boxplots} compares the numerical performance of our algorithm (MSB) with Lasso (black) and CART (red) in terms of both mean-squared error (top) and CPU time (bottom) for models (2), (3), and (4) in the left, middle, and right panels respectively. These figures show relative performance on a \emph{per simulation basis}, thus enabling a much more powerful comparison than averaging performance for each algorithm over a set of simulations.  Note that these three simulations span a wide range of models, including relatively simple linear subspace manifolds (model 2), union of linear subspaces (model 3), and nonlinear smooth manifolds such as the swissroll (model 4).
 
@@ -414,7 +358,7 @@ Numerical results for various simulation scenarios.  Top (bottom) plots depict t
 
 
 
-Table \ref{real} shows the mean and standard deviation of point-estimate predictions per subject (using leave-one-out) for the two neuroscience applications that we investigated: (i) predicting creativity from diffusion MRI (creativity) and, (ii) predicting head motion based on functional MRI (movement).  For the creativity application, $p$ was relatively small, ``merely ''$2,415$, so we could run Lasso, CART, and random forests (RF) \cite{Brieman2001}.  For the movement application, $p$ was greater than $100\,000$.. 
+Table \ref{real} shows the mean and standard deviation of point-estimate predictions per subject (using leave-one-out) for the two neuroscience applications that we investigated: (i) predicting creativity from diffusion MRI (creativity) and, (ii) predicting head motion based on functional MRI (movement).  For the creativity application, $p$ was relatively small, ``merely'' $2,415$, so we could run Lasso, CART, and random forests (RF) \cite{Brieman2001}.  For the movement application, $p$ was greater than $100\,000$. 
 
 For both applications, MSB yielded improved predictive accuracy over all competitors.  Although CART and Lasso both yielded better performance on the relatively low-dimensional predictor example (creativity), their computational scaling was poor, such that CART yielded a memory fault on the higher-dimensional case, and Lasso required substantially more time than MSB.  
 
@@ -450,8 +394,13 @@ creativity & 108 & 2,415 & MSB &$0.56 \, (??)$ &  $1.1 \, (0.02)$\\
 \vspace{-10pt}
 \end{table}
 
-\section{Discussion} \label{sec:discussion}
+\section{Discussion} \label{sec:disc}
 
+In this work we have introduced a general formalism to estimate conditional distributions via  multiscale dictionary learning.  An important property of any such strategy is the ability to scale up to ultrahigh-dimensional predictors.  We considered simulations and real-data examples where the dimensionality of the predictor space exceeded several hundred thousand.  To our knowledge, no other approach to learn conditional distributions can run at this scale.  Our approach explicitly assumes that the posterior $F_{Y|X}$ can be well approximated by projecting $X$ onto a lower-dimensional space, $F_{Y|X} \approx F_{Y|\eta}$, where $\eta \in \mc{M} \subset \Real^d$, and $x \in \Real^d$.   Note that this assumption is much less restrictive than assuming that $X$ is close to a low-dimensional space; rather, we only assume that the part of $F_X$ that ``matters'' to predict $Y$ lives near a low-dimensional subspace.  Because a fully Bayesian strategy remains computationally intractable at this scale, we developed a pseudo-Bayesian approach, fixing the partition tree, but integrating over scales and posteriors.
+
+We demonstrate that even though we obtain posteriors over the conditional distribution $F_{Y|X}$, our approach, dubbed multiscale stick-breaking (MSB), outperforms several standard machine learning algorithms in terms of both predictive accuracy and computational time, as the sample size ($n$) and ambient dimension ($p$) increase.  This improvement was demonstrated when the $\mc{M}$ was a swissroll, a latent subspace, a union of latent subspaces, and real data (for which the latent space may not even exist).    
+
+In future work, we will extend these numerical results this Bayesian theory.  Indeed, while multiscale methods benefit from a rich theoretical foundation \cite{Allard2012}, the relative advantages and disadvantages of a fully Bayesian approach, in which one can estimate posteriors over all functionals of $F_{Y|X}$ at all scales, remains relatively unexplored.  
 
 \dd{we gotta remove about 10 references to make our reference list fit} 
 
@@ -461,3 +410,38 @@ creativity & 108 & 2,415 & MSB &$0.56 \, (??)$ &  $1.1 \, (0.02)$\\
 
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
