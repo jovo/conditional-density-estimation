@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2010)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: multiscale9.aux
+The style file: icml2013.bst
+Database file #1: multiscale9.bib
+Warning--entry type for "Autism" isn't style-file defined
+--line 410 of file multiscale9.bib
+Warning--I didn't find a database entry for "langley00"
+Warning--empty year in Autism
+You've used 33 entries,
+            2773 wiz_defined-function locations,
+            810 strings with 10342 characters,
+and the built_in function-call counts, 15964 in all, are:
+= -- 1411
+> -- 962
+< -- 14
++ -- 325
+- -- 291
+* -- 1375
+:= -- 2490
+add.period$ -- 108
+call.type$ -- 33
+change.case$ -- 194
+chr.to.int$ -- 32
+cite$ -- 67
+duplicate$ -- 676
+empty$ -- 1289
+format.name$ -- 342
+if$ -- 3330
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 33
+newline$ -- 181
+num.names$ -- 132
+pop$ -- 330
+preamble$ -- 1
+purify$ -- 163
+quote$ -- 0
+skip$ -- 508
+stack$ -- 0
+substring$ -- 695
+swap$ -- 39
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 358
+warning$ -- 1
+while$ -- 133
+width$ -- 0
+write$ -- 448
+(There were 3 warnings)
