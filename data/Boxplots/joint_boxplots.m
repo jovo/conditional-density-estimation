@@ -122,10 +122,11 @@ set(xlabhh,'Position',ass.Position+[0 -200 0]);
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% clear
+clear
 time2=([1,5,7,9,10,20,30,50,70].*10);
 
-% --- 10,0000 predictors
+% 1 --- 10,0000 predictors 
+
 load linear/dataFactor_k5_p10000_PP_cart
 mseCart(1,1:19)=MSE;
 timeCart(1,1:19)=(time);
@@ -141,7 +142,8 @@ timeLassoB(1,:)=time./timeLasso(1,:);
 timeCartB(1,:)=time./timeCart(1,:);
 timeMSB(1,:)=(time);
 
-% --- 50,0000 predictors
+% 2 --- 50,0000 predictors
+
 
 load linear/dataFactor_k5_p50000_PP_pc
 msePC(2,:)=MSE;
@@ -165,7 +167,7 @@ timeCartB(2,:)=time./timeCart(2,:);
 timeMSB(2,:)=(time);
 
 
-% --- 70,0000 predictors
+% 3 --- 70,0000 predictors
 load linear/dataFactor_k5_p70000_PP_n100_pc
 msePC(3,:)=MSE;
 timePC(3,:)=(time);
@@ -188,7 +190,7 @@ timeMSB(3,:)=(time);
 timePCB(3,:)=time./timePC(3,:);
 
 
- % --- 90,0000 predictors
+ % 4 --- 90,0000 predictors
 
 load linear/dataFactor_k5_p90000_PP_n100_pc
  msePC(4,:)=MSE;
@@ -213,7 +215,7 @@ timePCB(4,:)=time./timePC(4,:);
 
 
 
- % --- 100,0000 predictors
+ % 5 --- 100,0000 predictors
 load linear/dataFactor_k5_p100000_PP_pc
 msePC(5,:)=MSE;
 timePC(5,:)=(time);
@@ -237,7 +239,7 @@ timePCB(5,:)=time./timePC(5,:);
 
 
 
-%% --- 200,0000 predictors
+%% 6 --- 200,0000 predictors
 load linear/dataFactor_k5_p200000_PP_10rep_n100_pc
 msePC(6,1:10)=(MSE(1:10));
 timePC(6,1:10)=(time(1:10));
@@ -282,7 +284,7 @@ timeMSB(6,11:20)=(time(1:10));
 
 
 
-%% --- 300,0000 predictors
+%% 7 --- 300,0000 predictors
 load linear/dataFactor_k5_p300000_PP_n100_cart MSE time
 mseCart(7,:)=MSE;
 timeCart(7,:)=time;
@@ -315,7 +317,7 @@ timeMSB(7,11:20)=(time(1:10));
 timeCartB(7,11:20)=(time(1:10))./timeCart(7,11:20);
 timePCB(7,11:20)=(time(1:10))./timePC(7,11:20);
 
-%% --- 500,0000 predictors
+%% 8 --- 500,0000 predictors
 load linear/dataFactor_k5_p500000_PP_n100_cart MSE time
 timeCart(8,:)=time;
 
@@ -349,14 +351,15 @@ timeMSB(8,11:20)=(time(1:10));
 set(0,'DefaultAxesFontName','Arial','DefaultAxesFontSize',14)
 
 subplot(2,3,2)
-index=[2 5] ; %5
+index=[5 7 8] ; %5
 month = repmat(time2(index),1,3);
+msePC=[msePC; nan(3,20)];
 simobs = [repmat({'Cart'},1,length(index)),repmat({'Lasso'},1,length(index)),repmat({'PC'},1,length(index))];
 h=boxplot([mseCart(index,:)',mseLasso(index,:)',msePC(index,:)'],{month,simobs},'colors',repmat('rkg',1,length(index)),'factorseparator',[1],'labelverbosity','minor','plotstyle','traditional','labelorientation','horizontal','notch','on','symbol','+');
 ylim([0,1.4])
 %set(gca,'xtick',1.5:3.1:15)
 % set(gca,'xtick',[2:3:15],'xticklabel',time2(index))
-set(gca,'xtick',[2:3:9],'xticklabel',[{'50k'}; {'100k'}])
+set(gca,'xtick',[2:3:20],'xticklabel',[{'100k'}; {'300k'}; {'500k'}])
 set(gca,'ytick',[0,0.5,1],'yticklabel',[{0}; {''}; {1}])
 % set(h(5,:),'Visible','off')
 % xlabel('p (x1000)','fontsize',14)
@@ -378,14 +381,15 @@ xlabel('p','fontsize',14)
 
 
 subplot(235), %cla
-index=[5 6 7];
+% index=[5 6 7] ; %5
 month = repmat(time2(index),1,3);
 simobs = [repmat({'Cart'},1,length(index)),repmat({'Lasso'},1,length(index)),repmat({'PC'},1,length(index))];
+timePCB=[timePCB; nan(3,20)];
 h=boxplot([timeCartB(index,:)',timeLassoB(index,:)',timePCB(index,:)'],{month,simobs},'colors',repmat('rkg',1,length(index)),'factorseparator',[1],'labelverbosity','minor','plotstyle','traditional','labelorientation','horizontal','boxstyle','outline','notch','on','symbol','+');
 ylim([0,4])
 xlabel('p','fontsize',14)
 % set(gca,'xtick',[2:3:15],'xticklabel',time2(index))
-set(gca,'xtick',[2:3:9],'xticklabel',[{'100k'}; {'200k'}; {'300k'}])
+set(gca,'xtick',[2:3:20],'xticklabel',[{'100k'}; {'300k'}; {'500k'}])
 set(gca,'LineWidth',1.05)
 set(gca,'FontSize',14)
 hold on
@@ -398,13 +402,13 @@ set(gca,'OuterPosition',ass.OuterPosition+[-0.02 0 0.02 0.005])
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% clear 
+clear 
 clc
 
 
 time2=([5,10,20,30,50].*10);
 
-% --- 50,0000 predictors
+% 1 --- 50,0000 predictors
 load MFA/MFA_p50000_N5_PP_n100_pc MSE time
 msePC(1,:)=(MSE);
 timePC(1,:)=(time);
@@ -426,7 +430,7 @@ timeMSB(1,:)=(time);
 msePC(1,:)=(MSE)./msePC(1,:);
 timePCB(1,:)=time./timePC(1,:);
 
-% --- 100,0000 predictors
+% 2 --- 100,0000 predictors
 load MFA/MFA_p100000_N5_PP_n100_pc MSE time
 msePC(2,:)=(MSE);
 timePC(2,:)=(time);

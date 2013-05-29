@@ -120,7 +120,7 @@ In fact, a significant downside of many divide-and-conquer algorithms is their p
 Let $X \from \Omega \to \mc{X} \subseteq \Real^p$ be a 
 $p$-dimensional Euclidean vector-valued predictor random variable, taking values $x \in \mc{X}$, with a marginal probability distribution $F_X$.  
 Similarly, let $Y \from \Omega \to \mc{Y}$ 
-be a $\mc{Y}$-valued target random variable, taking values $y \in \mc{Y}$, with a marginal probability distribution $F_Y$ (we will specify specific forms of $\mc{Y}$, e.g., $\mc{Y} \subseteq \Real^q$, below).  We assume that the pair $(X,Y)$ is sampled from a joint distribution, $F_{X,Y} \in \mc{F}$.
+be a $\mc{Y}$-valued target random variable, taking values $y \in \mc{Y}$, with a marginal probability distribution $F_Y$ (we will specify specific forms of $\mc{Y}$, e.g., $\mc{Y} \subseteq \Real^q$, below).  We assume that the pair $(X,Y)$ is sampled from a joint distribution, $F_{X,Y} \in \mc{F}$. Let $F_{Y|X}$ denote the conditional distribution, and $f_{y|x}$ denote the conditional density.
 
 For inferential expedience, we  posit the existence of  a latent random variable $\mb{\eta} \from \Omega \to \mc{M} \subseteq \mc{X}$, where $\mc{M}$ is only $d$ ``dimensional'' and $d \ll p$.   
 Note that $\mc{M}$ need not be a linear subspace of $\mc{X}$, rather, $\mc{M}$ could be, for example,  a union or affine subspaces, or a smooth compact Riemannian manifold.  Regardless of the nature of $\mc{M}$, we assume that we can approximately decompose the joint distribution as follows,  $F_{X,Y,\mb{\eta}}=F_{X,Y|\mb{\eta}}F_{\mb{\eta}} = F_{Y|X, \mb{\eta}} F_{X | \mb{\eta}} F_{\mb{\eta}} \approx F_{X|\mb{\eta}} F_{Y|\mb{\eta}} F_{\mb{\eta}}$.  In  words, we assume that the \emph{signal} approximately concentrates around a low-dimensional latent space, $F_{Y|X,\mb{\eta}}=F_{Y|\mb{\eta}}$.  Note that this is a much less restrictive assumption than the commonplace assumption in manifold learning that the marginal distribution $F_X$ concentrates around a low-dimensional latent space. 
@@ -164,11 +164,16 @@ Let $(\mc{W},\rho_W, F_W)$ be a measurable metric space, where $F_W$ is a Borel 
 
 Let $A_{j,k}=\{k' \in \mc{K}_{j'} : j' < j$ s.t. $C_{j,k} \subseteq C_{j',k'}\}$ denote the ancestors of $C_{j,k}$, and let $D_{j,k}=\{k' \in \mc{K}_{j'} : j' > j$ s.t. $C_{j',k'} \subseteq C_{j,k}\}$ denote the descendants of $C_{j,k}$.
 % Figure \ref{graph}(i) depicts a binary tree decomposition for some data (note that the tree need not be binary). 
-The result of this partitioning is that we can approximate $F_{Y|X}$ at each scale $j$ via a mixture over densities, $\mh{F}^j_{Y|X} \propto \sum_{k \in \mc{K}_j} \pi_{j,k} \mh{F}^{j,k}_{Y|X}$. 
-% \dd{change in \begin{equation}F_{Y|X} \approx \mh{F}_{Y|X}= \sum_{j \in \ZZ} \pi_{j,k_j(X)} \mh{F}_{j,k_j(X)} \label{eq:base}\end{equation}}. 
+In classical multiscale function estimation, at each scale, we would approximate the function via a mixture: $\mh{F}_j = \sum_{k \in \mc{K}_j} \omega_{j,k} \mh{F}_{j,k}$, where the $\{\omega_{j,k}\}_{j \in \mc{K}_j}$ are mixture weights \emph{within} a scale, such that $\sum_{k \in \mc{K}_j} \omega_{j,k}=1$.  Rather than choosing a scale, however, given a new observation, one can also mix \emph{across scales},  by placing a prior over scales.  In such a case, given a new observation $x$ for which we would like an estimate of $f_{y|x}$, we have the following approximation 
+\begin{align}
+\mh{f}_{y|x} \approx \sum_{C_{j',k'} \in A_{j,k}} \pi_{j',k'} f^{j',k'}_{y|x}	
+\end{align}
+where $\pi_{j',k'}$ are weights \emph{across scales} such that $\sum_{C_{j',k'} \in A_{j,k}} \pi_{j',k'}=1$.  Note that this latter approach is a generalization of the former, in that one could simply set the $\pi_{j,k}$'s to have unity mass at some $j$ for each scale and zero elsewhere, resulting in choosing a particular scale.
+
+ 
 
 \paragraph{Embeddings}
-At each scale, for each cell, we consider some embedding $\psi_{j,k} \from C_{j,k} \to \Xi$, where $(\mt{x},\mt{y}) \in (\mtc{X}, \mtc{Y})$.  Thus, rather than approximating $F_{Y|X}$ by a mixture of densities conditional on high-dimensional predictors, we can approximate $F_{Y|X}$ by a mixture of densities conditional on low-dimensional embeddings,  $F_{Y|X} \approx \mh{F}_{Y|X} \propto \sum_{j \in \ZZ, k \in \mc{K}_j} \pi_{j,k} \mt{F}^{j,k}$, where $\mt{y} | \mt{x} \sim \mt{F}^{j,k}$. 
+At each scale, for each cell, we consider some embedding $\psi_{j,k} \from C_{j,k} \to \Xi$, where $(\mt{x},\mt{y}) \in (\mtc{X}, \mtc{Y})$.  Thus, rather than approximating $F_{Y|X}$ by a mixture of densities conditional on high-dimensional predictors, we can approximate $F_{Y|X}$ by a mixture of densities conditional on low-dimensional embeddings. %,  $F_{Y|X} \approx \mh{F}_{Y|X} \propto \sum_{j \in \ZZ, k \in \mc{K}_j} \pi_{j,k} \mt{F}^{j,k}$, where $\mt{y} | \mt{x} \sim \mt{F}^{j,k}$. 
 
 \paragraph{Family} Each $\mt{F}^{j,k}$ is an element of a family of distributions, $\mc{F}^{j,k}$.  This family might be quite general, e.g., all possible conditional densities, or quite simple, e.g., Gaussian distributions.  Moreover, the family can adapt with $j$ or $k$, being more complex at the coarser scales (for which $n_{j,k}$'s are larger), and simpler for the finer scales (or partitions with fewer samples).
 
@@ -253,25 +258,29 @@ In order to assess the predictive performance of the proposed model, we consider
 
 \textbf{(1) Nonlinear Mixture}
 %
-We first consider a relatively simple yet nonlinear joint model:
-\begin{subequations}
-\begin{align}
-	Y|\eta &\sim   |\eta| \mc{N}(\mu_1,\sigma_1) + (1-|\eta|) \mc{N}(\mu_2,\sigma_2), \\
-	X_r|\eta  &\sim \mc{N}(\eta, \sigma_x), \qquad r \in \{1, 2, \ldots, p\}, \\
-	\eta  &\sim \sin(U(0,c)). %, \qquad \text{ where } \theta \sim U(0,1).
-\end{align}
-\end{subequations}
+We first consider a relatively simple yet nonlinear joint model, with a conditional Gaussian distribution
+	\mbox{$Y|\eta \sim  |\eta| \mc{N}(\mu_1,\sigma_1) + (1-|\eta|) \mc{N}(\mu_2,\sigma_2)$}, 
+	a marginal distribution for each dimension of $X$, $X_r|\eta  \sim \mc{N}(\eta, \sigma_x)$, 
+	$r \in \{1, 2, \ldots, p\}$, 
+	and a uniform distribution over the latent manifold $\eta  \sim \sin(U(0,c))$. %, \qquad \text{ where } \theta \sim U(0,1).
+% \begin{subequations}
+% \begin{align}
+% 	Y|\eta &\sim   |\eta| \mc{N}(\mu_1,\sigma_1) + (1-|\eta|) \mc{N}(\mu_2,\sigma_2), \\
+% 	X_r|\eta  &\sim \mc{N}(\eta, \sigma_x), \qquad r \in \{1, 2, \ldots, p\}, \\
+% 	\eta  &\sim \sin(U(0,c)). %, \qquad \text{ where } \theta \sim U(0,1).
+% \end{align}
+% \end{subequations}
 In the simulations we let $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$, and $p=1000$. Thus, $F_{Y|X}$ is a highly nonlinear function of $X$, and even $\eta$, and $X$ is high-dimensional.  
 
 % \vspace{-8pt}
 \textbf{(2) Swissroll} 
 % 
-We then return to the swissroll example of Figure \ref{fig:swiss}; here we let $(\mu,\sigma)=(\eta,1)$ and   $p \in 1000 \times \{50, 100\}$.
+We then return to the swissroll example of Figure \ref{fig:swiss}; in Figure \ref{fig:boxplots} we show results for $(\mu,\sigma)=(\eta,1)$. % and   $p \in 1000 \times \{50, 100\}$.
 
 \textbf{(3) Linear Subspace} Letting $\Gamma \in \Real^{p+1 \times q}$ and $\Theta$ be an ${q \times d}$ ``diagonal'' matrix (meaning all entires other than the first $d < q$ elements of the diagonal are zero), we assume the following model:
 	$Y,X |\eta \sim \mc{N}_{p+1}(\Gamma \Theta \eta ,\Sigma_0)$,
 	where 	$\Gamma \sim \mc{S}_{p+1,d}$ indicates $\Gamma$ is uniformly sampled from the set of all orthonormal $d$ frames in $\Real^{p+1}$ (a Stiefel manifold), 
-	$\theta_{ii} \sim \mc{IG}(a_\theta,b_\theta) \text{ for } i \in \{1, \ldots, d\}$ and all other elements of $\Theta$ are zero, and $\eta  \sim \mc{N}_d(0, I)$.  In the simulation, we let $q=d=5$,   $(\alpha_\theta,\beta_\theta)=(\dd{??},\dd{??})$, and $p \in 1000 \times \{50, 70, 90, 100, 200, 300, 500\}$.
+	$\theta_{ii} \sim \mc{IG}(a_\theta,b_\theta) \text{ for } i \in \{1, \ldots, d\}$ and all other elements of $\Theta$ are zero, and $\eta  \sim \mc{N}_d(0, I)$.  In the simulation, we let $q=d=5$,   $(\alpha_\theta,\beta_\theta)=(\dd{??},\dd{??})$. %, and $p \in 1000 \times \{50, 70, 90, 100, 200, 300, 500\}$.
 
 
 % \vspace{-8pt}
@@ -279,7 +288,7 @@ We then return to the swissroll example of Figure \ref{fig:swiss}; here we let $
 This model is a direct extension of the linear subspace model, as it is a union of subspaces. We let the dimensionality of each subspace vary to demonstrate the generality of our procedure.  Specifically, we assume 	$Y,X |\eta \sim \sum_{g=1}^G \omega_g \mc{N}_{p+1}(\Gamma_g \Theta_g \eta ,\Sigma_0)$, $\omega \sim Dirichlet(\mb{\alpha})$ 
 	$\eta \sim \mc{N}_d(0, I)$, 
 where $\Gamma \sim \mc{S}_{p+1,g}$ and $\Theta_g$ is a ``diagonal'' with $\theta_{ii} \sim \mc{IG}(a_g,b_g)$ for  $i \in \{1, \ldots, g\}$, and the remaining elements of $\Theta$ are zero.
-In the simulation, we let $G=5$,  $\mb{\alpha}=(1, \ldots, 1)\T$,  $(\alpha_g,\beta_g)=(\alpha_\theta,\beta_\theta)$ as above, for  $p \in 1000 \times \{50, 100\}$.
+In the simulation, we let $G=5$,  $\mb{\alpha}=(1, \ldots, 1)\T$,  $(\alpha_g,\beta_g)=(\alpha_\theta,\beta_\theta)$ as above. %, for  $p \in 1000 \times \{50, 100\}$.
   
 % \vspace{-8pt}
 
@@ -291,7 +300,7 @@ We assessed the predictive performance of the proposed method on two very differ
 
 In the first experiment we investigated the extent to which we could predict creativity (as measured via the Composite Creativity Index \cite{Arden2010}).   For each subject, we estimate a $70$ vertex undirected weighted brain-graph using the Magnetic Resonance Connectome Automated Pipeline \cite{MRCAP11} from diffusion tensor imaging data \cite{Mori2006}. Because our graphs are undirected and lack self-loops, we have a total of $p=\binom{70}{2}=2,415$ potential weighted edges. The vector of covariates consists in the logarithm of the total number of connections between all pairs of cortical regions. 
 
-The second dataset comes from a resting-state functional magnetic resonance experiment as part of the Autism Brain Imaging Data Exchange \cite{Autism}.  We selected the Yale Child Study Center for analysis.  Each brain-image was processed using the Configurable Pipepline for Analysis of Connectomes \cite{cpac}. For each subject we computed a measure of normalized power at each voxel called fALFF \cite{Zou2008}.  To ensure the existence of nonlinear signal relating these predictors, we let $y_i$ correspond to an estimate of overall head motion in the scanner, called mean framewise displacement (FD) computed as described in Power et al. \cite{power}. In total, there were $p=10^6$  voxels.
+The second dataset comes from a resting-state functional magnetic resonance experiment as part of the Autism Brain Imaging Data Exchange \cite{Autism}.  We selected the Yale Child Study Center for analysis.  Each brain-image was processed using the Configurable Pipepline for Analysis of Connectomes \cite{cpac}. For each subject we computed a measure of normalized power at each voxel called fALFF \cite{Zou2008}.  To ensure the existence of nonlinear signal relating these predictors, we let $y_i$ correspond to an estimate of overall head motion in the scanner, called mean framewise displacement (FD) computed as described in Power et al. \cite{power}. In total, there were $p=902,629$ voxels. 
 
 \subsection{Evaluation Criteria}
 
@@ -302,13 +311,14 @@ For each simulation scenario, we sampled multiple datasets and compute the \emph
 All experiments were performed on a typical workstation, Intel Core i7-2600K Quad-Core Processor with  8192 MB of RAM.
 
 
+
 \section{Results}
 
 \subsection{Illustrative Example} \label{sub:ill}
 
-The middle and right panels of Figure \ref{fig:swiss} depict the quality of partitioning and density estimation for the swissroll example described in \S \ref{sec:setting}, with the ambient dimension $p=1000$ and the manifold dimension $d=1$.  We sampled $n=10\,000$ samples for this illustration. At scale 3, we have $4=2^{3-1}$ partitions and at scale 4, we have $8=2^{4-1}$ (note that the partition tree, in general, need not be binary).  The top panels are color coded to indicate which  $x_i$'s fall into which partition.  Although imperfect, it should be clear that the data are partitioned very well.  The bottom panels show the resulting estimate of the posteriors at the two scales.  These posteriors are ``piecewise linear'' in a certain sense, as they are invariant to the manifold coordinate within a given partition.  
+The middle and right panels of Figure \ref{fig:swiss} depict the quality of partitioning and density estimation for the swissroll example described in \S \ref{sec:setting}, with the ambient dimension $p=1000$ and the manifold dimension $d=1$.  We sampled $n=10^4$ samples for this illustration. At scale 3, we have $4$ partitions and at scale 4, we have $8$ (note that the partition tree, in general, need not be binary).  The top panels are color coded to indicate which  $x_i$'s fall into which partition.  Although imperfect, it should be clear that the data are partitioned very well.  The bottom panels show the resulting estimate of the posteriors at the two scales.  These posteriors are ``piecewise linear'' in a certain sense, as they are invariant to the manifold coordinate within a given partition.  
 
-To obviate the need to choose a scale to use to make a prediction, we choose to adopt a Bayesian approach and integrate across scales.  Figure \ref{plotDensity} shows the estimated density of two observations of Model (1).  Posteriors of the conditional density  $F_{Y|X}$  were computed various sample sizes. Figure \ref{plotDensity} suggests that our estimate of $F_{Y|X}$ approaches the true density as the number of observations in the training set increases. We are unable to compare our strategy for posterior estimation to previous literature because we are unaware of previous Bayesian approaches for this problem that scale up to problems of this size. Therefore, we numerically compare the performance of our point-estimates (which we define as the posterior mode of $\mh{F}_{Y|X}$) with the predictions of the competitor algorithms.
+To obviate the need to choose a scale to use to make a prediction, we choose to adopt a Bayesian approach and integrate across scales.  Figure \ref{plotDensity} shows the estimated density of two observations of model (1).  Posteriors of the conditional density  $F_{Y|X}$  were computed various sample sizes. Figure \ref{plotDensity} suggests that our estimate of $F_{Y|X}$ approaches the true density as the number of observations in the training set increases. We are unable to compare our strategy for posterior estimation to previous literature because we are unaware of previous Bayesian approaches for this problem that scale up to problems of this size. Therefore, we numerically compare the performance of our point-estimates (which we define as the posterior mode of $\mh{F}_{Y|X}$) with the predictions of the competitor algorithms.
 
 \begin{figure}[h!]
 \centering
@@ -316,7 +326,7 @@ To obviate the need to choose a scale to use to make a prediction, we choose to 
 \includegraphics[width=120mm]{../figs/ch3_density.eps}
  \vskip -15pt 
 % \includegraphics[width=90mm,height=80mm]{densityestimate.eps}
-\caption{Illustrative example suggesting that our posterior estimates of the conditional density are converging as $n$ increases even when $F_{Y|\eta}$ is highly nonlinear and $F_{X|\eta}$ is very high-dimensional.  We simulated data according to Model (1) with parameters $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$ for different sample sizes. True (red) and estimated (black) density ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) for two data points $(I, II)$ considering different training set size (a: $n=100$, b: $n=150$, c: $n=200$). } \label{plotDensity}
+\caption{Illustrative example suggesting that our posterior estimates of the conditional density are converging as $n$ increases even when $F_{Y|\eta}$ is highly nonlinear and $F_{X|\eta}$ is very high-dimensional.  We simulated data according to model (1) with parameters $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$ for different sample sizes. True (red) and estimated (black) density ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) for two data points $(I, II)$ considering different training set size (a: $n=100$, b: $n=150$, c: $n=200$). } \label{plotDensity}
 \end{figure}
 
 
@@ -362,7 +372,7 @@ MSB outperforms both CART, Lasso, and PC regression in all three scenarios regar
 
 
 
-Table \ref{real} shows the mean and standard deviation of point-estimate predictions per subject (using leave-one-out) for the two neuroscience applications that we investigated: (i) predicting creativity from diffusion MRI (creativity) and, (ii) predicting head motion based on functional MRI (movement).  For the creativity application, $p$ was relatively small, ``merely'' $2,415$, so we could run Lasso, CART, and random forests (RF) \cite{Brieman2001}.  For the movement application, $p$ was greater than $100\,000$. 
+Table \ref{real} shows the mean and standard deviation of point-estimate predictions per subject (using leave-one-out) for the two neuroscience applications that we investigated: (i) predicting creativity from diffusion MRI (creativity) and, (ii) predicting head motion based on functional MRI (movement).  For the creativity application, $p$ was relatively small, ``merely'' $2,415$, so we could run Lasso, CART, and random forests (RF) \cite{Brieman2001}.  For the movement application, $p$ was nearly one million. 
 
 For both applications, MSB yielded improved predictive accuracy over all competitors.  Although CART and Lasso both yielded better performance on the relatively low-dimensional predictor example (creativity), their computational scaling was poor, such that CART yielded a memory fault on the higher-dimensional case, and Lasso required substantially more time than MSB.  
 
@@ -387,9 +397,12 @@ creativity & 108 & 2,415 & MSB &$0.56 \, (\dd{??})$ &  $1.1 \, (0.02)$\\
  &&& CART & $1.10 \, (\dd{??}) $ &  $0.9 \, (0.01)$\\
 &&& Lasso & $0.63 \, (\dd{??})$  &  $0.40 \, (0.10)$\\
 &&& RF & $0.57 \, (\dd{??})$ &   $78.2 \, (0.59)$\\
+&&& PC regression & \dd{??,  (??)} & \dd{?? , (??)}
 \\
- movement & 56 & $10^5$& MSB &$0.76 \, (\dd{??})$  & $20.98 \, (2.31)$\\
+\hline
+ movement & 56 & $\approx 10^6$& MSB &$0.76 \, (\dd{??})$  & $20.98 \, (2.31)$\\
  &&& Lasso & $1.02 \, (\dd{??})$ & $96.18 \, (9.66)$\\
+&&& PC regression & \dd{??,  (??)} & \dd{?? , (??)}\\
 \hline
 \end{tabular}
 \end{sc}
