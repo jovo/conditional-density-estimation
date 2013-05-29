@@ -120,7 +120,7 @@ In fact, a significant downside of many divide-and-conquer algorithms is their p
 Let $X \from \Omega \to \mc{X} \subseteq \Real^p$ be a 
 $p$-dimensional Euclidean vector-valued predictor random variable, taking values $x \in \mc{X}$, with a marginal probability distribution $F_X$.  
 Similarly, let $Y \from \Omega \to \mc{Y}$ 
-be a $\mc{Y}$-valued target random variable, taking values $y \in \mc{Y}$, with a marginal probability distribution $F_Y$ (we will specify specific forms of $\mc{Y}$, e.g., $\mc{Y} \subseteq \Real^q$, below).  We assume that the pair $(X,Y)$ is sampled from a joint distribution, $F_{X,Y} \in \mc{F}$. Let $F_{Y|X}$ denote the conditional distribution, and $f_{y|x}$ denote the conditional density.
+be a $\mc{Y}$-valued target random variable, taking values $y \in \mc{Y}$, with a marginal probability distribution $F_Y$ (we will specify specific forms of $\mc{Y}$, e.g., $\mc{Y} \subseteq \Real^q$, below).  We assume that the pair $(X,Y)$ is sampled from a joint distribution, $F_{X,Y} \in \mc{F}$. Let $F_{Y|X}$ denote the conditional (cumulative) distribution, and $f_{y|x}$ denote the conditional (probability) density.
 
 For inferential expedience, we  posit the existence of  a latent random variable $\mb{\eta} \from \Omega \to \mc{M} \subseteq \mc{X}$, where $\mc{M}$ is only $d$ ``dimensional'' and $d \ll p$.   
 Note that $\mc{M}$ need not be a linear subspace of $\mc{X}$, rather, $\mc{M}$ could be, for example,  a union or affine subspaces, or a smooth compact Riemannian manifold.  Regardless of the nature of $\mc{M}$, we assume that we can approximately decompose the joint distribution as follows,  $F_{X,Y,\mb{\eta}}=F_{X,Y|\mb{\eta}}F_{\mb{\eta}} = F_{Y|X, \mb{\eta}} F_{X | \mb{\eta}} F_{\mb{\eta}} \approx F_{X|\mb{\eta}} F_{Y|\mb{\eta}} F_{\mb{\eta}}$.  In  words, we assume that the \emph{signal} approximately concentrates around a low-dimensional latent space, $F_{Y|X,\mb{\eta}}=F_{Y|\mb{\eta}}$.  Note that this is a much less restrictive assumption than the commonplace assumption in manifold learning that the marginal distribution $F_X$ concentrates around a low-dimensional latent space. 
@@ -175,7 +175,7 @@ where $\pi_{j',k'}$ are weights \emph{across scales} such that $\sum_{C_{j',k'} 
 \paragraph{Embeddings}
 At each scale, for each cell, we consider some embedding $\psi_{j,k} \from C_{j,k} \to \Xi$, where $(\mt{x},\mt{y}) \in (\mtc{X}, \mtc{Y})$.  Thus, rather than approximating $F_{Y|X}$ by a mixture of densities conditional on high-dimensional predictors, we can approximate $F_{Y|X}$ by a mixture of densities conditional on low-dimensional embeddings. %,  $F_{Y|X} \approx \mh{F}_{Y|X} \propto \sum_{j \in \ZZ, k \in \mc{K}_j} \pi_{j,k} \mt{F}^{j,k}$, where $\mt{y} | \mt{x} \sim \mt{F}^{j,k}$. 
 
-\paragraph{Family} Each $\mt{F}^{j,k}$ is an element of a family of distributions, $\mc{F}^{j,k}$.  This family might be quite general, e.g., all possible conditional densities, or quite simple, e.g., Gaussian distributions.  Moreover, the family can adapt with $j$ or $k$, being more complex at the coarser scales (for which $n_{j,k}$'s are larger), and simpler for the finer scales (or partitions with fewer samples).
+\paragraph{Family} Each $\mt{F}_{j,k}$ is an element of a family of distributions, $\mc{F}_{j,k}$.  This family might be quite general, e.g., all possible conditional densities, or quite simple, e.g., Gaussian distributions.  Moreover, the family can adapt with $j$ or $k$, being more complex at the coarser scales (for which $n_{j,k}$'s are larger), and simpler for the finer scales (or partitions with fewer samples).
 
 
 Thus, collectively, any multiscale conditional density estimation procedure makes choices for the above three components.  This encompasses a wide range of possible approaches. 
@@ -226,7 +226,7 @@ Let $n_{j,k}$ be  the number of observations in $C_{j,k}$ . Each Gibbs sampler i
 
 \begin{enumerate}
 \item Update $\ell_i$ by sampling from the multinomial full conditional with 
-\[\mbox{Pr}( \ell_i = j\, |\, \cdot) = \frac{ \pi_{j,k_j(x_i)}F_{j,k_j(x_i)}(y_i|x_i) }{ \sum_{s\in \ZZ} \pi_{s,k_s(x_i)}F_{s,k_s(x_i)}(y_i | x_i) } \label{eq:prS}\]
+\[\mbox{Pr}( \ell_i = j\, |\, \cdot) = \frac{ \pi_{j,k_j(x_i)}f_{j,k_j(x_i)}(y_i|x_i) }{ \sum_{s\in \ZZ} \pi_{s,k_s(x_i)}f_{s,k_s(x_i)}(y_i | x_i) } \label{eq:prS}\]
 
 \item Update stick-breaking random variable $V_{j,k}$, for any $j \in \ZZ$ and $k \in \mc{K}_j$, from $\mbox{Beta}(\beta',\alpha')$ with $\beta'=1+n_{j,k}$ and $\alpha'=\alpha+\sum_{C_{r,s} \in D_{j,k}} n_{r,s}$.
 
@@ -245,7 +245,7 @@ with $a_{\sigma}=a+n_{j,k}/2$, $\bar{y}_{j,k}$ being the average of the observat
 
 \subsection{Predictions}\label{ch3:predictions}
 
-
+\dd{francy: please fix this paragraph and let me know when you are done.}
 Consider the case we want to predict the response $y_{n+1}$ for a future observation based on the predictors $x_{n+1}$ and previous observations $\{ (x_1,y_1), \ldots, (x_n,y_{n})\}$. Because the partitioning strategy that we adopted lacks an elegant out-of-sample embedding function (unlike other paritioning strategies), we adopt a Voronoi expansion procedure by which  the new predictors $x_{n+1}$ are allocated to $C_{j,k}$'s having the closest centers with respect to $\rho_W$. Given this allocation, the predictive density of $y_{n+1}$ will be a mixture defined as in \ref{eq:base}. At the $s$th  Gibbs sampler iteration, we will first sample parameters involved in \ref{eq:base} from its posterior, i.e. $\Omega^{(s)} \sim p\left(\Omega|y_1, \ldots, y_n\right)$ and then we will sample $y^{(s)}_{n+1}$ from \ref{eq:base}. Let us assume the number of iterations is $S$ an a burn-in of $b$ is considered. Then, given the sequence $\left(y^{(b+1)}_{n+1}, \ldots, y^{(S)}_{n+1}\right)$, summaries of the predictive density such as mean, variance and quantiles can be computed. 
 
 To make predictions,
@@ -323,10 +323,11 @@ To obviate the need to choose a scale to use to make a prediction, we choose to 
 \begin{figure}[h!]
 \centering
  \vskip -10pt 
-\includegraphics[width=120mm]{../figs/ch3_density.eps}
- \vskip -15pt 
+\includegraphics[width=0.8\linewidth]{../figs/density_estimates.pdf}
+\vskip -12pt 
 % \includegraphics[width=90mm,height=80mm]{densityestimate.eps}
-\caption{Illustrative example suggesting that our posterior estimates of the conditional density are converging as $n$ increases even when $F_{Y|\eta}$ is highly nonlinear and $F_{X|\eta}$ is very high-dimensional.  We simulated data according to model (1) with parameters $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$ for different sample sizes. True (red) and estimated (black) density ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) for two data points $(I, II)$ considering different training set size (a: $n=100$, b: $n=150$, c: $n=200$). } \label{plotDensity}
+\caption{Illustrative example suggesting that our posterior estimates of the conditional density are converging as $n$ increases even when $F_{Y|\eta}$ is highly nonlinear and $F_{X|\eta}$ is very high-dimensional.  We simulated data according to model (1) with parameters $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$ for different sample sizes. True (red) and estimated (black) density ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) for two data positions along the manifold (top panels: $\eta \approx -0.9$,  bottom panels: $\eta \approx 0.5$) considering different training set size. } \label{plotDensity}
+\vskip -20pt 
 \end{figure}
 
 
