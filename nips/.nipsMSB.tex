@@ -214,7 +214,7 @@ We introduce the latent variable $\ell_i \in \{1,\ldots,k\}$, for $i=1,\ldots,n$
 %Assuming data are normalized prior to analysis, we let $\eta_{j,k} \sim \mc{N}(0,1)$ and $\sigma_{j,k}=\mc{IG}(a,b)$ for the means and variances of the dictionary densities. 
 Let $n_{j,k}$ be  the number of observations in $C_{j,k}$ . Each Gibbs sampler iteration can be summarized in the following steps:
 % . Details on full conditionals and Gibbs sampler steps can be found in the supplementary material.
-\dd{can this be checked carefully?}
+\dd{francy: i changed the notation a bit to be consistent with previous literature. can you check to make sure i didn't screw anything up?}
 
 \begin{enumerate}
 \item Update $\ell_i$ by sampling from the multinomial full conditional with 
@@ -239,14 +239,14 @@ with $a_{\sigma}=a+n_{j,k}/2$, $\bar{y}_{j,k}$ being the average of the observat
 
 
 Consider the case we want to predict the response $y_{n+1}$ for a future observation based on the predictors $x_{n+1}$. Because the partitioning strategy that we adopted lacks an elegant out-of-sample embedding function (unlike other paritioning strategies), we adopt a Voronoi expansion procedure by which  the new predictors $x_{n+1}$ are allocated to $C_{j,k}$'s having the closest centers with respect to $\rho_W$. For a new observation the predictive density is defined as
-\dd{what about all the other $x_i$'s? they must be in there.  also, where is $f\left(y_{n+1}|x_{n+1},\Omega\right)$ defined?  where is \ref{eq:base}? is this correct? }
+\dd{francy: it seems like the training $x_i$'s must be in here somewhere.  are they implictly in $\Omega$?   also, where is $f\left(y_{n+1}|x_{n+1},\Omega\right)$ defined?  where is \ref{eq:base}? }
 \begin{equation*}
 	p(y_{n+1}|x_{n+1}, y_1, \ldots, y_n) = \int f\left(y_{n+1}|x_{n+1},\Omega\right) dp\left(\Omega|y_1, \ldots, y_n\right) \label{predictive:MSB}
 	\end{equation*}
 with $f\left(y_{n+1}|x_{n+1},\Omega\right)$ defined as in (1) and $\Omega$ being the set of all parameters involved, i.e. weights, location and scale parameters. In order to make inference on the predictive density of $y_{n+1}$, at the $s$th  Gibbs sampler iteration, we will first sample parameters involved in \ref{eq:base} from its posterior, i.e. $\Omega^{(s)} \sim p\left(\Omega|y_1, \ldots, y_n\right)$ and then we will sample $y^{(s)}_{n+1}$ from $ p\left(y_{n+1}|x_{n+1},\Omega^{(s)}\right)$. Let us assume the number of iterations is $S$ an a burn-in of $b$ is considered. Then, given the sequence $\left(y^{(b+1)}_{n+1}, \ldots, y^{(S)}_{n+1}\right)$, summaries of the predictive density such as mean, variance and quantiles can be computed. 
 
 To make predictions,
-the Gibbs sampler was run with up to $20,000$ iterations, including a burn-in of $1,000$. Gibbs sampler chains were stopped testing normality of normalized averages of functions of the Markov chain \cite{Chauveau98anautomated}. Parameters $(a,b)$ and $\alpha$ involved in the prior density of parameters $\sigma_{j,k}$'s and $V_{j,k}$'s were set respectively equal to $(3,1)$ and $1$. All predictions used a leave-one-out strategy for $n \in \{100, 150, 200, 300\}$.
+the Gibbs sampler was run with up to $20,000$ iterations, including a burn-in of $1,000$. Gibbs sampler chains were stopped testing normality of normalized averages of functions of the Markov chain \cite{Chauveau98anautomated}. Parameters $(a,b)$ and $\alpha$ involved in the prior density of parameters $\sigma_{j,k}$'s and $V_{j,k}$'s were set respectively equal to $(3,1)$ and $1$. All predictions used a leave-one-out strategy. % for $n \in \{100, 150, 200, 300\}$.
 
 
 \subsection{Simulation Studies}\label{sec:sim}
@@ -266,23 +266,24 @@ We first consider a relatively simple yet nonlinear joint model:
 In the simulations we let $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$, and $p=1000$. Thus, $F_{Y|X}$ is a highly nonlinear function of $X$, and even $\eta$, and $X$ is high-dimensional.  
 
 % \vspace{-8pt}
-\textbf{(2) Linear Subspace} Letting $\Gamma \in \Real^{p+1 \times q}$ and $\Theta$ be an ${q \times d}$ ``diagonal'' matrix (meaning all entires other than the first $d < q$ elements of the diagonal are zero), we assume the following model:
+\textbf{(2) Swissroll} 
+% 
+We then return to the swissroll example of Figure \ref{fig:swiss}; here we let $(\mu,\sigma)=(\eta,1)$ and   $p \in 1000 \times \{50, 100\}$.
+
+\textbf{(3) Linear Subspace} Letting $\Gamma \in \Real^{p+1 \times q}$ and $\Theta$ be an ${q \times d}$ ``diagonal'' matrix (meaning all entires other than the first $d < q$ elements of the diagonal are zero), we assume the following model:
 	$Y,X |\eta \sim \mc{N}_{p+1}(\Gamma \Theta \eta ,\Sigma_0)$,
 	where 	$\Gamma \sim \mc{S}_{p+1,d}$ indicates $\Gamma$ is uniformly sampled from the set of all orthonormal $d$ frames in $\Real^{p+1}$ (a Stiefel manifold), 
-	$\theta_{ii} \sim \mc{IG}(a_\theta,b_\theta) \text{ for } i \in \{1, \ldots, d\}$ and all other elements of $\Theta$ are zero, and $\eta  \sim \mc{N}_d(0, I)$.  In the simulation, we let $q=d=5$,   $(\alpha_\theta,\beta_\theta)=(??,??)$, and $p \in 1000 \times \{50, 70, 90, 100, 200, 300, 500\}$.
+	$\theta_{ii} \sim \mc{IG}(a_\theta,b_\theta) \text{ for } i \in \{1, \ldots, d\}$ and all other elements of $\Theta$ are zero, and $\eta  \sim \mc{N}_d(0, I)$.  In the simulation, we let $q=d=5$,   $(\alpha_\theta,\beta_\theta)=(\dd{??},\dd{??})$, and $p \in 1000 \times \{50, 70, 90, 100, 200, 300, 500\}$.
 
 
 % \vspace{-8pt}
-\textbf{(3) Union of Linear Subspaces}
+\textbf{(4) Union of Linear Subspaces}
 This model is a direct extension of the linear subspace model, as it is a union of subspaces. We let the dimensionality of each subspace vary to demonstrate the generality of our procedure.  Specifically, we assume 	$Y,X |\eta \sim \sum_{g=1}^G \omega_g \mc{N}_{p+1}(\Gamma_g \Theta_g \eta ,\Sigma_0)$, $\omega \sim Dirichlet(\mb{\alpha})$ 
 	$\eta \sim \mc{N}_d(0, I)$, 
 where $\Gamma \sim \mc{S}_{p+1,g}$ and $\Theta_g$ is a ``diagonal'' with $\theta_{ii} \sim \mc{IG}(a_g,b_g)$ for  $i \in \{1, \ldots, g\}$, and the remaining elements of $\Theta$ are zero.
 In the simulation, we let $G=5$,  $\mb{\alpha}=(1, \ldots, 1)\T$,  $(\alpha_g,\beta_g)=(\alpha_\theta,\beta_\theta)$ as above, for  $p \in 1000 \times \{50, 100\}$.
   
 % \vspace{-8pt}
-\textbf{(4) Swissroll} 
-% 
-Finally, we return to the swiss roll example of Figure \ref{fig:swiss}; here we let $(\mu,\sigma)=(\eta,1)$ and   $p \in 1000 \times \{50, 100\}$.
 
 
 
@@ -292,14 +293,14 @@ We assessed the predictive performance of the proposed method on two very differ
 
 In the first experiment we investigated the extent to which we could predict creativity (as measured via the Composite Creativity Index \cite{Arden2010}).   For each subject, we estimate a $70$ vertex undirected weighted brain-graph using the Magnetic Resonance Connectome Automated Pipeline \cite{MRCAP11} from diffusion tensor imaging data \cite{Mori2006}. Because our graphs are undirected and lack self-loops, we have a total of $p=\binom{70}{2}=2,415$ potential weighted edges. The vector of covariates consists in the logarithm of the total number of connections between all pairs of cortical regions. 
 
-The second dataset comes from a resting-state functional magnetic resonance experiment as part of the Autism Brain Imaging Data Exchange \cite{Autism}.  We selected the Yale Child Study Center for analysis.  Each brain-image was processed using the Configurable Pipepline for Analysis of Connectomes \cite{cpac}. For each subject we computed a measure of normalized power at each voxel called fALFF \cite{Zou2008}.  To ensure the existence of nonlinear signal relating these predictors, we let $y_i$ correspond to an estimate of overall head motion in the scanner, called mean framewise displacement (FD) computed as described in Power et al. \cite{power}. In total, there were $p=??$ voxels.
+The second dataset comes from a resting-state functional magnetic resonance experiment as part of the Autism Brain Imaging Data Exchange \cite{Autism}.  We selected the Yale Child Study Center for analysis.  Each brain-image was processed using the Configurable Pipepline for Analysis of Connectomes \cite{cpac}. For each subject we computed a measure of normalized power at each voxel called fALFF \cite{Zou2008}.  To ensure the existence of nonlinear signal relating these predictors, we let $y_i$ correspond to an estimate of overall head motion in the scanner, called mean framewise displacement (FD) computed as described in Power et al. \cite{power}. In total, there were $p=$\dd{??} voxels.
 
 \subsection{Evaluation Criteria}
 
 To compare algorithmic performance we considered $r_{m}^{\mc{A}}$ defined as $r_{m}^{\mc{A}}=\phi(MSB)/\phi(\mc{A}),$
 where $\phi$ is the quantity of interest (for example, CPU time in seconds or mean squared error), MSB is our approach and $\mc{A}$ is the competitor algorithm. To obtain mean-squared error estimates from MSB, we select our posterior mode as a point-estimate (the comparison algorithms do not generate posterior predictions, only point estimates).
 For each simulation scenario, we sampled multiple datasets and compute the \emph{matched} distribution of $r_{m}^{\mc{A}}$. In other words, rather than running simulations and reporting the distribution of performance for each algorithm, we compare the algorithms per simulation.  This provides a much more informative indication of algorithmic performance, in that we indicate the fraction of simulations one algorithm outperforms another on some metric.  This is akin to power gained by matched two-sample tests.   For each example, we sampled 20 datasets to obtain estimates of the distribution over $r_m^{\mc{A}}$.
-
+% 
 All experiments were performed on a typical workstation, Intel Core i7-2600K Quad-Core Processor with  8192 MB of RAM.
 
 
@@ -325,25 +326,32 @@ To obviate the need to choose a scale to use to make a prediction, we choose to 
 
 \subsection{Quantitative Comparisons for Simulated Data} \label{sub:sim}
 
-Figure \ref{fig:boxplots} compares the numerical performance of our algorithm (MSB) with Lasso (black) and CART (red) in terms of both mean-squared error (top) and CPU time (bottom) for models (2), (3), and (4) in the left, middle, and right panels respectively. These figures show relative performance on a \emph{per simulation basis}, thus enabling a much more powerful comparison than averaging performance for each algorithm over a set of simulations.  Note that these three simulations span a wide range of models, including relatively simple linear subspace manifolds (model 2), union of linear subspaces (model 3), and nonlinear smooth manifolds such as the swissroll (model 4).
+Figure \ref{fig:boxplots} compares the numerical performance of our algorithm (MSB) with Lasso (black), CART (red), and PC regression (green) in terms of both mean-squared error (top) and CPU time (bottom) for models (2), (3), and (4) in the left, middle, and right panels respectively. These figures show relative performance on a \emph{per simulation basis}, thus enabling a much more powerful comparison than averaging performance for each algorithm over a set of simulations.  Note that these three simulations span a wide range of models, including
+nonlinear smooth manifolds such as the swissroll (model 2),
+relatively simple linear subspace manifolds (model 3), 
+and a union of linear subspaces model (model 4).
 
-In terms of predictive accuracy, the top panels show that for all three simulations,  in every dimensionality that we considered---including $p \in \mc{O}(10^6)$---MSB is more accurate than either Lasso or CART.  Note that this is the case even though MSB provides much more information about the posterior $F_{Y|X}$, yielding an entire posterior over $F_{Y|X}$, rather than merely a point estimate.
+In terms of predictive accuracy, the top panels show that for all three simulations,  in every dimensionality that we considered---including $p \in \mc{O}(10^6)$---MSB is more accurate than either Lasso, CART, or PC regression.  Note that this is the case even though MSB provides much more information about the posterior $F_{Y|X}$, yielding an entire posterior over $F_{Y|X}$, rather than merely a point estimate.
 
-In terms of computational time, MSB is much faster than the competitors for large $p$ and $n$, as shown in the bottom three panels.  The supplementary materials show that computational time for MSB is relatively constant as a function of $p$, whereas Lasso's computational time grows considerably with $p$.  Thus, for large enough $p$, MSB is significantly faster that Lasso.  MSB is faster than CART for all $p$ under consideration, ranging from $\mc{O}(10^4)$ to $\mc{O}(10^6)$. 
-
-Thus, it is clear from these simulations that MSB has better scaling properties---in terms of both predictive accuracy and computational time---than other the competitor methods. 
+In terms of computational time, MSB is much faster than the competitors for large $p$ and $n$, as shown in the bottom three panels.  The supplementary materials show that computational time for MSB is relatively constant as a function of $p$, whereas Lasso's computational time grows considerably with $p$.  Thus, for large enough $p$, MSB is significantly faster that Lasso.  MSB is faster than CART and PC regression for all $p$ and $n$ under consideration.  Thus, it is clear from these simulations that MSB has better scaling properties---in terms of both predictive accuracy and computational time---than the competitor methods. 
 
 
 
 \begin{figure}[h!]
 \centering
  \vskip -0pt 
-\includegraphics[width=.6\linewidth]{../figs/experiment1.eps} 
-\includegraphics[width=0.8\linewidth]{../figs/nonlinear.eps} 
+\includegraphics[width=1.0\linewidth]{../figs/boxplots.png}
+% \includegraphics[width=.6\linewidth]{../figs/experiment1.eps} 
+% \includegraphics[width=0.8\linewidth]{../figs/nonlinear.eps} 
  \vskip -10pt 
 \caption{
-\dd{the panels will be re-arranged shortly to reflect the legend.}
-Numerical results for various simulation scenarios.  Top (bottom) plots depict the relative mean-squared error (CPU time in seconds) of MSB (our approach), versus CART (red) and Lasso (black).  The three simulation scenarios are: linear subspaces (left), union of linear subspaces (middle) and the swissroll (right). MSB outperforms both CART and Lasso in all three scenarios regardless of ambient dimension ($r_{mse}^{\mc{A}}< 1$ for all $p$).  MSB compute time is relatively constant as $n$ or $p$ increase, whereas Lassso's compute time increases, thus, as $n$ or $p$ increase, MSB CPU time becomes less than Lasso's.  MSB was always significantly faster than CART, regardless of $n$ or $p$. } 
+Numerical results for various simulation scenarios.  Top plots depict the relative mean-squared error of MSB (our approach), versus CART (red), Lasso (black), and PC regression (green) for as a function of ambient dimension of $x$.  
+Bottom plots depict the ratio of CPU time as a function of sample size.
+The three simulation scenarios are: 
+swissroll (left),
+linear subspaces (middle), 
+union of linear subspaces (right). 
+MSB outperforms both CART, Lasso, and PC regression in all three scenarios regardless of ambient dimension ($r_{mse}^{\mc{A}}< 1$ for all $p$).  MSB compute time is relatively constant as $n$ or $p$ increase, whereas Lasso's compute time increases, thus, as $n$ or $p$ increase, MSB CPU time becomes less than Lasso's.  MSB was always significantly faster than CART and PC regression, regardless of $n$ or $p$. } 
 
 \label{fig:boxplots}
 \end{figure}
@@ -377,13 +385,13 @@ We compare multiscale stick-breaking (MSB), CART, Lasso and random forest (RF). 
 \hline
 data &$n$&$p$ &model&mse (s.d.) & time (s.d.) \\ %$r_{T}$ & $r_{M}$ & $r_{V}$\\
 \hline
-creativity & 108 & 2,415 & MSB &$0.56 \, (??)$ &  $1.1 \, (0.02)$\\
- &&& CART & $1.10 \, (??) $ &  $0.9 \, (0.01)$\\
-&&& Lasso & $0.63 \, (??)$  &  $0.40 \, (0.10)$\\
-&&& RF & $0.57 \, (??)$ &   $78.2 \, (0.59)$\\
+creativity & 108 & 2,415 & MSB &$0.56 \, (\dd{??})$ &  $1.1 \, (0.02)$\\
+ &&& CART & $1.10 \, (\dd{??}) $ &  $0.9 \, (0.01)$\\
+&&& Lasso & $0.63 \, (\dd{??})$  &  $0.40 \, (0.10)$\\
+&&& RF & $0.57 \, (\dd{??})$ &   $78.2 \, (0.59)$\\
 \\
- movement & 56 & $10^5$& MSB &$0.76 \, (??)$  & $20.98 \, (2.31)$\\
- &&& Lasso & $1.02 \, (??)$ & $96.18 \, (9.66)$\\
+ movement & 56 & $10^5$& MSB &$0.76 \, (\dd{??})$  & $20.98 \, (2.31)$\\
+ &&& Lasso & $1.02 \, (\dd{??})$ & $96.18 \, (9.66)$\\
 \hline
 \end{tabular}
 \end{sc}
