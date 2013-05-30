@@ -20,6 +20,7 @@
 \usepackage{hyperref}
 % \nocite{*}
 \usepackage[normalem]{ulem}
+\usepackage{sidecap}
 
 % Packages hyperref and algorithmic misbehave sometimes.  We can fix
 % this with the following command.
@@ -75,6 +76,21 @@
 \newtheorem{definition}[theorem]{Definition}
 \providecommand{\mtc}[1]{\widetilde{\mathcal{#1}}}
 
+\setlength{\parsep}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\topskip}{0pt}
+\setlength{\topmargin}{0pt}
+\setlength{\topsep}{0pt}
+\setlength{\partopsep}{0pt}
+
+\setlength{\parskip}{2pt}
+\parindent 10pt
+
+\usepackage[compact]{titlesec}
+% \titlespacing{\section}{20pt}{*0}{*0}
+% \titlespacing{\subsection}{5pt}{*0}{*0}
+% \titlespacing{\subsubsection}{5pt}{*0}{*0}
+
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
 \title{Multiscale Dictionary Learning for \\ Estimating Conditional Distributions}
@@ -98,9 +114,9 @@ Nonparametric estimation of the conditional distribution of a response given hig
 
 
 % opening
-Massive datasets are becoming a ubiquitous by-product of modern scientific and industrial applications. These data present statistical and computational challenges for machine learning because many previously developed approaches do not scale-up sufficiently.  Specifically, challenges arise because of the ultrahigh-dimensionality, and relatively low sample size (the ``large p, small n'' problem).  Parsimonious models for such big data assume that the density in the ambient dimension concentrates around a lower-dimensional (possibly nonlinear) subspace.  Indeed, a plethora of methodologies are emerging to estimate such lower-dimensional ``manifolds'' from high-dimensional data \cite{Manifold, Maggioni}.  
+Massive datasets are becoming a ubiquitous by-product of modern scientific and industrial applications. These data present statistical and computational challenges for machine learning because many previously developed approaches do not scale-up sufficiently.  Specifically, challenges arise because of the ultrahigh-dimensionality and relatively low sample size (the ``large p, small n'' problem).  Parsimonious models for such big data assume that the density in the ambient dimension concentrates around a lower-dimensional (possibly nonlinear) subspace.  Indeed, a plethora of methodologies are emerging to estimate such lower-dimensional manifolds from high-dimensional data \cite{Manifold, Maggioni}.  
 
-We are interested in using such lower-dimensional embeddings to obtain estimates of the conditional distribution of some target variable(s).  This \emph{conditional regression} setting arises in a number of important application areas, including neuroscience, genetics, and video processing.  For example, one might desire automated estimation of a predictive density for a continuous neurologic {\em phenotype} of interest, such as intelligence or a creativity score, on the basis of available data for a patient including neuroimaging.  The challenge is to estimate the probability density function of the phenotype {\em nonparametrically} based on an $\mathcal{O}(10^6)$ dimensional image of the subject's brain.  It is crucial to avoid parametric assumptions on the density, such as Gaussianity, while allowing the density to change flexibly with predictors.  Otherwise, one can obtain misleading predictions and poorly characterize predictive uncertainty.
+We are interested in using such lower-dimensional embeddings to obtain estimates of the conditional distribution of some target variable(s).  This \emph{conditional density estimation} setting arises in a number of important application areas, including neuroscience, genetics, and video processing.  For example, one might desire automated estimation of a predictive density for a continuous neurologic { phenotype} of interest, such as intelligence or a creativity, on the basis of available data for a patient including neuroimaging.  The challenge is to estimate the probability density function of the phenotype {\em nonparametrically} based on an $\approx 10^6$ dimensional image of the subject's brain.  It is crucial to avoid parametric assumptions on the density, such as Gaussianity, while allowing the density to change flexibly with predictors.  Otherwise, one can obtain misleading predictions and poorly characterize predictive uncertainty.
 
 There is a rich machine learning and statistical literature on conditional density estimation of a response $y \in \mathcal{Y}$ given a set of features (predictors) $x=(x_1, x_2, \ldots, x_p)\in \mathcal{X}$. Common approaches include hierarchical mixtures of experts \cite{mixtureexperts,jiang1999}, kernel methods \cite{fan1996,fanyim2004,holmes2010,fu2011}, Bayesian finite mixture models \cite{nott2012,tran2012,norets2012} and Bayesian nonparametrics 
 \cite{griffin06, dunson2007, DunsonPark, chung2009, tokdar2010}.  
@@ -108,15 +124,18 @@ There is a rich machine learning and statistical literature on conditional densi
 % challenge
 However, there has been limited consideration of scaling to large $p$ settings, with the variational Bayes approach of \cite{tran2012} being a notable exception. For dimensionality reduction, Tran et al. follow a greedy variable selection algorithm.  Their approach does not scale to the sized applications we are interested in. For example, in a problem with $p=1,000$ and $n=500$, they reported a CPU time of 51.7 minutes for a single analysis.  We are interested in problems with  $p$ having many more orders of magnitude, requiring a faster computing time while also accommodating flexible non-linear dimensionality reduction (variable selection is a limited sort of dimension reduction).  To our knowledge, there are no nonparametric density regression competitors to our approach, which maintain a characterization of uncertainty in estimating the conditional densities; rather, all sufficiently scalable algorithms provide point predictions and/or rely on restrictive assumptions such as linearity.  
 
-In big data problems, scaling is often accomplished using divide-and-conquer techniques. Well known examples are classification and regression trees (CART) \cite{CART} and multivariate adaptive regression splines (MARS) \cite{MARS}. These algorithms fit surfaces to data by explicitly dividing the input space into a nested sequence of regions, and by fitting simple surfaces  within these regions. Though these methods are appealing in providing a simple, flexible and interpretable mechanism of dimension reduction, it is well known that single tree estimates commonly have high variance and poor performance.  There is a rich literature proposing improvements based on bagging \cite{Bagging}, boosting \cite{Boosting} and random forests \cite{RandomForest}. Though these algorithms can substantially improve mean square error performance, computation can be expensive and performance degrades as dimensionality $p$ increases.
-
-In fact, a significant downside of many divide-and-conquer algorithms is their poor scalability to high dimensional predictors. As the number of features increases, the problem of finding the best splitting attribute becomes intractable so that CART, MARS and multiple trees models cannot be efficiently applied. Also mixture of experts models become computationally demanding, since both mixture weights and dictionary densities are predictor dependent. In an attempt to make mixtures of experts more efficient, sparse extensions relying on different variable selection algorithms have been proposed \cite{SparseMoF}. However, performing variable selection in high dimensions is effectively intractable: algorithms need to efficiently search for the best subsets of predictors to include in weight and mean functions within a mixture model, an NP-hard problem.
+In big data problems, scaling is often accomplished using divide-and-conquer techniques. 
+% Well known examples are classification and regression trees (CART) \cite{CART} and multivariate adaptive regression splines (MARS) \cite{MARS}. These algorithms fit surfaces to data by explicitly dividing the input space into a nested sequence of regions, and by fitting simple surfaces  within these regions. Though these methods are appealing in providing a simple, flexible and interpretable mechanism of dimension reduction, it is well known that single tree estimates commonly have high variance and poor performance.  There is a rich literature proposing improvements based on bagging \cite{Bagging}, boosting \cite{Boosting} and random forests \cite{RandomForest}. Though these algorithms can substantially improve mean square error performance, computation can be expensive and performance degrades as dimensionality $p$ increases.
+% 
+% In fact, 
+a significant downside of many divide-and-conquer algorithms is their poor scalability to high dimensional predictors. As the number of features increases, the problem of finding the best splitting attribute becomes intractable so that CART, MARS and multiple trees models cannot be efficiently applied. Similarly, mixture of experts models become computationally demanding, since both mixture weights and dictionary densities are predictor dependent. In an attempt to make mixtures of experts more efficient, sparse extensions relying on different variable selection algorithms have been proposed \cite{SparseMoF}. However, performing variable selection in high dimensions is effectively intractable: algorithms need to efficiently search for the best subsets of predictors to include in weight and mean functions within a mixture model, an NP-hard problem.
 
 % approach
- In order to efficiently deal with massive datasets, we propose a novel multiscale approach which starts by learning a multiscale dictionary of densities,. This tree is efficiently learned in a first stage using a fast and scalable graph partitioning algorithm applied to the high-dimensional observations \cite{metis}.  Expressing the conditional densities $f(y|x)$ for each $x \in \mathcal{X}$ as a convex combination of coarse-to-fine scale dictionary densities, the learning problem in the second stage estimates the corresponding multiscale probability tree.  This is accomplished in a Bayesian manner using a novel multiscale stick-breaking process, which allows the data to inform about the optimal bias-variance tradeoff; weighting coarse scale dictionary densities more highly decreases variance while adding to bias if the finer scale structure is needed.  This results in a model that allows borrowing information across different resolution levels and reaches a good compromise in terms of the bias-variance tradeoff. We show that the algorithm scales efficiently to massive numbers of features. 
+ In order to efficiently deal with massive datasets, we propose a novel multiscale approach which starts by learning a multiscale dictionary of densities. This tree is efficiently learned in a first stage using a fast and scalable graph partitioning algorithm applied to the high-dimensional observations \cite{metis}.  Expressing the conditional densities $F_{Y|X}$ for each $x \in \mathcal{X}$ as a convex combination of coarse-to-fine scale dictionary densities, the learning problem in the second stage estimates the corresponding multiscale probability tree.  This is accomplished in a Bayesian manner using a novel multiscale stick-breaking process, which allows the data to inform about the optimal bias-variance tradeoff; weighting coarse scale dictionary densities more highly decreases variance while adding to bias.  This results in a model that borrows information across different resolution levels and reaches a good compromise in terms of the bias-variance tradeoff. We show that the algorithm scales efficiently to millions of features. 
 
-
+% \vspace{-25pt}
 \section{Setting} \label{sec:setting}
+% \vspace{-25pt}
 Let $X \from \Omega \to \mc{X} \subseteq \Real^p$ be a 
 $p$-dimensional Euclidean vector-valued predictor random variable, taking values $x \in \mc{X}$, with a marginal probability distribution $F_X$.  
 Similarly, let $Y \from \Omega \to \mc{Y}$ 
@@ -125,15 +144,21 @@ be a $\mc{Y}$-valued target random variable, taking values $y \in \mc{Y}$, with 
 For inferential expedience, we  posit the existence of  a latent random variable $\mb{\eta} \from \Omega \to \mc{M} \subseteq \mc{X}$, where $\mc{M}$ is only $d$ ``dimensional'' and $d \ll p$.   
 Note that $\mc{M}$ need not be a linear subspace of $\mc{X}$, rather, $\mc{M}$ could be, for example,  a union or affine subspaces, or a smooth compact Riemannian manifold.  Regardless of the nature of $\mc{M}$, we assume that we can approximately decompose the joint distribution as follows,  $F_{X,Y,\mb{\eta}}=F_{X,Y|\mb{\eta}}F_{\mb{\eta}} = F_{Y|X, \mb{\eta}} F_{X | \mb{\eta}} F_{\mb{\eta}} \approx F_{X|\mb{\eta}} F_{Y|\mb{\eta}} F_{\mb{\eta}}$.  In  words, we assume that the \emph{signal} approximately concentrates around a low-dimensional latent space, $F_{Y|X,\mb{\eta}}=F_{Y|\mb{\eta}}$.  Note that this is a much less restrictive assumption than the commonplace assumption in manifold learning that the marginal distribution $F_X$ concentrates around a low-dimensional latent space. 
 
-To provide some intuition around this model, we provide the following concrete example where the distribution of $y \in \Real$ is a Gaussian function of the coordinate $\eta \in \mc{M}$ along the swissroll, which is embedded in a high-dimensional ambient space:
-\begin{subequations} \label{eq:linear}
-\begin{align}
-	Y | \eta &\sim \mc{N}(\mu(\eta) ,\sigma(\eta)) \\
-X_r &\sim \mc{N}(0,1) \text{ for } r \in \{3, \ldots, p\}, \qquad 	X_1 = \eta \sin (\eta), \qquad X_2 = \eta \cos (\eta) \\
-	\eta  &\sim U(0,1), 
-\end{align}
-\end{subequations}
-where $\mc{N}(\mu,\sigma)$ denotes a Gaussian distribution with mean $\mu$ and standard deviation $\sigma$, and $U(0,1)$ denotes the uniform distribution on $(0,1)$.
+To provide some intuition around this model, we provide the following concrete example where the distribution of $y \in \Real$ is a Gaussian function of the coordinate $\eta \in \mc{M}$ along the swissroll, which is embedded in a high-dimensional ambient space.  Specifically, we sample the manifold coordinate, $\eta  \sim U(0,1)$.  Then the first two dimensions of $X$ are
+
+	$X_1 = \eta \sin (\eta)$ and
+	$X_2 = \eta \cos (\eta)$.
+	The remaining dimensions of $X$ are sampled from a Gaussian,
+$X_r \sim \mc{N}(0,1) \text{ for } r \in \{3, \ldots, p\}$.
+Finally, we sample $Y$ conditionally dependent only on $\eta$: 	$Y | \eta \sim \mc{N}(\mu(\eta) ,\sigma(\eta))$.
+% \begin{subequations} \label{eq:linear}
+% \begin{align}
+% 	Y | \eta &\sim \mc{N}(\mu(\eta) ,\sigma(\eta)) \\
+% X_r &\sim \mc{N}(0,1) \text{ for } r \in \{3, \ldots, p\}, \qquad 	X_1 = \eta \sin (\eta), \qquad X_2 = \eta \cos (\eta) \\
+% 	\eta  &\sim U(0,1), 
+% \end{align}
+% \end{subequations}
+% where $\mc{N}(\mu,\sigma)$ denotes a Gaussian distribution with mean $\mu$ and standard deviation $\sigma$, and $U(0,1)$ denotes the uniform distribution on $(0,1)$.
 Clearly, $Y$ is conditionally dependent on ${\eta}$, which is the low-dimensional signal manifold, of which $X$ is also a function.  In particular, $X$ lives on a swissroll embedded in a $p$-dimensional ambient space, but $Y$ is only a function of the coordinate ${\eta}$ along the swissroll $\mc{M}$. The left panels of Figure \ref{fig:swiss} depict this concrete example when $\mu(\eta)=\eta$ and $\sigma(\eta)=\eta + 1$.
 
 
@@ -142,6 +167,7 @@ Clearly, $Y$ is conditionally dependent on ${\eta}$, which is the low-dimensiona
 		\includegraphics[width=1\linewidth]{../figs/PartitionsDensity_27MAY}
 	\caption{Illustration of our generative model and algorithm on a swissroll. The top left panel shows the manifold $\mc{M}$ (a swissroll) embedded in a $p$-dimensional ambient space, where the color indicates the coordinate along the manifold, $\eta$ (only the first 3 dimensions are shown for visualization purposes). The bottom left panel shows the distribution of $Y$ as a function of $\eta$, in particular, $F_{Y|\eta}=\mc{N}({\eta},{\eta}+1)$. The middle and right panels show our estimates of $F_{Y|{\eta}}$ at scales 3 and 4, respectively, which follow from partitioning our data.  Sample size was $n=10\,000$.}
 	\label{fig:swiss}
+\vskip -10pt
 \end{figure}
 
 
@@ -166,7 +192,7 @@ Let $A_{j,k}=\{k' \in \mc{K}_{j'} : j' < j$ s.t. $C_{j,k} \subseteq C_{j',k'}\}$
 % Figure \ref{graph}(i) depicts a binary tree decomposition for some data (note that the tree need not be binary). 
 In classical multiscale function estimation, at each scale, we would approximate the function via a mixture: $\mh{F}_j = \sum_{k \in \mc{K}_j} \omega_{j,k} \mh{F}_{j,k}$, where the $\{\omega_{j,k}\}_{j \in \mc{K}_j}$ are mixture weights \emph{within} a scale, such that $\sum_{k \in \mc{K}_j} \omega_{j,k}=1$.  Rather than choosing a scale, however, given a new observation, one can also mix \emph{across scales},  by placing a prior over scales.  In such a case, given a new observation $x$ for which we would like an estimate of $f_{y|x}$, we have the following approximation 
 \begin{align}
-\mh{f}_{y|x} \approx \sum_{C_{j',k'} \in A_{j,k}} \pi_{j',k'} f^{j',k'}_{y|x}	
+\mh{f}_{y|x} \approx \sum_{C_{j',k'} \in A_{j,k}} \pi_{j',k'} f^{j',k'}_{y|x}	\label{eq:base}
 \end{align}
 where $\pi_{j',k'}$ are weights \emph{across scales} such that $\sum_{C_{j',k'} \in A_{j,k}} \pi_{j',k'}=1$.  Note that this latter approach is a generalization of the former, in that one could simply set the $\pi_{j,k}$'s to have unity mass at some $j$ for each scale and zero elsewhere, resulting in choosing a particular scale.
 
@@ -185,7 +211,7 @@ Thus, collectively, any multiscale conditional density estimation procedure make
 \subsection{Specific Choices} \label{sub:spec}
 
 Our specific choices for each of the three components were guided by: qualitative desiderata, computational considerations, and feasibility of theoretical analysis.  In terms of qualitative desiderata, we desire a strategy that estimates posteriors over all potential marginal distributions so as to automatically obtain estimates of uncertainty.  Moreover, we would like a procedure with a few ``tuning knobs'' (hyper-parameters) as possible.  These desiderata motivate using a fully Bayesian strategy.  
-However, a fully Bayesian approach is computational intractable for the ultrahigh-dimensionality problems that motivate this work ($ p \in \mc{O}(10^6)$).  Thus, we adopt a partially Bayesian strategy.  
+However, a fully Bayesian approach is computational intractable for the ultrahigh-dimensionality problems that motivate this work ($ p \approx 10^6$).  Thus, we adopt a partially Bayesian strategy.  
 
 	\paragraph{Tree Partition} Unlike classical harmonic theory which presupposes $\tau$ (e.g., in wavelets \cite{Daubechies1992}), we choose to learn $\tau$ from the data. Previously, Chen et al. \cite{ChenMaggioni12} developed a multiscale measure estimation strategy, and proved that there exists a scale $j$ such that the approximate measure is within some bound of the true measure, under certain relatively general assumptions.  We could, therefore, adopt that strategy for both $\mh{F}_{X,Y}$ and $\mh{F}_{X}$, and then divide to obtain $\mh{F}_{Y|X}$.  Instead, we decided to simply partition the $X$'s, ignoring the $Y$'s in the partitioning strategy.  
 	
@@ -207,14 +233,14 @@ We refer to this prior as a {\em multiscale stick-breaking process}. Note that t
 $\mc{O}(3^d)$, where $d$ is the intrinsic dimension \cite{Allard2012}. In practice, except for very low-dimensional intrinsic dimensional data, building the partition dominates the computational burden \cite{Allard2012}.  Moreover, empirical results seem to be robust to choice of embedding dimension \cite{Lawlor2012}. Nonetheless, results from multiscale measure estimation \cite{ChenMaggioni12} suggest that choosing a Dirac delta function is sufficient to guarantee accurate estimates of the empirical marginal measure, $F_X$, for some scale $j$.  Thus, we view our chosen strategy as the simplest approach, making code, computations, and theory all more tractable.  
 
 
-\paragraph{Family} We let the family of conditional densities for $Y$ be Gaussian for simplicity, that is, we assume that $\mc{F}^{j,k}=\{\mc{N}(\mu_{j,k}, {\sigma}_{j,k}) : \mu \in \Real, \, \sigma \geq 0\}$. Because we are interested in posteriors over the conditional distribution $F_{Y|X}$, we place relatively uninformative but conjugate priors on $\mu_{j,k}$ and ${\sigma}_{j,k}$, specifically, assuming the $y$'s have been whitened and are unidimensional,  
+\paragraph{Family} We let the family of conditional densities for $Y$ be Gaussian for simplicity, that is, we assume that $\mc{F}_{j,k}=\{\mc{N}(\mu_{j,k}, {\sigma}_{j,k}) : \mu \in \Real, \, \sigma \geq 0\}$. Because we are interested in posteriors over the conditional distribution $F_{Y|X}$, we place relatively uninformative but conjugate priors on $\mu_{j,k}$ and ${\sigma}_{j,k}$, specifically, assuming the $y$'s have been whitened and are unidimensional,  
 ${\mu}_{j,k} \sim \mc{N}(0,1)$ and ${\sigma}_{j,k}=\mc{IG}(a,b)$.  
 Obviously, other choices, such as finite or infinite mixtures of Gaussians are also possible for continuous valued data.  
 
 
 
 
-\subsection{Estimation}
+\subsection{Inference}
 
 
 
@@ -225,31 +251,23 @@ Let $n_{j,k}$ be  the number of observations in $C_{j,k}$ . Each Gibbs sampler i
 % . Details on full conditionals and Gibbs sampler steps can be found in the supplementary material.
 
 \begin{enumerate}
-\item Update $\ell_i$ by sampling from the multinomial full conditional with 
-\[\mbox{Pr}( \ell_i = j\, |\, \cdot) = \frac{ \pi_{j,k_j(x_i)}f_{j,k_j(x_i)}(y_i|x_i) }{ \sum_{s\in \ZZ} \pi_{s,k_s(x_i)}f_{s,k_s(x_i)}(y_i | x_i) } \label{eq:prS}\]
-
+\item Update $\ell_i$ by sampling from the multinomial full conditional: 
+\begin{align*}
+\mbox{Pr}( \ell_i = j\, |\, \cdot) = \big(\pi_{j,k_j(x_i)}f_{j,k_j(x_i)}(y_i|x_i)\big) / \sum_{s\in \ZZ} \pi_{s,k_s(x_i)}f_{s,k_s(x_i)}(y_i | x_i)  \label{eq:prS}
+\end{align*}
 \item Update stick-breaking random variable $V_{j,k}$, for any $j \in \ZZ$ and $k \in \mc{K}_j$, from $\mbox{Beta}(\beta',\alpha')$ with $\beta'=1+n_{j,k}$ and $\alpha'=\alpha+\sum_{C_{r,s} \in D_{j,k}} n_{r,s}$.
 
 \item Update $\mu_{j,k}$ and $\sigma_{j,k}$, for any $j \in \ZZ$ and $k \in \mc{K}_j$, by sampling from
-
 \begin{align*}
-	\mu_{j,k} \sim \mc{N}\left(n_{j,k}\frac{\bar{y}_{j,k}}{ \sigma_{j,k}} , (1+\frac{n_{j,k}}{\sigma_{j,k}})^{-1}\right), \quad
-	 \sigma_{j,k} \sim \mc{IG}\bigg(a_{\sigma},b+0.5\sum_{i \in \mc{I}_{j,k}} \left(y_{i}-\mu_{j,k}\right)^2\bigg)	
+	\mu_{j,k} \sim \mc{N}\left(\nu_{j,k} \bar{y}_{j,k}, (1+\nu_{j,k})^{-1}\right), \quad
+	 \sigma_{j,k} \sim \mc{IG}\big(a_{\sigma},b+0.5 \textstyle{\sum}_{i \in \mc{I}_{j,k}} \left(y_{i}-\mu_{j,k}\right)^2\big)	
 \end{align*}
-
-with $a_{\sigma}=a+n_{j,k}/2$, $\bar{y}_{j,k}$ being the average of the observation $\{y_i\}$ allocated to cell $C_{j,k}$ and $\mc{I}_{j,k}=\{i : \ell_i=j, x_i \in C_{j,k}\}$.
+where $\nu_{j,k}=n_{j,k}/\sigma_{j,k} $ $a_{\sigma}=a+n_{j,k}/2$, $\bar{y}_{j,k}$ being the average of the observation $\{y_i\}$ allocated to cell $C_{j,k}$ and $\mc{I}_{j,k}=\{i : \ell_i=j, x_i \in C_{j,k}\}$.
 
 \end{enumerate}
 
 
-
-\subsection{Predictions}\label{ch3:predictions}
-
-\dd{francy: please fix this paragraph and let me know when you are done.}
-Consider the case we want to predict the response $y_{n+1}$ for a future observation based on the predictors $x_{n+1}$ and previous observations $\{ (x_1,y_1), \ldots, (x_n,y_{n})\}$. Because the partitioning strategy that we adopted lacks an elegant out-of-sample embedding function (unlike other paritioning strategies), we adopt a Voronoi expansion procedure by which  the new predictors $x_{n+1}$ are allocated to $C_{j,k}$'s having the closest centers with respect to $\rho_W$. Given this allocation, the predictive density of $y_{n+1}$ will be a mixture defined as in \ref{eq:base}. At the $s$th  Gibbs sampler iteration, we will first sample parameters involved in \ref{eq:base} from its posterior, i.e. $\Omega^{(s)} \sim p\left(\Omega|y_1, \ldots, y_n\right)$ and then we will sample $y^{(s)}_{n+1}$ from \ref{eq:base}. Let us assume the number of iterations is $S$ an a burn-in of $b$ is considered. Then, given the sequence $\left(y^{(b+1)}_{n+1}, \ldots, y^{(S)}_{n+1}\right)$, summaries of the predictive density such as mean, variance and quantiles can be computed. 
-
-To make predictions,
-the Gibbs sampler was run with up to $20,000$ iterations, including a burn-in of $1,000$. Gibbs sampler chains were stopped testing normality of normalized averages of functions of the Markov chain \cite{Chauveau98anautomated}. Parameters $(a,b)$ and $\alpha$ involved in the prior density of parameters $\sigma_{j,k}$'s and $V_{j,k}$'s were set respectively equal to $(3,1)$ and $1$. All predictions used a leave-one-out strategy. % for $n \in \{100, 150, 200, 300\}$.
+To make predictions, the Gibbs sampler was run with up to $20,000$ iterations, including a burn-in of $1,000$ (see Supplementary material for details). Gibbs sampler chains were stopped testing normality of normalized averages of functions of the Markov chain \cite{Chauveau98anautomated}. Parameters $(a,b)$ and $\alpha$ involved in the prior density of parameters $\sigma_{j,k}$'s and $V_{j,k}$'s were set respectively equal to $(3,1)$ and $1$. All predictions used a leave-one-out strategy. % for $n \in \{100, 150, 200, 300\}$.
 
 
 \subsection{Simulation Studies}\label{sec:sim}
@@ -318,17 +336,27 @@ All experiments were performed on a typical workstation, Intel Core i7-2600K Qua
 
 The middle and right panels of Figure \ref{fig:swiss} depict the quality of partitioning and density estimation for the swissroll example described in \S \ref{sec:setting}, with the ambient dimension $p=1000$ and the manifold dimension $d=1$.  We sampled $n=10^4$ samples for this illustration. At scale 3, we have $4$ partitions and at scale 4, we have $8$ (note that the partition tree, in general, need not be binary).  The top panels are color coded to indicate which  $x_i$'s fall into which partition.  Although imperfect, it should be clear that the data are partitioned very well.  The bottom panels show the resulting estimate of the posteriors at the two scales.  These posteriors are ``piecewise linear'' in a certain sense, as they are invariant to the manifold coordinate within a given partition.  
 
-To obviate the need to choose a scale to use to make a prediction, we choose to adopt a Bayesian approach and integrate across scales.  Figure \ref{plotDensity} shows the estimated density of two observations of model (1).  Posteriors of the conditional density  $F_{Y|X}$  were computed various sample sizes. Figure \ref{plotDensity} suggests that our estimate of $F_{Y|X}$ approaches the true density as the number of observations in the training set increases. We are unable to compare our strategy for posterior estimation to previous literature because we are unaware of previous Bayesian approaches for this problem that scale up to problems of this size. Therefore, we numerically compare the performance of our point-estimates (which we define as the posterior mode of $\mh{F}_{Y|X}$) with the predictions of the competitor algorithms.
+To obviate the need to choose a scale to use to make a prediction, we choose to adopt a Bayesian approach and integrate across scales.  Figure \ref{plotDensity} shows the estimated density of two observations of model (1) with parameters $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$ for different sample sizes. 
+Posteriors of the conditional density  $F_{Y|X}$  were computed various sample sizes. Figure \ref{plotDensity} suggests that our estimate of $F_{Y|X}$ approaches the true density as the number of observations in the training set increases. We are unable to compare our strategy for posterior estimation to previous literature because we are unaware of previous Bayesian approaches for this problem that scale up to problems of this size. Therefore, we numerically compare the performance of our point-estimates (which we define as the posterior mode of $\mh{F}_{Y|X}$) with the predictions of the competitor algorithms.
 
-\begin{figure}[h!]
-\centering
- \vskip -10pt 
-\includegraphics[width=0.8\linewidth]{../figs/density_estimates.pdf}
-\vskip -12pt 
-% \includegraphics[width=90mm,height=80mm]{densityestimate.eps}
-\caption{Illustrative example suggesting that our posterior estimates of the conditional density are converging as $n$ increases even when $F_{Y|\eta}$ is highly nonlinear and $F_{X|\eta}$ is very high-dimensional.  We simulated data according to model (1) with parameters $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$ for different sample sizes. True (red) and estimated (black) density ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) for two data positions along the manifold (top panels: $\eta \approx -0.9$,  bottom panels: $\eta \approx 0.5$) considering different training set size. } \label{plotDensity}
-\vskip -20pt 
-\end{figure}
+
+
+\begin{SCfigure}[3]
+  % \centering
+  \includegraphics[width=0.5\linewidth]{../figs/density_estimates.pdf}% picture filename
+  \caption{Illustrative example of model (1) suggesting that our posterior estimates of the conditional density are converging as $n$ increases even when $F_{Y|\eta}$ is highly nonlinear and $F_{X|\eta}$ is very high-dimensional.  
+True (red) and estimated (black) density ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) for two data positions along the manifold (top panels: $\eta \approx -0.9$,  bottom panels: $\eta \approx 0.5$) considering different training set sizes.}\label{plotDensity}
+\end{SCfigure}
+\vspace{-10pt}
+% \begin{figure}[h!]
+% \centering
+%  \vskip -10pt 
+% \includegraphics[width=0.8\linewidth]{../figs/density_estimates.pdf}
+% \vskip -12pt 
+% % \includegraphics[width=90mm,height=80mm]{densityestimate.eps}
+% \caption{Illustrative example suggesting that our posterior estimates of the conditional density are converging as $n$ increases even when $F_{Y|\eta}$ is highly nonlinear and $F_{X|\eta}$ is very high-dimensional.  We simulated data according to model (1) with parameters $(\mu_1,\sigma_1)=(-2,1)$, $(\mu_2,\sigma_2)=(2,1)$, $\sigma_x=0.01$, and $c=20$ for different sample sizes. True (red) and estimated (black) density ($50$th percentile: solid line, $2.5$th and $97.5$th percentiles: dashed lines) for two data positions along the manifold (top panels: $\eta \approx -0.9$,  bottom panels: $\eta \approx 0.5$) considering different training set size. } \label{plotDensity}
+% \vskip -20pt 
+% \end{figure}
 
 
 
@@ -340,7 +368,7 @@ nonlinear smooth manifolds such as the swissroll (model 2),
 relatively simple linear subspace manifolds (model 3), 
 and a union of linear subspaces model (model 4).
 
-In terms of predictive accuracy, the top panels show that for all three simulations,  in every dimensionality that we considered---including $p \in \mc{O}(10^6)$---MSB is more accurate than either Lasso, CART, or PC regression.  Note that this is the case even though MSB provides much more information about the posterior $F_{Y|X}$, yielding an entire posterior over $F_{Y|X}$, rather than merely a point estimate.
+In terms of predictive accuracy, the top panels show that for all three simulations,  in every dimensionality that we considered---including $p = 0.5 \times 10^6$---MSB is more accurate than either Lasso, CART, or PC regression.  Note that this is the case even though MSB provides much more information about the posterior $F_{Y|X}$, yielding an entire posterior over $F_{Y|X}$, rather than merely a point estimate.
 
 In terms of computational time, MSB is much faster than the competitors for large $p$ and $n$, as shown in the bottom three panels.  The supplementary materials show that computational time for MSB is relatively constant as a function of $p$, whereas Lasso's computational time grows considerably with $p$.  Thus, for large enough $p$, MSB is significantly faster that Lasso.  MSB is faster than CART and PC regression for all $p$ and $n$ under consideration.  Thus, it is clear from these simulations that MSB has better scaling properties---in terms of both predictive accuracy and computational time---than the competitor methods. 
 
@@ -348,7 +376,7 @@ In terms of computational time, MSB is much faster than the competitors for larg
 
 \begin{figure}[h!]
 \centering
- \vskip -0pt 
+ \vskip -20pt 
 \includegraphics[width=1.0\linewidth]{../figs/boxplots.png}
 % \includegraphics[width=.6\linewidth]{../figs/experiment1.eps} 
 % \includegraphics[width=0.8\linewidth]{../figs/nonlinear.eps} 
@@ -360,7 +388,8 @@ The three simulation scenarios are:
 swissroll (left),
 linear subspaces (middle), 
 union of linear subspaces (right). 
-MSB outperforms both CART, Lasso, and PC regression in all three scenarios regardless of ambient dimension ($r_{mse}^{\mc{A}}< 1$ for all $p$).  MSB compute time is relatively constant as $n$ or $p$ increase, whereas Lasso's compute time increases, thus, as $n$ or $p$ increase, MSB CPU time becomes less than Lasso's.  MSB was always significantly faster than CART and PC regression, regardless of $n$ or $p$. } 
+MSB outperforms both CART, Lasso, and PC regression in all three scenarios regardless of ambient dimension ($r_{mse}^{\mc{A}}< 1$ for all $p$).  MSB compute time is relatively constant as $n$ or $p$ increase, whereas Lasso's compute time increases, thus, as $n$ or $p$ increase, MSB CPU time becomes less than Lasso's.  MSB was always significantly faster than CART and PC regression, regardless of $n$ or $p$.  For all panels, $n=100$ when $p$ varies, and $p=300\,000$ when $n$ varies. k indicates $1000$, e.g., $100$k$=10^5$.
+} 
 
 \label{fig:boxplots}
 \end{figure}
@@ -385,7 +414,7 @@ For both applications, MSB yielded improved predictive accuracy over all competi
 
 \begin{table}[t]
 \caption{Neuroscience application quantitative performance comparisons. Squared error predictive accuracy per subject (using leave-one-out) was computed. we report the mean and standard deviation (s.d.) across subjects of squared error, as well as CPU time (in seconds).
-We compare multiscale stick-breaking (MSB), CART, Lasso and random forest (RF). MSB outperforms all the competitors in terms of predictive accuracy and scalability for both applications.}\label{real}
+We compare multiscale stick-breaking (MSB), CART, Lasso, random forest (RF), and PC regression. MSB outperforms all the competitors in terms of predictive accuracy and scalability for both applications.  Only MSB and Lasso even ran for the $\approx 10^6$ dimensional application.}\label{real}
 \vskip 0.15in
 \begin{center}
 \begin{small}
@@ -403,13 +432,13 @@ creativity & 108 & 2,415 & MSB &$0.56 \, (\dd{??})$ &  $1.1 \, (0.02)$\\
 \hline
  movement & 56 & $\approx 10^6$& MSB &$0.76 \, (\dd{??})$  & $20.98 \, (2.31)$\\
  &&& Lasso & $1.02 \, (\dd{??})$ & $96.18 \, (9.66)$\\
-&&& PC regression & \dd{??,  (??)} & \dd{?? , (??)}\\
+% &&& PC regression & \dd{??,  (??)} & \dd{?? , (??)}\\
 \hline
 \end{tabular}
 \end{sc}
 \end{small}
 \end{center}
-\vspace{-20pt}
+\vspace{-15pt}
 \end{table}
 
 \section{Discussion} \label{sec:disc}

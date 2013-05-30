@@ -100,7 +100,7 @@ ylim([0,1.1])
 set(gca,'LineWidth',1.1)
 % set(gca,'xtick',2.6:4.1:15)
 % set(gca,'xticklabel',index)
-set(gca,'xtick',[2:3:9],'xticklabel',[{'100k'}; {'200k'}; {'300k'}])
+set(gca,'xtick',[2:3:9],'xticklabel',[{'100'}; {'200'}; {'300'}])
 set(gca,'ytick',[0,0.5,1],'yticklabel',[{0}; {''}; {1}])
 set(gca,'FontSize',14)
 % xlhand = get(gca,'title')
@@ -515,7 +515,7 @@ plot([0:49],ones(1,50),'--','Color','k')
 % title('(II)', 'FontSize', 14)
 % grid on
 % set(gca,'xtick',[2:3:9],'xticklabel',index)
-set(gca,'xtick',[2:3:9],'xticklabel',[{'100k'}; {'200k'}; {'300k'}])
+set(gca,'xtick',[2:3:9],'xticklabel',[{'100'}; {'200'}; {'300'}])
 xlabh = get(gca,'XLabel');
 set(xlabh,'Position',[65 -25 0])
 

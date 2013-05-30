@@ -36,11 +36,20 @@
 \providecommand{\mh}[1]{\hat{#1}}
 \providecommand{\mb}[1]{\boldsymbol{#1}}
 \providecommand{\mc}[1]{\mathcal{#1}}
-\newcommand{\from}{{\ensuremath{\colon}}}           % :
+\providecommand{\mt}[1]{\widetilde{#1}}
+\newcommand{\from}{{\ensuremath{\colon}}}  % :
 \usepackage{amsmath,amssymb,amsfonts}
+\newcommand{\conv}{\rightarrow}
 
 \newcommand{\efoo}{\end{footnotesize}}
 \newcommand{\bfoo}{\begin{footnotesize}}
+\renewcommand{\labelenumi}{\theenumi}
+\floatname{algorithm}{Procedure}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\floatname{algorithm}{Pseudocode}
+\providecommand{\norm}[1]{\left \lVert#1 \right  \rVert}
+\newcommand{\T}{^{\ensuremath{\mathsf{T}}}}           % transpose
 
 
 % Employ the following version of the ``usepackage'' statement for
@@ -54,16 +63,20 @@
 
 % jovo additions
 \usepackage{color}
-\newcommand{\jovo}[1]{{\color{magenta}{\it JoVo says: #1}}}
+\newcommand{\jovo}[1]{{\color{magenta}{\it #1}}}
+\newcommand{\msd}{Ms.~Deeds}
 % \newcommand{\Real}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\II}{\mathbb{I}}
 \usepackage{color}
-\newcommand{\francy}[1]{{\color{blue}{\it Fra says: #1}}}
+\newcommand{\dd}[1]{{\color{blue}{\it #1}}}
 \newtheorem{theorem}{Theorem}%[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{result}[theorem]{Result}
-\newtheorem{definition}[theorem]{Def}
+\newtheorem{definition}[theorem]{Definition}
+\providecommand{\mtc}[1]{\widetilde{\mathcal{#1}}}
 
 
 % The \icmltitle you define below is probably too long as a header.
@@ -75,32 +88,40 @@
 
 \begin{document}
 \maketitle
-\section{Full conditionals}
-Introduce the latent variable $S_i \in \{1,\ldots,k\}$, for $i=1,\ldots,n$, denoting the multiscale level used by the $i$th subject.  Assuming data are normalized prior to analysis, we let $\mu \sim \mc{N}(0,I)$ and $\sigma=\mc{IG}(a,b)$ for the means and variances of the dictionary densities. Let $n_{B_j}$ be  the number of observations allocated to node $B_j$ . Each Gibbs sampler iteration can be summarized in the following steps.
-\begin{enumerate}
-\item Update $S_i$ by sampling from the multinomial full conditional with 
-\[\mbox{Pr}( S_i = j\, |\, -) = \frac{ \pi_{B_j(x_i)}f_{B_j(x_i)}(y_i) }{ \sum_{h=1}^k \pi_{B_h(x_i)}f_{B_h(x_i)}(y_i) } \label{eq:prS}\]
-\item Update stick-breaking random variable $V_{B_j(x_i)}$, for $j=1, \ldots, k$ and $i=1, \ldots, n$, from $\mbox{Beta}(\beta_p,\alpha_p)$ with $\beta_p=1+n_{B_j}$ and $\alpha_p=\alpha+\sum_{B_h(x_i) \in de\{B_j(x_i)\}} n_{B_h(x_i)}$.
-\item Update $(\mu_{B_j(x_i)},\sigma_{B_j(x_i)})$ by sampling from
-\[  \mu_{B_j} \sim \mc{N}\left(\bar{y}_{B_j} n_{B_j}/\sigma_{B_j},(1+n_{B_j}/\sigma_{B_j})^{-1}\right)\]
-\[ \sigma_{B_j} \sim \mc{IG}\left(a_{\sigma},b+0.5\sum_{\{i: S_i=j,x_i \in B_j\}} \left(y_{i}-\mu_{B_j}\right)^2\right)\]
-with $a_{\sigma}=a+n_{B_j}/2$, $\bar{y}_{B_j}$ being the average of the observation $\{y_i\}$ allocated to node $B_j$.
-\end{enumerate}
+
+% \section{Full conditionals}
+% Introduce the latent variable $S_i \in \{1,\ldots,k\}$, for $i=1,\ldots,n$, denoting the multiscale level used by the $i$th subject.  Assuming data are normalized prior to analysis, we let $\mu \sim \mc{N}(0,I)$ and $\sigma=\mc{IG}(a,b)$ for the means and variances of the dictionary densities. Let $n_{B_j}$ be  the number of observations allocated to node $B_j$ . Each Gibbs sampler iteration can be summarized in the following steps.
+% \begin{enumerate}
+% \item Update $S_i$ by sampling from the multinomial full conditional with 
+% \[\mbox{Pr}( S_i = j\, |\, -) = \frac{ \pi_{B_j(x_i)}f_{B_j(x_i)}(y_i) }{ \sum_{h=1}^k \pi_{B_h(x_i)}f_{B_h(x_i)}(y_i) } \label{eq:prS}\]
+% \item Update stick-breaking random variable $V_{B_j(x_i)}$, for $j=1, \ldots, k$ and $i=1, \ldots, n$, from $\mbox{Beta}(\beta_p,\alpha_p)$ with $\beta_p=1+n_{B_j}$ and $\alpha_p=\alpha+\sum_{B_h(x_i) \in de\{B_j(x_i)\}} n_{B_h(x_i)}$.
+% \item Update $(\mu_{B_j(x_i)},\sigma_{B_j(x_i)})$ by sampling from
+% \[  \mu_{B_j} \sim \mc{N}\left(\bar{y}_{B_j} n_{B_j}/\sigma_{B_j},(1+n_{B_j}/\sigma_{B_j})^{-1}\right)\]
+% \[ \sigma_{B_j} \sim \mc{IG}\left(a_{\sigma},b+0.5\sum_{\{i: S_i=j,x_i \in B_j\}} \left(y_{i}-\mu_{B_j}\right)^2\right)\]
+% with $a_{\sigma}=a+n_{B_j}/2$, $\bar{y}_{B_j}$ being the average of the observation $\{y_i\}$ allocated to node $B_j$.
+% \end{enumerate}
+
 
 
 \section{Predictions}\label{ch3:predictions}
-Consider the case we want to predict the response $y_{n+1}$ for a future  subject based on the predictors $x_{n+1}$ and $(y_1, \ldots, y_n)$. For each tree level, the new vector of predictors $x_n$ is allocated to subsets having closer centers with respect some metric. We will consider the euclidean metric. Then, for a new observation the predictive density is defined as
 
-\begin{equation}p(y_{n+1}|x_{n+1}, y_1, \ldots, y_n) = \int f\left(y_{n+1}|x_{n+1},\Omega\right) dp\left(\Omega|y_1, \ldots, y_n\right) \label{predictive:MSB}\end{equation}
+Consider the case we want to predict the response $y^{*}$ for a future observation based on predictors $x^{*}$ and previous observations $(x^{(n)},y^{(n)})$ with $x^{(n)}=(x_1,  \ldots, x_n\}$ and $y^{(n)}=(y_1,  \ldots, y_n\}$. Because the partitioning strategy that we adopted lacks an elegant out-of-sample embedding function (unlike other paritioning strategies), we adopt a Voronoi expansion procedure by which  the new predictors $x^{*}$ are allocated to $C_{j,k}$'s having the closest centers with respect to $\rho_W$. Summaries of the predictive density of $y^{*}$ will be computed as follows:
 
-with $f\left(y_{n+1}|x_{n+1},\Omega\right)$ defined as in (1) and $\Omega$ being the set of all parameters involved, i.e. weights, location and scale parameters. In order to make inference on the predictive density of $y_{n+1}$, at the $s$th  Gibbs sampler iteration, we will first sample parameters involved in \ref{eq:base} from its posterior, i.e. $\Omega^{(s)} \sim p\left(\Omega|y_1, \ldots, y_n\right)$ and then we will sample $y^{(s)}_{n+1}$ from $ p\left(y_{n+1}|x_{n+1},\Omega^{(s)}\right)$. Let us assume the number of iterations is $S$ an a burn-in of $b$ is considered. Then, given the sequence $\left(y^{(b+1)}_{n+1}, \ldots, y^{(S)}_{n+1}\right)$, summaries of the predictive density such as mean, variance and quantiles can be computed. 
+(i) allocate predictors $x^{*}$ to $C_{j,k}$'s having the closest centers with respect to $\rho_W$
 
+(ii) run the Gibbs sampler for $S$ iterations, and at the $s$th  iteration:
+
+ \hspace{5pt} a) sample parameters $\{\sigma^{(s)}_{j,k_j}, \mu^{(s)}_{j,k_j}, \pi^{(s)}_{j,k_j} \}_{j\in\ZZ,k_j \in\mc{K}_j}$ from its posterior, i.e.  $p(.| x^{(n)},y^{(n)})$
+   
+ \hspace{5pt}   b) sample $\hat{y}^*_{s}$ from the following mixture
+ $$ \sum_{j \in \ZZ} \pi^{(s)}_{j,k_j(x^{*})} \mc{N}\left(\mu^{(s)}_{j,k_j(x^{*})},\sigma^{(s)}_{j,k_j(x^{*})}\right)$$
+   
+ (iii) given sequence $\left\lbrace  \hat{y}^*_{s}\right\rbrace_{s=1}^S$, summaries of the predictive density such as mean, variance and quantiles can be computed.
 
 
 \section{Partition Tree Schematic}
 
-
-\begin{figure}[h] 
+\begin{figure}[!htbp] 
 
 \setlength{\unitlength}{2mm}
 \begin{picture}(30, 26)
@@ -158,19 +179,14 @@ with $f\left(y_{n+1}|x_{n+1},\Omega\right)$ defined as in (1) and $\Omega$ being
 \end{picture} \caption{(i) Multiscale partition of the data. (ii) Path through the tree for $x_i \in \Real^p$. (iii) Conditional density of $y_i$ given $x_i$ defined as a convex combination of densities along the path.}\label{graph}
 \end{figure}
 
-\subsection{Competitor Algorithms}
-
-As we are unaware of other methods, even frequentist, that estimate posteriors with such high-dimensional predictors, we compare point estimates of our approach with other moderately regression algorithms.  In particular, we elected to compare against the following:
-\begin{description}
-	\item[Lass] \dd{provide a 1 sentence explanation for each for how we set the hyperparameters}
-	\item[CART]
-	\item[Random Forest (RF)]
-	\item[PC Regression] 
-\end{description}
-
-
 
 \section{Synthetic examples}
+\subsection{Competitor Algorithms}
+
+As we are unaware of other methods, even frequentist, that estimate posteriors with such high-dimensional predictors, we compare point estimates of our approach with other moderately regression algorithms.  In particular, we elected to compare against lasso, classification and regression trees (CART), Random Forest (RF) and principal component (PC) regression. In particular, the lasso regularization parameter and the number of principal components for PC regression were chosen based on  the Akaike information criterion (AIC). For all algorithms, standard Matlab packages were utilized.
+
+\subsection{Additional results}
+Tables \ref{table:linear1}, \label{table:mfa} and \label{table:swiss} show mean squared errors and CPU usage under MSB, CART and lasso based on leave-one-out prediction. In particular, table \ref{table:linear1} shows results concerning the linear subspace in section 4.4 for different number of factors, i.e. $d=5$ and $d=10$. Table \ref{table:mfa} shows results concerning the union of linear subspace in section 4.4. for different number of mixture components, i.e. $G=5$ and $G=10$.As shown, in almost all data scenario, our model is able to perform as well as or better than the model associated to the lowest mean squared error and can scale substantially better than others to high dimensional predictors. 
 
 
 \begin{table}[t]
@@ -181,44 +197,44 @@ As we are unaware of other methods, even frequentist, that estimate posteriors w
 \begin{sc}
 \begin{tabular}{lllcccccc}
 \hline
-&&&\multicolumn{3}{c}{$r=5$}&\multicolumn{3}{c}{$r=10$}\\
+&&&\multicolumn{3}{c}{$d=5$}&\multicolumn{3}{c}{$d=10$}\\
 $p$&$n$& & msb&cart&lasso & msb&cart&lasso \\
 \\
-\multirow{3}{*}{$1e+04$}&\multirow{3}{*}{50}&\bfoo mse\efoo&0.18&0.31&0.25&0.22&0.58&0.22\\
+\multirow{3}{*}{$50k$}&\multirow{3}{*}{50}&\bfoo mse\efoo&0.18&0.31&0.25&0.22&0.58&0.22\\
 &&\bfoo std\efoo &0.32&0.30&0.42&0.24&0.54&0.30\\
 &&\bfoo time\efoo &3&2&1&3&3&1\\
 
 \\
-\multirow{3}{*}{$1e+04$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.18&0.27&0.26&0.20&0.41&0.52\\
+\multirow{3}{*}{$50k$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.18&0.27&0.26&0.20&0.41&0.52\\
 &&\bfoo std\efoo & 0.26&0.42&0.46&0.23&0.46&0.78\\
 &&\bfoo time\efoo &5&5& 2&5&5&1\\
 
 \\
-\multirow{3}{*}{$1e+05$}&\multirow{3}{*}{50}&\bfoo mse\efoo&$0.35$&$0.45$&$0.89$&$0.16$&$0.33$&$0.20$\\
+\multirow{3}{*}{$100k$}&\multirow{3}{*}{50}&\bfoo mse\efoo&$0.35$&$0.45$&$0.89$&$0.16$&$0.33$&$0.20$\\
 &&\bfoo std\efoo &$0.53$ &$0.77$&$1.04$&$0.21$&$0.46$&$0.31$\\
 &&\bfoo time\efoo &$3$&$25$&$2$&$3$&$27$&$2$\\
 \\
-\multirow{3}{*}{$1e+05$}&\multirow{3}{*}{100}&\bfoo mse\efoo&$0.43$&$0.88$&$0.52$&$0.17$&$0.50$&$0.31$\\
+\multirow{3}{*}{$100k$}&\multirow{3}{*}{100}&\bfoo mse\efoo&$0.43$&$0.88$&$0.52$&$0.17$&$0.50$&$0.31$\\
 &&\bfoo std\efoo &$0.59$ &$1.29$&$0.70$&$0.24$ &$0.75$&$0.49$\\
 &&\bfoo time\efoo &$7$&$50$&$5$&$7$&$51$&$5$\\
 \\
-\multirow{3}{*}{$5e+05$}&\multirow{3}{*}{50}&\bfoo mse\efoo&0.11&0.16&0.15&0.83&2.26&0.92\\
+\multirow{3}{*}{$500k$}&\multirow{3}{*}{50}&\bfoo mse\efoo&0.11&0.16&0.15&0.83&2.26&0.92\\
 &&\bfoo std\efoo&$0.15$ &0.24&0.19&1.01&2.60&3.69\\
 &&\bfoo time\efoo &5&90&11&5&121&10\\
 
 
 \\
-\multirow{3}{*}{$5e+05$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.003&0.17&0.08&0.13&1.37&1.06\\
+\multirow{3}{*}{$500k$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.003&0.17&0.08&0.13&1.37&1.06\\
 &&\bfoo std\efoo &0.16&0.23&0.13&1.12&1.81&1.50\\
 &&\bfoo time\efoo &10&214&43&8&227&42\\
 
 \\
-\multirow{3}{*}{$7e+05$}&\multirow{3}{*}{50}&\bfoo mse\efoo&1.70&1.48&1.47&0.66&1.65&1.07\\
+\multirow{3}{*}{$700k$}&\multirow{3}{*}{50}&\bfoo mse\efoo&1.70&1.48&1.47&0.66&1.65&1.07\\
 &&\bfoo std\efoo &2.18&2.47&1.63&0.87&1.49&0.95\\
 &&\bfoo time\efoo &6&121&12&7&151&13\\
 
 \\
-\multirow{3}{*}{$5e+05$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.69&1.36&0.82&0.78&1.52&1.43\\
+\multirow{3}{*}{$700k$}&\multirow{3}{*}{100}&\bfoo mse\efoo&0.69&1.36&0.82&0.78&1.52&1.43\\
 &&\bfoo std\efoo &0.94&1.47&1.28&1.03&1.34&2.11\\
 &&\bfoo time\efoo &13&321&41&12&325&44\\
 
@@ -233,51 +249,6 @@ $p$&$n$& & msb&cart&lasso & msb&cart&lasso \\
 
 
 
-
-\begin{table}[t]
-\caption{Linear manifold example 2: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes}\label{table:linear2}
-\vskip 0.15in
-\begin{center}
-\begin{small}
-\begin{sc}
-\begin{tabular}{lllcccccc}
-\hline
-&&&\multicolumn{3}{c}{$r=2$}&\multicolumn{3}{c}{$r=5$}\\
-$p$&$n$& & msb&cart&lasso & msb&cart&lasso \\
-\\
-
-\multirow{2}{*}{$10e+03$}&\multirow{2}{*}{100}&\bfoo mse\efoo&1.54 &1.78&2.37&0.84&1.25&1.62\\
-&&\bfoo std\efoo &1.70&1.72&0.89&1.38&1.35&1.47\\
-
-
-\\
-\multirow{2}{*}{$50e+03$}&\multirow{2}{*}{100}&\bfoo mse\efoo&0.76&0.97&1.77&0.88&1.53&1.43\\
-&&\bfoo std\efoo &1.04&1.21&3.13&1.00&1.59&2.73\\
-
-\\
-
-\multirow{2}{*}{$10e+04$}&\multirow{2}{*}{100}&\bfoo mse\efoo&0.77 &1.01&1.61&0.67&0.46&0.97\\
-&&\bfoo std\efoo &0.94&1.13&1.85&0.82&0.61&1.16\\
-%&&\bfoo time\efoo &7.69 &46.14&4.51&9.89&41.68&4.38\\
-\\
-
-\multirow{2}{*}{$20e+04$}&\multirow{2}{*}{100}&\bfoo mse\efoo&0.86&0.90&1.41&0.74&1.09&0.78\\
-&&\bfoo std\efoo &1.30&1.35&1.41&0.95&1.98&0.95\\
-%&&\bfoo time\efoo &8.94&& 8.86 & 9.09&&17.17\\
-%
-%\\
-%\multirow{2}{*}{$30^5$}&\multirow{2}{*}{100}&\bfoo mse\efoo&0.78&&1.32&&&\\
-%&&\bfoo std\efoo &0.60&&1.27&&&\\
-\hline
-\end{tabular}
-\end{sc}
-\end{small}
-\end{center}
-\vskip -0.1in
-\end{table}
-
-
-
 \begin{table}[t]
 \caption{Non-linear manifold - MFA: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulations sampled from a mixture of factor analyzers}\label{table:mfa}
 \vskip 0.15in
@@ -286,39 +257,39 @@ $p$&$n$& & msb&cart&lasso & msb&cart&lasso \\
 \begin{sc}
 \begin{tabular}{lllcccccc}
 \hline
-&&&\multicolumn{3}{c}{$N=10$}&\multicolumn{3}{c}{$N=5$}\\
+&&&\multicolumn{3}{c}{$G=10$}&\multicolumn{3}{c}{$G=5$}\\
 $p$&$n$& sim& msb&cart&lasso & msb&cart&lasso\\
 \\
-\multirow{3}{*}{$50e+03$}&\multirow{3}{*}{100}&mse&0.23&0.42&0.36&0.17&0.43&0.22\\
+\multirow{3}{*}{$50k$}&\multirow{3}{*}{100}&mse&0.23&0.42&0.36&0.17&0.43&0.22\\
 &&std & 0.34 &0.59&0.43&0.18&0.69&0.23\\
 &&time &5&24 & 3&7&27&3\\
 
 \\
-\multirow{3}{*}{$50e+03$}&\multirow{3}{*}{200}&mse&0.23 &0.42 &0.27&0.17&0.22&0.20\\
+\multirow{3}{*}{$50k$}&\multirow{3}{*}{200}&mse&0.23 &0.42 &0.27&0.17&0.22&0.20\\
 &&std & 0.33& 0.56&0.23&0.19&0.38&0.25\\
 &&time & 10 &51&8&12&56&7\\
 
 \\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{100}&mse&0.67&1.35&1.32&0.15&0.17&0.22\\
+\multirow{3}{*}{$100k$}&\multirow{3}{*}{100}&mse&0.67&1.35&1.32&0.15&0.17&0.22\\
 &&std & 1.04&2.26&1.36&0.23&0.19&0.23\\
 &&time &9&47&6&6&44&5\\
 
 \\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{200}&mse&0.64&1.37&0.85&0.15&0.26&0.15\\
+\multirow{3}{*}{$100k$}&\multirow{3}{*}{200}&mse&0.64&1.37&0.85&0.15&0.26&0.15\\
 &&std &0.95 &1.77&1.29&0.24&0.42&0.24\\
 &&time &15&99&15&11&89&15\\
 \\
-\multirow{3}{*}{$30e+04$}&\multirow{3}{*}{100}&mse& 0.26&0.39&0.31&0.63&1.40&1.01\\
+\multirow{3}{*}{$300k$}&\multirow{3}{*}{100}&mse& 0.26&0.39&0.31&0.63&1.40&1.01\\
 &&std &0.39&0.51&0.52&0.80 &1.24& 1.46 \\
 &&time &9.28&125&18&9 &145& 17\\
 \\
-\multirow{3}{*}{$30e+04$}&\multirow{3}{*}{200}&mse&0.25&0.47&0.26&0.63&1.17&0.92\\
+\multirow{3}{*}{$300k$}&\multirow{3}{*}{200}&mse&0.25&0.47&0.26&0.63&1.17&0.92\\
 &&std &0.36&0.88&0.43 & 0.80&2.11&1.04 \\
 &&time &15&262&40&13&283&43\\
 
 
 \\
-\multirow{3}{*}{$30e+04$}&\multirow{3}{*}{300}&mse&0.25&0.30&0.30&0.62&1.42&0.70\\
+\multirow{3}{*}{$300k$}&\multirow{3}{*}{300}&mse&0.25&0.30&0.30&0.62&1.42&0.70\\
 &&std &0.36&0.41&0.48&0.89&1.85&0.94\\
 &&time &15&463&73&16&465&89\\
 
@@ -333,50 +304,50 @@ $p$&$n$& sim& msb&cart&lasso & msb&cart&lasso\\
 
 
 \begin{table}[t]
-\caption{Non-linear manifold - Swissroll and S-Manifold: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulation scenarios.}\label{table:swiss}
+\caption{Non-linear manifold - Swissroll: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulation scenarios.}\label{table:swiss}
 \vskip 0.15in
 \begin{center}
 \begin{small}
 \begin{sc}
 \begin{tabular}{lllcccccc}
 \hline
-&&&\multicolumn{3}{c}{Swissroll}&\multicolumn{3}{c}{S-Manifold}\\
+&&&\multicolumn{3}{c}{Swissroll}\\
 
-$p$&$n$& & msb&cart& lasso & msb&cart& lasso\\
+$p$&$n$& & msb&cart& lasso\\
 \\
-\multirow{3}{*}{$10e+03$}&\multirow{3}{*}{100}&mse &$0.25$&$0.46$&$0.38$&0.67&0.70&0.77\\
-&&std & $0.24$ & $0.53$&$0.40$&0.76&0.80&0.85\\
-&&time & 5& $5$&$1$&4 & 5 & 1 \\
-
-\\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{50}&mse &$0.24$&$0.44$&$0.25$&0.38&0.38&0.84\\
-&&std & $0.24$ & $0.42$&$0.29$&0.40&0.35&0.80\\
-&&time & 3 & $22$&$2$ &5&7&1\\
+\multirow{3}{*}{$10k$}&\multirow{3}{*}{100}&mse &$0.25$&$0.46$&$0.38$\\
+&&std & $0.24$ & $0.53$&$0.40$\\
+&&time & 5& $5$&$1$ \\
 
 \\
-\multirow{3}{*}{$10e+04$}&\multirow{3}{*}{100}&mse &$0.24$ & $0.43$&$0.17$&0.25&0.30&0.70\\
-&&std & $0.26$&$0.55$&$0.22$&0.22 & 0.25 &0.50\\
-&&time&$6$&$48$&$7$&7 & 50 & 7\\
+\multirow{3}{*}{$100k$}&\multirow{3}{*}{50}&mse &$0.24$&$0.44$&$0.25$\\
+&&std & $0.24$ & $0.42$&$0.29$\\
+&&time & 3 & $22$&$2$ \\
+
+\\
+\multirow{3}{*}{$100k$}&\multirow{3}{*}{100}&mse &$0.24$ & $0.43$&$0.17$\\
+&&std & $0.26$&$0.55$&$0.22$\\
+&&time&$6$&$48$&$7$\\
 
 \\
 
-\multirow{3}{*}{$20e+04$}&\multirow{3}{*}{50}&mse &$0.24$&$0.67$&$0.29$&0.35&0.40&0.73\\
-&&std & $0.23$ & $0.50$& $0.29$&0.22&0.30 &0.40\\
-&&time & 4& $38$& $5$ & 3 & 40 & 5 \\
+\multirow{3}{*}{$200k$}&\multirow{3}{*}{50}&mse &$0.24$&$0.67$&$0.29$\\
+&&std & $0.23$ & $0.50$& $0.29$\\
+&&time & 4& $38$& $5$ \\
 \\
-\multirow{3}{*}{$20e+04$}&\multirow{3}{*}{100}&mse &$0.25$&$0.78$&$0.33$&0.37&0.37&0.70\\
-&&std & $0.26$ & $0.74$&$0.36$&0.25&0.27&0.55\\
-&&time &6 &$96$&$13$ &6&98&14\\
+\multirow{3}{*}{$200k$}&\multirow{3}{*}{100}&mse &$0.25$&$0.78$&$0.33$\\
+&&std & $0.26$ & $0.74$&$0.36$\\
+&&time &6 &$96$&$13$\\
 \\
 
-\multirow{3}{*}{$50e+04$}&\multirow{3}{*}{50}&mse &$0.17$&$0.47$&$0.23$&0.16 &0.20&0.35\\
-&&std & $0.23$ & $0.43$&$0.22$&0.20&0.19&0.40\\
-&&time &$5$ &$126$&$10$ & 5 & 130 &15 \\
+\multirow{3}{*}{$500k$}&\multirow{3}{*}{50}&mse &$0.17$&$0.47$&$0.23$\\
+&&std & $0.23$ & $0.43$&$0.22$\\
+&&time &$5$ &$126$&$10$  \\
 
 \\
-\multirow{3}{*}{$50e+04$}&\multirow{3}{*}{100}&mse &$0.17$&$0.33$&$0.19$&0.11&0.25&0.56\\
-&&std & $0.21$ &$0.46$ &$0.23$&0.14&0.20 &0.61\\
-&&time &$11$ &$230$&$25$&10&254 &27\\
+\multirow{3}{*}{$500k$}&\multirow{3}{*}{100}&mse &$0.17$&$0.33$&$0.19$\\
+&&std & $0.21$ &$0.46$ &$0.23$\\
+&&time &$11$ &$230$&$25$\\
 
 
 
@@ -387,14 +358,6 @@ $p$&$n$& & msb&cart& lasso & msb&cart& lasso\\
 \end{center}
 \vskip -0.1in
 \end{table}
-
-\begin{figure}
-\centering
-\begin{tabular}{cc}
-\includegraphics[width=60mm,height=50mm]{Swissroll.eps} & \includegraphics[width=60mm,height=50mm]{SManifold.eps}
-\end{tabular}
-\caption{Non-linear manifolds: Swissroll (I) and S-Manifold (II) embedded in $\mathcal{R}^3$} \label{manifold:nonlinear}
-\end{figure}
 
 
 
