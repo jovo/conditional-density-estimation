@@ -102,23 +102,6 @@
 % \end{enumerate}
 
 
-
-\section{Predictions}\label{ch3:predictions}
-
-Consider the case we want to predict the response $y^{*}$ for a future observation based on predictors $x^{*}$ and previous observations $(x^{(n)},y^{(n)})$ with $x^{(n)}=(x_1,  \ldots, x_n\}$ and $y^{(n)}=(y_1,  \ldots, y_n\}$. Because the partitioning strategy that we adopted lacks an elegant out-of-sample embedding function (unlike other paritioning strategies), we adopt a Voronoi expansion procedure by which  the new predictors $x^{*}$ are allocated to $C_{j,k}$'s having the closest centers with respect to $\rho_W$. Summaries of the predictive density of $y^{*}$ will be computed as follows:
-
-(i) allocate predictors $x^{*}$ to $C_{j,k}$'s having the closest centers with respect to $\rho_W$
-
-(ii) run the Gibbs sampler for $S$ iterations, and at the $s$th  iteration:
-
- \hspace{5pt} a) sample parameters $\{\sigma^{(s)}_{j,k_j}, \mu^{(s)}_{j,k_j}, \pi^{(s)}_{j,k_j} \}_{j\in\ZZ,k_j \in\mc{K}_j}$ from its posterior, i.e.  $p(.| x^{(n)},y^{(n)})$
-   
- \hspace{5pt}   b) sample $\hat{y}^*_{s}$ from the following mixture
- $$ \sum_{j \in \ZZ} \pi^{(s)}_{j,k_j(x^{*})} \mc{N}\left(\mu^{(s)}_{j,k_j(x^{*})},\sigma^{(s)}_{j,k_j(x^{*})}\right)$$
-   
- (iii) given sequence $\left\lbrace  \hat{y}^*_{s}\right\rbrace_{s=1}^S$, summaries of the predictive density such as mean, variance and quantiles can be computed.
-
-
 \section{Partition Tree Schematic}
 
 \begin{figure}[!htbp] 
@@ -180,17 +163,34 @@ Consider the case we want to predict the response $y^{*}$ for a future observati
 \end{figure}
 
 
+\section{Predictions}\label{ch3:predictions}
+
+Consider the case we want to predict the response $y^{*}$ for a future observation based on predictors $x^{*}$ and previous observations $(x^{(n)},y^{(n)})$ with $x^{(n)}=(x_1,  \ldots, x_n)$ and $y^{(n)}=(y_1,  \ldots, y_n)$. Because the partitioning strategy that we adopted lacks an elegant out-of-sample embedding function (unlike other paritioning strategies), we adopt a Voronoi expansion procedure by which  the new predictors $x^{*}$ are allocated to $C_{j,k}$'s having the closest centers with respect to $\rho_W$ (we considered the Euclidean distance). Summaries of the predictive density of $y^{*}$ will be computed as follows:
+
+(i) allocate predictors $x^{*}$ to $C_{j,k}$'s having the closest centers with respect to $\rho_W$
+
+(ii) run the Gibbs sampler for $S$ iterations, and at the $s$th  iteration:
+
+ \hspace{5pt} a) sample parameters $\{\sigma^{(s)}_{j,k_j}, \mu^{(s)}_{j,k_j}, \pi^{(s)}_{j,k_j} \}_{j\in\ZZ,k_j \in\mc{K}_j}$ from the posterior, i.e.  $p(.| x^{(n)},y^{(n)})$
+   
+ \hspace{5pt}   b) sample $\hat{y}^*_{s}$ from 
+ $$ \sum_{j \in \ZZ} \pi^{(s)}_{j,k_j(x^{*})} \mc{N}\left(\mu^{(s)}_{j,k_j(x^{*})},\sigma^{(s)}_{j,k_j(x^{*})}\right)$$
+   
+ (iii) given the sequence $\left\lbrace  \hat{y}^*_{s}\right\rbrace_{s=1}^S$, summaries of the predictive density such as mean, variance and quantiles can be computed.
+
+
+
 \section{Synthetic examples}
 \subsection{Competitor Algorithms}
 
-As we are unaware of other methods, even frequentist, that estimate posteriors with such high-dimensional predictors, we compare point estimates of our approach with other moderately regression algorithms.  In particular, we elected to compare against lasso, classification and regression trees (CART), Random Forest (RF) and principal component (PC) regression. In particular, the lasso regularization parameter and the number of principal components for PC regression were chosen based on  the Akaike information criterion (AIC). For all algorithms, standard Matlab packages were utilized.
+As we are unaware of other methods, even frequentist, that estimate posteriors with such high-dimensional predictors, we compare point estimates of our approach with other moderately regression algorithms.  In particular, we elected to compare against lasso, classification and regression trees (CART), Random Forest (RF) and principal component (PC) regression. The lasso regularization parameter and the number of principal components for PC regression were chosen based on  the Akaike information criterion (AIC). For all algorithms, standard Matlab packages were utilized. 
 
 \subsection{Additional results}
-Tables \ref{table:linear1}, \label{table:mfa} and \label{table:swiss} show mean squared errors and CPU usage under MSB, CART and lasso based on leave-one-out prediction. In particular, table \ref{table:linear1} shows results concerning the linear subspace in section 4.4 for different number of factors, i.e. $d=5$ and $d=10$. Table \ref{table:mfa} shows results concerning the union of linear subspace in section 4.4. for different number of mixture components, i.e. $G=5$ and $G=10$.As shown, in almost all data scenario, our model is able to perform as well as or better than the model associated to the lowest mean squared error and can scale substantially better than others to high dimensional predictors. 
+Tables \ref{table:linear1}, \ref{table:mfa} and \ref{table:swiss} show results concerning example 2, 3, and 4 in section 4.4. Each table reports mean squared errors and the mean of amount of time necessary to obtain one point predictions. In particular, table \ref{table:linear1} shows results concerning example 3 (linear subspace) for different number of factors ($d=5,10$), table \ref{table:mfa} shows results concerning example 4 (union of linear subspaces) for different number of mixture components ($G=5, 10$), while table \ref{table:swiss} shows results for example 2 (swissroll). As shown, in almost all data scenario, our model is able to perform as well as or better than the model associated to the lowest mean squared error and can scale substantially better than others to high dimensional predictors. 
 
 
 \begin{table}[t]
-\caption{Linear manifold example 1: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for sample size 50 and 100 for different simulation scenarios.}\label{table:linear1}
+\caption{Linear subspace: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for sample size 50 and 100 for different simulation scenarios.}\label{table:linear1}
 \vskip 0.15in
 \begin{center}
 \begin{small}
@@ -250,7 +250,7 @@ $p$&$n$& & msb&cart&lasso & msb&cart&lasso \\
 
 
 \begin{table}[t]
-\caption{Non-linear manifold - MFA: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulations sampled from a mixture of factor analyzers}\label{table:mfa}
+\caption{Union of linear subspaces: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulations sampled from a mixture of factor analyzers}\label{table:mfa}
 \vskip 0.15in
 \begin{center}
 \begin{small}
@@ -304,22 +304,14 @@ $p$&$n$& sim& msb&cart&lasso & msb&cart&lasso\\
 
 
 \begin{table}[t]
-\caption{Non-linear manifold - Swissroll: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulation scenarios.}\label{table:swiss}
+\caption{Swissroll: Mean and standard deviations of squared errors under multiscale stick-breaking (MSB), CART and Lasso for different sample sizes for different simulation scenarios.}\label{table:swiss}
 \vskip 0.15in
 \begin{center}
 \begin{small}
 \begin{sc}
 \begin{tabular}{lllcccccc}
 \hline
-&&&\multicolumn{3}{c}{Swissroll}\\
-
 $p$&$n$& & msb&cart& lasso\\
-\\
-\multirow{3}{*}{$10k$}&\multirow{3}{*}{100}&mse &$0.25$&$0.46$&$0.38$\\
-&&std & $0.24$ & $0.53$&$0.40$\\
-&&time & 5& $5$&$1$ \\
-
-\\
 \multirow{3}{*}{$100k$}&\multirow{3}{*}{50}&mse &$0.24$&$0.44$&$0.25$\\
 &&std & $0.24$ & $0.42$&$0.29$\\
 &&time & 3 & $22$&$2$ \\

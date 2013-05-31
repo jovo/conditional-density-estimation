@@ -1,0 +1,55 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: nipsMSB_dd2.aux
+Case mismatch error between cite keys METIS and metis
+---line 53 of file nipsMSB_dd2.aux
+ : \citation{METIS
+ :                }
+I'm skipping whatever remains of this command
+The style file: unsrt.bst
+Database file #1: nipsMSB.bib
+Warning--empty author in Autism
+Warning--empty year in Autism
+Warning--empty booktitle in cpac
+You've used 29 entries,
+            1791 wiz_defined-function locations,
+            633 strings with 8541 characters,
+and the built_in function-call counts, 6686 in all, are:
+= -- 578
+> -- 312
+< -- 0
++ -- 115
+- -- 86
+* -- 499
+:= -- 1094
+add.period$ -- 86
+call.type$ -- 29
+change.case$ -- 28
+chr.to.int$ -- 0
+cite$ -- 32
+duplicate$ -- 265
+empty$ -- 656
+format.name$ -- 86
+if$ -- 1466
+int.to.chr$ -- 0
+int.to.str$ -- 29
+missing$ -- 30
+newline$ -- 147
+num.names$ -- 28
+pop$ -- 53
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 94
+stack$ -- 0
+substring$ -- 537
+swap$ -- 30
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 3
+while$ -- 58
+width$ -- 31
+write$ -- 313
+(There was 1 error message)

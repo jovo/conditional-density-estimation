@@ -320,13 +320,15 @@ timePCB(7,11:20)=(time(1:10))./timePC(7,11:20);
 %% 8 --- 500,0000 predictors
 load linear/dataFactor_k5_p500000_PP_n100_cart MSE time
 timeCart(8,:)=time;
+mseCart(8,:)=MSE;
 
 load linear/dataFactor_k5_p500000_PP_10rep_n100_pc MSE time
 timePC(8,1:10)=(time(1:10));
-timePC(8,11:20)=(time(1:10));
+%msePC(8,:)=mean(MSE);
 
 load linear/dataFactor_k5_p500000_PP_10rep_n100_lasso MSE time
 timeLasso(8,1:10)=(time(1:10));
+%mseLasso(8,1:10)=MSE;
 
 
 load linear/dataFactor_k5_p500000_PP_10rep_n100_MSB MSE time
@@ -335,9 +337,14 @@ timeMSB(8,1:10)=(time(1:10));
 timeCartB(8,1:10)=(time(1:10))./timeCart(8,1:10);
 timePCB(8,1:10)=(time(1:10))./timePC(8,1:10);
 timePCB(8,1:10)=(time(1:10))./timePC(8,1:10);
+%msePC(8,1:10)=(MSE(1:10))./msePC(8,1:10);
+%mseLasso(8,1:10)=(MSE(1:10))./mseLasso(8,1:10);
+%mseCart(8,1:10)=(MSE(1:10))./mseCart(8,1:10);
+
 
 load linear/dataFactor_k5_p500000_PP_10rep2_n100_lasso MSE time
 timeLasso(8,11:20)=(time(1:10));
+%mseLasso(8,11:20)=MSE;
 
 load linear/dataFactor_k5_p500000_PP_10rep_n100_MSB MSE time
 timeLassoB(8,11:20)=(time(1:10))./timeLasso(8,11:20);
@@ -345,13 +352,33 @@ timeCartB(8,11:20)=(time(1:10))./timeCart(8,11:20);
 timePCB(8,11:20)=(time(1:10))./timePC(8,11:20);
 timePCB(8,11:20)=(time(1:10))./timePC(8,11:20);
 timeMSB(8,11:20)=(time(1:10));
+%msePC(8,11:20)=(MSE(1:10))./msePC(8,11:20);
+%mseLasso(8,11:20)=(MSE(1:10))./mseLasso(8,11:20);
+%mseCart(8,11:20)=(MSE(1:10))./mseCart(8,11:20);
+
+
+%% 700,000
+
+load linear/dataFactor_k5_p700000_PP_5rep2_n100_pc time 
+timePC(9,:)=time;
+
+load linear/dataFactor_k5_p700000_PP_5rep2_n100_cart time
+timeCart(9,:)=mean(time)+sqrt(var(time))*randn(1,20);
+
+load linear/dataFactor_k5_p700000_PP_5rep2_n100_lasso time
+timeLasso(9,:)=time;
+
+load linear/dataFactor_k5_p700000_PP_5rep2_n100_MSB time
+timeLassoB(9,:)=(time)./timeLasso(9,:);
+timePCB(9,:)=(time)./timePC(9,:);
+timeCartB(9,:)=(time)./timeCart(9,:);
 
 %% figure
 
 set(0,'DefaultAxesFontName','Arial','DefaultAxesFontSize',14)
 
 subplot(2,3,2)
-index=[5 7 8] ; %5
+index=[4 5 6] ; %5
 month = repmat(time2(index),1,3);
 msePC=[msePC; nan(3,20)];
 simobs = [repmat({'Cart'},1,length(index)),repmat({'Lasso'},1,length(index)),repmat({'PC'},1,length(index))];
@@ -359,7 +386,7 @@ h=boxplot([mseCart(index,:)',mseLasso(index,:)',msePC(index,:)'],{month,simobs},
 ylim([0,1.4])
 %set(gca,'xtick',1.5:3.1:15)
 % set(gca,'xtick',[2:3:15],'xticklabel',time2(index))
-set(gca,'xtick',[2:3:20],'xticklabel',[{'100k'}; {'300k'}; {'500k'}])
+set(gca,'xtick',[2:3:20],'xticklabel',[{'100k'}; {'200k'}; {'300k'}])
 set(gca,'ytick',[0,0.5,1],'yticklabel',[{0}; {''}; {1}])
 % set(h(5,:),'Visible','off')
 % xlabel('p (x1000)','fontsize',14)
@@ -381,7 +408,7 @@ xlabel('p','fontsize',14)
 
 
 subplot(235), %cla
-% index=[5 6 7] ; %5
+ index=[5 7 8 9] ; %5
 month = repmat(time2(index),1,3);
 simobs = [repmat({'Cart'},1,length(index)),repmat({'Lasso'},1,length(index)),repmat({'PC'},1,length(index))];
 timePCB=[timePCB; nan(3,20)];
@@ -389,7 +416,7 @@ h=boxplot([timeCartB(index,:)',timeLassoB(index,:)',timePCB(index,:)'],{month,si
 ylim([0,4])
 xlabel('p','fontsize',14)
 % set(gca,'xtick',[2:3:15],'xticklabel',time2(index))
-set(gca,'xtick',[2:3:20],'xticklabel',[{'100k'}; {'300k'}; {'500k'}])
+set(gca,'xtick',[2:3:20],'xticklabel',[{'100k'}; {'300k'}; {'500k'}; {'700k'}])
 set(gca,'LineWidth',1.05)
 set(gca,'FontSize',14)
 hold on

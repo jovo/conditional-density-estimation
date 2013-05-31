@@ -1,3 +1,5 @@
+% --- function used to call metis --- %
+
 function [part1]=GetPartitionThroughMetis(n,euclidean)
 
 weight=zeros(n,n);

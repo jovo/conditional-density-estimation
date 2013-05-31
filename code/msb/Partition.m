@@ -11,40 +11,32 @@ seq=1:nTrain; group{1}=seq';
 MPred(:,1)=ones(nPred,1); 
 
 for j=1:nPartition
-   s=1; %y{j+1}=zeros(nTrain,2^j); 
+   s=1;
    group{j+1}=zeros(nTrain,2^j); nElem{j+1}=zeros(2^j,1);
    sumWeight=zeros(nPred,2^(j)); ind=1:2^(j);
             
    for k=1:2^(j-1)  
        B =euclidean(group{j}(1:nElem{j}(k),k),group{j}(1:nElem{j}(k),k))';
        
-       % --- partition a particular subset in two subsets ---%
+       % --- partition a particular subset into two subsets ---%
        [indicator]= GetPartitionThroughMetis(nElem{j}(k),B);
       
       nElem{j+1}(s)=sum(indicator==1); nElem{j+1}(s+1)=sum(indicator==2); % -- number of observations in the two sets
       group{j+1}(1:nElem{j+1}(s),s)=group{j}(indicator==1,k); group{j+1}(1:nElem{j+1}(s+1),s+1)=group{j}(indicator==2,k); 
             
-%      y{j+1}(1:nElem{j+1}(s),s)=yy(group{j+1}(1:nElem{j+1}(s),s)); % --- allocate response in the two subsets
-%      y{j+1}(1:nElem{j+1}(s+1),s+1)=yy(group{j+1}(1:nElem{j+1}(s+1),s+1));
-      
+      % --- compute center for each subset --- %
       meanX(1,:)=mean(x(group{j+1}(1:nElem{j+1}(s),s),:));
       meanX(2,:)=mean(x(group{j+1}(1:nElem{j+1}(s+1),s+1),:));
       
+      % -- compute distance between new x and subset centers ---%
       for jj=1:nPred
-           
-%          euclideanSumPred=euclideanPred(group{j+1}(1:nElem{j+1}(s),s),jj); % -- compute euclidean distance between new vector of predictors and vectors belonging to each subset
-%          meanWeights(jj,s)=mean((euclideanSumPred));        
-% 
-%          euclideanSumPred=euclideanPred(group{j+1}(1:nElem{j+1}(s+1),s+1),jj);
-%          meanWeights(jj,s+1)=mean((euclideanSumPred));
-
         meanWeights(jj,s)=sum((meanX(1,:)-xPred(jj,:)).^2);             
         meanWeights(jj,s+1)=sum((meanX(2,:)-xPred(jj,:)).^2);             
       end
       s=s+2;
    end
    
-   for jj=1:nPred % --- allocate new observation
+   for jj=1:nPred % --- allocate new observation to subsets having closer center
        indF=ind(meanWeights(jj,:)==min(meanWeights(jj,:)));
        MPred(jj,j+1)=indF(1);
    end

@@ -1,34 +1,39 @@
+% --- Gibbs Sampler to estimate Stick Breaking weights and Dictionary densities  ---%
+
 function [Pred,pie_pred,mu,sigma,i,meanPred,medianPred,varPred,quantPred]=MCMCBayes(MPred,MEst,nPred,nTrain,nSim,nSubsetBeforeGivenScale,nLevels,yPred,yTrain);     
 
-lik=zeros(nTrain,1);
-alpha=1; nh=[];
+%% % --- hyperparameters values
+alpha=1;  % -- hyperparameter prior on stick breaking weights
+gamma0=5; beta0=3;  % --- hyperparameter sigma prior
 
-V=cell(nLevels-1,1);
+%% % --- starting values (sampled from prior)
+
+% --- stick breaking weights
+V=cell(nLevels-1,1);     
 for s=1:nLevels-1 
     V{s}=betarnd(1,alpha,1,2^(s-1));
 end
 V{nLevels}=ones(1,2^(nLevels-1));
 
-ypred=0; S=ones(nTrain,1);
-randnormal=randn(nSim,nPred);
-
-burn=500; a=1; i=1; sIndex=0;
-
-randnormalMu=randn(nSim,nSubsetBeforeGivenScale(nLevels)+2^(nLevels-1));
-
-gamma0=5; beta0=3;
-
+% --- scale parameter dictionary densities
 sigma(1,:)=1./gamrnd(gamma0,1/beta0,nSubsetBeforeGivenScale(nLevels)+2^(nLevels-1),1);
+
+% --- location parameter dictionary densities
 mu(1,:)=randn(nSubsetBeforeGivenScale(nLevels)+2^(nLevels-1),1); nh=ones(nSubsetBeforeGivenScale(nLevels)+2^(nLevels-1),1);
-indexLevel=1:nLevels; oneLev=ones(1,nLevels);
+randnormal=randn(nSim,nPred);
+burn=500; a=1; i=1; sIndex=0;
+randnormalMu=randn(nSim,nSubsetBeforeGivenScale(nLevels)+2^(nLevels-1));
 zeroVec=zeros(length(nh),1); 
 V{nLevels}=ones(1,2^(nLevels-1));
 indexLevel=1:nLevels; oneLev=ones(1,nLevels);
 
+
+%% %--- MCMC iterations --- %
+
 while (sum(a)>0) & (i<3000) 
         
         i=i+1;
-        %--- evaluate probability for each data point ---%
+        % -- Sample indicator (S) denoting the multiscale level used by each observation 
         pie=[]; piePred=[]; p=[];
         for s=1:nLevels
             pie(:,s)=reshape(V{s}(MEst(:,s)),nTrain,1); piePred(:,s)=reshape(V{s}(MPred(:,s)),nPred,1);
@@ -42,7 +47,7 @@ while (sum(a)>0) & (i<3000)
         end
         
         prob=p./(sum(p')'*oneLev);
-        S=mnrnd(1,prob)*indexLevel';
+        S=mnrnd(1,prob)*indexLevel'; 
 
         prob=piePred./(sum(piePred')'*oneLev);
         SPred=mnrnd(1,prob)*indexLevel';
@@ -68,7 +73,7 @@ while (sum(a)>0) & (i<3000)
             end
         end
    
-        % --- sample mu and sigma ---%
+        % --- sample location (mu) and scale (sigma) of each dictionary density ---%
         varMu=(1+nh./sigma(i-1,:)').^(-1);
         meanMu=sumYsubset./sigma(i-1,:)'.*varMu;
         mu(i,:)=meanMu+sqrt(varMu).*randnormalMu(i,:)';
@@ -77,6 +82,7 @@ while (sum(a)>0) & (i<3000)
         beta=.5*(sumSquareYsubset-2*sumYsubset.*mu(i,:)'+nh.*mu(i,:)'.^2)+beta0;
         sigma(i,:)=1./gamrnd(gamma,1./beta);
         
+        % --- sample stick breaking weights --- %
         for s=1:nLevels-1
             for jj=1:2^(s-1)
                 extra=0; 
@@ -100,11 +106,11 @@ while (sum(a)>0) & (i<3000)
    
 end
 
-medianPred=quantile(ypred(burn+1:i,:),.5)';
-meanPred=mean(ypred(burn+1:i,:))';
+% -- summaries predictive density --- %
+medianPred=quantile(ypred(burn+1:i,:),.5)';   %--- median predictive density
+meanPred=mean(ypred(burn+1:i,:))';  % --- mean predictive density
 
-%Pred=((yPred-medianPred).^2); 
-Pred=((yPred-medianPred).^2); 
+Pred=((yPred-meanPred).^2);  % --- MSE
 
 varPred=sqrt(var(ypred(burn+1:i,:)))';
-quantPred=quantile(ypred(burn+1:i,:),[.025,.5,.975]);
+quantPred=quantile(ypred(burn+1:i,:),[.025,.5,.975]);  % --- quantile predictive density

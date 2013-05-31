@@ -1,14 +1,12 @@
 function [nElem,yTrain,yPred,MPred,MEst,nSubsetBeforeGivenScale,nLevels,group,sumWeight]=GetPartitionFixed(yTrain,yPred,nTrain,nPred,n,dim,nPartition,euclidean,euclideanPred,x,xPred)
 
-
-
 nLevels=nPartition+1;
 y=cell(nLevels,1); 
 
 % --- Get partition --- %
 [nElem,MPred,group,sumWeight]=Partition(yTrain,dim,nPartition,nTrain,nPred,euclidean,euclideanPred,x,xPred);
 
-% --- delete levels involving subsets with only 1 observation ---%
+% --- delete levels involving subsets with only one observation ---%
 for j=1:nLevels
    if sum(nElem{j}<=1)~=0 
        nLevels=j-1;
@@ -33,16 +31,3 @@ for s=2:nLevels
 end
 
 
-
-%%  % --- Mean and variance of observations in each subset---%
-
-% s=0; yvar=[]; ybar=[]; likelihood=zeros(nTrain,1);
-% for j=1:nLevels
-%     for k=1:2^(j-1)
-%         s=s+1;
-%         ybar(s)=mean(yTrain(group{j}(:,k)~=0));
-%         yvar(s)=var(yTrain(group{j}(:,k)~=0));       
-%         likelihood(MEst(:,j)==k,j)=normpdf(yTrain(MEst(:,j)==k),ybar(s),sqrt(yvar(s)));
-%     end
-%  end    
-% 
